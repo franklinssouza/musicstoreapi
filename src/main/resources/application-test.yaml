@@ -1,0 +1,25 @@
+reportpath: C:\\desenv\\espinosa\\backend\\espinosa\\src\\main\\resources\\reports\\
+enviaremail: false
+server:
+  port: 4343
+  servlet:
+    context-path: /store
+spring:
+  datasource:
+    jdbcUrl: jdbc:mysql://localhost:3306/myappsservices_store?useTimezone=false&serverTimezone=GMT-3&useSSL=false
+    username: root
+    password: root
+    driverClassName: com.mysql.cj.jdbc.Driver
+    idle-timeout: 15000
+    maximum-pool-size: 30
+    minimum-pool-size: 10
+    pool-name: espinosa
+  hikari:
+    connection-timeout: 50000
+    idle-timeout: 300000
+    max-lifetime: 900000
+    maximum-pool-size: 10
+    minimum-idle: 10
+    pool-name: ConnPool
+    connection-test-query: select 1 from dual
+

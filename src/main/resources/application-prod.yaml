@@ -1,0 +1,22 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /store
+spring:
+  datasource:
+    jdbcUrl: jdbc:mysql://81.17.101.225:3306/myappsservices_store?useTimezone=false&serverTimezone=GMT-3&useSSL=false&noAccessToProcedureBodies=true
+    username: myappsservices_store
+    password: Yeshua29@123
+    driverClassName: com.mysql.cj.jdbc.Driver
+    idle-timeout: 15000
+    maximum-pool-size: 30
+    minimum-pool-size: 10
+    pool-name: espinosa
+  hikari:
+    connection-timeout: 50000
+    idle-timeout: 300000
+    max-lifetime: 900000
+    maximum-pool-size: 10
+    minimum-idle: 10
+    pool-name: ConnPool
+    connection-test-query: select 1 from dual
