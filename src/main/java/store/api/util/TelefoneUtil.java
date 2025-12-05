@@ -64,4 +64,11 @@ public class TelefoneUtil {
         }
         return telefone;
     }
+
+    public static String toNumber(String telefone) {
+        if(!telefone.startsWith("55")){
+            telefone = "55" + telefone;
+        }
+        return telefone.replaceAll("[^0-9]", "");
+    }
 }

@@ -1,7 +1,18 @@
+resources:
+  youtube: /home/portaismusiccom/resources/emails/youtube_1.png
+  instagram: /home/portaismusiccom/resources/emails/instagram_1.png
+  logo: /home/portaismusiccom/resources/emails/logo.png
+  htmls:
+    bemvindo: C:/desenv/projetos/loja/emails/confirmar-email.html
+
 server:
   port: 9090
   servlet:
     context-path: /store
+
+emails:
+    welcome: C:/desenv/projetos/loja/bemvindo.html
+
 spring:
   datasource:
     jdbcUrl: jdbc:mysql://81.17.101.225:3306/myappsservices_store?useTimezone=false&serverTimezone=GMT-3&useSSL=false&noAccessToProcedureBodies=true

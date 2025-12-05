@@ -1,5 +1,13 @@
-reportpath: C:\\desenv\\espinosa\\backend\\espinosa\\src\\main\\resources\\reports\\
-enviaremail: false
+resources:
+  youtube: C:/desenv/projetos/loja/emails/youtube_1.png
+  instagram: C:/desenv/projetos/loja/emails/instagram_1.png
+  logo: C:/desenv/projetos/loja/emails/logo.png
+  htmls:
+    bemvindo: C:/desenv/projetos/loja/emails/confirmar-email.html
+
+emails:
+  welcome: C:/desenv/projetos/loja/bemvindo.html
+
 server:
   port: 4343
   servlet:

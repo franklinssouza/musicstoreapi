@@ -3,3 +3,7 @@ logging:
     org:
       hibernate:
         SQL: INFO
+
+zapi:
+  token: aaaaaa
+  instancia: bbbbb

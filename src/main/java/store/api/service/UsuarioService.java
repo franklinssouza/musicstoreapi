@@ -3,6 +3,7 @@ package store.api.service;
 import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import store.api.EmailSender;
 import store.api.config.exceptions.StoreException;
 import store.api.domain.Usuario;
 import store.api.domain.UsuarioDto;
@@ -17,23 +18,23 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final EmailSender emailSender;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, EmailSender emailSender) {
         this.usuarioRepository = usuarioRepository;
+        this.emailSender = emailSender;
     }
 
     @Transactional
     public UsuarioDto create(UsuarioDto dto) throws StoreException {
+        boolean isNovo = dto.getId() == null;
         this.validarCadastro(dto);
-        return usuarioRepository.save(dto.toEntity()).toDto();
+        dto = usuarioRepository.save(dto.toEntity()).toDto();
+        if(isNovo) {
+            emailSender.enviarEmailBemVindo(dto.getEmail(), dto.getNome().split(" ") [0]);
+        }
+        return dto;
     }
-
-    @Transactional
-    public UsuarioDto update(UsuarioDto dto) throws StoreException {
-        this.validarCadastro(dto);
-        return usuarioRepository.save(dto.toEntity()).toDto();
-    }
-
 
     private void validarCadastro(UsuarioDto usuario) throws StoreException {
         if(StringUtils.isEmpty(usuario.getNome()) ||

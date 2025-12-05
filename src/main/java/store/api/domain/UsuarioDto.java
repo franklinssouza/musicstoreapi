@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import store.api.util.TelefoneUtil;
 import store.api.util.TextoUtil;
 
 @Builder
@@ -27,7 +28,7 @@ public class UsuarioDto {
                 .nome(TextoUtil.capitalizar(this.nome).trim())
                 .cep(this.cep)
                 .endereco(TextoUtil.capitalizar(this.endereco).trim())
-                .telefone(this.telefone)
+                .telefone(TelefoneUtil.toNumber(this.telefone))
                 .senha(this.senha)
                 .email(this.email).build();
     }
