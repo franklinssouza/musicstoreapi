@@ -23,6 +23,9 @@ public class Usuario {
     private String senha;
     private String telefone;
 
+    public String getNomeSimples(){
+        return this.nome.split(" ")[0];
+    }
     public UsuarioDto toDto(){
         return UsuarioDto.builder()
                 .id(this.id)

@@ -10,13 +10,19 @@ import store.api.service.UsuarioService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/cadastro")
 public class CadastroEndpoint {
 
     private final UsuarioService service;
 
     public CadastroEndpoint(UsuarioService service) {
         this.service = service;
+    }
+
+    @PostMapping("reset-password")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void reenviarSenha(@RequestBody UsuarioDto body) throws StoreException {
+        this.service.reenviarSenha(body);
     }
 
     @PostMapping

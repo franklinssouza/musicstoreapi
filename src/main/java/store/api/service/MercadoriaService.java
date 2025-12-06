@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import store.api.config.exceptions.StoreException;
 import store.api.domain.Mercadoria;
 import store.api.domain.MercadoriaDto;
-import store.api.domain.Usuario;
 import store.api.repository.MercadoriaRepository;
 
 import java.util.List;
@@ -54,7 +53,7 @@ public class MercadoriaService {
             throw new StoreException("Informe a categoria desse produto.");
         }
 
-        if(StringUtils.isEmpty(dto.getImagem())){
+        if(StringUtils.isEmpty(dto.getImagem1())){
             throw new StoreException("Informe uma imagem para esse produto.");
         }
 

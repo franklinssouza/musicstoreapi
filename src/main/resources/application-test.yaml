@@ -4,6 +4,7 @@ resources:
   logo: C:/desenv/projetos/loja/emails/logo.png
   htmls:
     bemvindo: C:/desenv/projetos/loja/emails/confirmar-email.html
+    recuperarsenha: C:/desenv/projetos/loja/emails/reenviar-senha.html.html
 
 emails:
   welcome: C:/desenv/projetos/loja/bemvindo.html

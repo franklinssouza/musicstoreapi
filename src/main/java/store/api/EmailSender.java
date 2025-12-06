@@ -34,6 +34,23 @@ public class EmailSender {
     }
 
     @Async
+    public  void reenviarSenha(String usuario, String to, String senha) throws StoreException {
+        try {
+            Path caminho = Paths.get(emailResources.recuperacaoSenha);
+            String conteudo = null;
+
+            conteudo = Files.readString(caminho);
+            conteudo = conteudo.replace("{usuario}", usuario);
+            conteudo = conteudo.replace("{senha}", senha);
+
+            this.send(to,"Reenvio de senha",conteudo,null);
+
+        } catch (IOException e) {
+            throw new StoreException("Erro ao enviar recuperação de senha.", e);
+        }
+    }
+
+    @Async
     public  void enviarEmailBemVindo(String to, String usuario) throws StoreException {
         try {
 

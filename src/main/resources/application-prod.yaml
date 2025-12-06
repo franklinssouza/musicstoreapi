@@ -3,7 +3,8 @@ resources:
   instagram: /home/portaismusiccom/resources/emails/instagram_1.png
   logo: /home/portaismusiccom/resources/emails/logo.png
   htmls:
-    bemvindo: C:/desenv/projetos/loja/emails/confirmar-email.html
+    bemvindo: /home/portaismusiccom/resources/emails/confirmar-email.html
+    recuperarsenha: /home/portaismusiccom/resources/emails/reenviar-senha.html.html
 
 server:
   port: 9090

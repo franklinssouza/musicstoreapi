@@ -25,6 +25,15 @@ public class UsuarioService {
         this.emailSender = emailSender;
     }
 
+    public void reenviarSenha(UsuarioDto dto) throws StoreException {
+        Usuario user = usuarioRepository.findByEmail(dto.getEmail());
+        if(user== null){
+            throw new StoreException("Não foi encontrado nenhum usuário com esse email.");
+        }else{
+            emailSender.reenviarSenha(user.getNomeSimples(), dto.getEmail(), user.getSenha());
+        }
+    }
+
     @Transactional
     public UsuarioDto create(UsuarioDto dto) throws StoreException {
         boolean isNovo = dto.getId() == null;

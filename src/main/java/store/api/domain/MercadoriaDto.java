@@ -22,7 +22,12 @@ public class MercadoriaDto {
     private Double valor;
     private Boolean ativo;
     private String categoria;
-    private String imagem;
+    private String imagem1;
+    private String imagem2;
+    private String imagem3;
+    private String imagem4;
+    private String imagem5;
+
     public Mercadoria toEntity(){
         return Mercadoria.builder()
                 .id(this.id)
@@ -32,7 +37,11 @@ public class MercadoriaDto {
                 .valor(this.valor)
                 .ativo(this.ativo)
                 .categoria(this.categoria)
-                .imagem(this.imagem)
+                .imagem1(this.imagem1)
+                .imagem2(this.imagem2)
+                .imagem3(this.imagem3)
+                .imagem4(this.imagem4)
+                .imagem5(this.imagem5)
                 .build();
     }
 
