@@ -43,9 +43,9 @@ public class EmailSender {
             conteudo = conteudo.replace("{usuario}", usuario);
             conteudo = conteudo.replace("{senha}", senha);
 
-            this.send(to,"Reenvio de senha",conteudo,null);
+            this.send(to,"Reenvio de senha",conteudo, getMimeBodyParts());
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new StoreException("Erro ao enviar recuperação de senha.", e);
         }
     }
@@ -54,35 +54,38 @@ public class EmailSender {
     public  void enviarEmailBemVindo(String to, String usuario) throws StoreException {
         try {
 
-            List<MimeBodyPart> bodyParts = new ArrayList<>();
-
-            MimeBodyPart imagemEmbebida = new MimeBodyPart();
-            DataSource fds = new FileDataSource(emailResources.iconYoutube); // Substitua pelo caminho do seu arquivo de imagem
-            imagemEmbebida.setDataHandler(new DataHandler(fds));
-            imagemEmbebida.setHeader("Content-ID", "<youtube>");
-            bodyParts.add(imagemEmbebida);
-
-            imagemEmbebida = new MimeBodyPart();
-            fds = new FileDataSource(emailResources.iconInstagram); // Substitua pelo caminho do seu arquivo de imagem
-            imagemEmbebida.setDataHandler(new DataHandler(fds));
-            imagemEmbebida.setHeader("Content-ID", "<instagram>");
-            bodyParts.add(imagemEmbebida);
-
-            imagemEmbebida = new MimeBodyPart();
-            fds = new FileDataSource(emailResources.logo); // Substitua pelo caminho do seu arquivo de imagem
-            imagemEmbebida.setDataHandler(new DataHandler(fds));
-            imagemEmbebida.setHeader("Content-ID", "<logo>");
-            bodyParts.add(imagemEmbebida);
-
             Path caminho = Paths.get(emailResources .htmlBemVindo);
             String conteudo = Files.readString(caminho);
             conteudo = conteudo.replace("{usuario}", usuario);
 
-            this.send(to,"Cadastro realizado",conteudo,bodyParts);
+            this.send(to,"Cadastro realizado",conteudo, getMimeBodyParts());
 
         } catch (Exception e) {
             throw new StoreException("Erro ao enviar email", e);
         }
+    }
+
+    private List<MimeBodyPart> getMimeBodyParts() throws MessagingException {
+        List<MimeBodyPart> bodyParts = new ArrayList<>();
+
+        MimeBodyPart imagemEmbebida = new MimeBodyPart();
+        DataSource fds = new FileDataSource(emailResources.iconYoutube); // Substitua pelo caminho do seu arquivo de imagem
+        imagemEmbebida.setDataHandler(new DataHandler(fds));
+        imagemEmbebida.setHeader("Content-ID", "<youtube>");
+        bodyParts.add(imagemEmbebida);
+
+        imagemEmbebida = new MimeBodyPart();
+        fds = new FileDataSource(emailResources.iconInstagram); // Substitua pelo caminho do seu arquivo de imagem
+        imagemEmbebida.setDataHandler(new DataHandler(fds));
+        imagemEmbebida.setHeader("Content-ID", "<instagram>");
+        bodyParts.add(imagemEmbebida);
+
+        imagemEmbebida = new MimeBodyPart();
+        fds = new FileDataSource(emailResources.logo); // Substitua pelo caminho do seu arquivo de imagem
+        imagemEmbebida.setDataHandler(new DataHandler(fds));
+        imagemEmbebida.setHeader("Content-ID", "<logo>");
+        bodyParts.add(imagemEmbebida);
+        return bodyParts;
     }
 
     public  void send(String to, String assunto, String content, List<MimeBodyPart> dados){
@@ -119,10 +122,7 @@ public class EmailSender {
             multipart.addBodyPart(bodyPartTexto);
 
             mensagem.setContent(multipart);
-            System.out.println("ENVIANDO");
             Transport.send(mensagem);
-            System.out.println("ENVIADO");
-
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -29,7 +29,7 @@ public class EmailResources {
     @Value("${resources.htmls.bemvindo}")
     public  String htmlBemVindo;
 
-    @Value("${resources.htmls.bemvindo}")
+    @Value("${resources.htmls.recuperarsenha}")
     public  String recuperacaoSenha;
 
 }

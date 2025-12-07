@@ -20,6 +20,11 @@ public class MercadoriaEndpoint {
         this.service = service;
     }
 
+    @GetMapping("/all")
+    public List<MercadoriaDto> buscarTodos() {
+        return service.buscarTodos();
+    }
+
     @GetMapping("/search")
     public List<MercadoriaDto> pesquisar(@RequestParam(name="filtro", required = false) String filtro) {
         return service.pesquisar(filtro);

@@ -20,11 +20,15 @@ public class MercadoriaService {
     }
 
 
+    public List<MercadoriaDto> buscarTodos() {
+        return mercadoriaRepository.buscarTodos().stream()
+                .map(Mercadoria::toDto).toList();
+    }
+
     public List<MercadoriaDto> pesquisar(String filtro) {
         return mercadoriaRepository.pesquisar(filtro).stream()
                 .map(Mercadoria::toDto).toList();
     }
-
 
     @Transactional
     public MercadoriaDto create(MercadoriaDto dto) throws StoreException {
@@ -85,4 +89,6 @@ public class MercadoriaService {
     public void delete(long id) {
         this.mercadoriaRepository.deleteById(id);
     }
+
+
 }
