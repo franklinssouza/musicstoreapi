@@ -27,6 +27,11 @@ public class MercadoriaDto {
     private String imagem3;
     private String imagem4;
     private String imagem5;
+    private String tamanhop;
+    private String tamanhom;
+    private String tamanhog;
+    private String tamanhogg;
+    private Integer estoque;
 
     public Mercadoria toEntity(){
         return Mercadoria.builder()
@@ -42,6 +47,11 @@ public class MercadoriaDto {
                 .imagem3(this.imagem3)
                 .imagem4(this.imagem4)
                 .imagem5(this.imagem5)
+                .tamanhop(this.tamanhop)
+                .tamanhom(this.tamanhom)
+                .tamanhog(this.tamanhog)
+                .tamanhogg(this.tamanhogg)
+                .estoque(this.estoque)
                 .build();
     }
 
