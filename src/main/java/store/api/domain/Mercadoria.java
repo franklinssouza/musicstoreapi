@@ -27,10 +27,10 @@ public class Mercadoria {
     private String imagem3;
     private String imagem4;
     private String imagem5;
-    private String tamanhop;
-    private String tamanhom;
-    private String tamanhog;
-    private String tamanhogg;
+    private Boolean tamanhop;
+    private Boolean tamanhom;
+    private Boolean tamanhog;
+    private Boolean tamanhogg;
     private Integer estoque;
 
     public MercadoriaDto toDto(){
