@@ -21,7 +21,9 @@ public class AppExceptionHandler {
     @ExceptionHandler(StoreException.class)
     public ResponseEntity<ExceptionDto> handleEspinosaException(StoreException exception) {
     	
-        return new ResponseEntity<ExceptionDto>(new ExceptionDto(exception.getMessage()),exception.getStatusCode());
+        return new ResponseEntity<ExceptionDto>(
+                new ExceptionDto(exception.getMessage()),
+                exception.getStatusCode());
     } 
     
     @ExceptionHandler(Exception.class)

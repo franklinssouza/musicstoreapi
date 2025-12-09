@@ -63,6 +63,10 @@ public class UsuarioService {
             throw new StoreException("Informe o seu CEP completo.");
         }
 
+        if(StringUtils.isEmpty(usuario.getEstado()) ){
+            throw new StoreException("Informe o seu estado.");
+        }
+
         if(StringUtils.isEmpty(usuario.getTelefone()) || !TelefoneUtil.isTelefoneCelularValido(usuario.getTelefone())){
             throw new StoreException("Informe um telefone válido.");
         }

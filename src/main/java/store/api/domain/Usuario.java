@@ -22,6 +22,8 @@ public class Usuario {
     private String cep;
     private String senha;
     private String telefone;
+    private String estado;
+    private String pais;
 
     public String getNomeSimples(){
         return this.nome.split(" ")[0];
@@ -35,6 +37,8 @@ public class Usuario {
                 .telefone(this.telefone)
                 .email(this.email)
                 .senha(this.senha)
+                .estado(this.estado)
+                .pais(this.pais)
                 .build();
     }
 

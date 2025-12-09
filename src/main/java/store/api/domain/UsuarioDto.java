@@ -21,6 +21,9 @@ public class UsuarioDto {
     private String confSenha;
     private String cep;
     private String telefone;
+    private String estado;
+    private String pais;
+
 
     public Usuario toEntity() {
         return Usuario.builder()
@@ -30,6 +33,8 @@ public class UsuarioDto {
                 .endereco(TextoUtil.capitalizar(this.endereco).trim())
                 .telefone(TelefoneUtil.toNumber(this.telefone))
                 .senha(this.senha)
+                .estado(this.estado)
+                .pais("Brasil")
                 .email(this.email).build();
     }
 }
