@@ -20,5 +20,9 @@ public class UsuarioEndpoint {
         this.service = service;
     }
 
-
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.CREATED)
+    public UsuarioDto login(@RequestBody UsuarioDto body) throws StoreException {
+        return service.login(body);
+    }
 }

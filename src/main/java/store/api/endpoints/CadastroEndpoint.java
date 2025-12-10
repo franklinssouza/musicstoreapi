@@ -21,8 +21,8 @@ public class CadastroEndpoint {
 
     @PostMapping("reset-password")
     @ResponseStatus(HttpStatus.CREATED)
-    public void reenviarSenha(@RequestBody UsuarioDto body) throws StoreException {
-        this.service.reenviarSenha(body);
+    public Boolean reenviarSenha(@RequestBody UsuarioDto body) throws StoreException {
+        return this.service.reenviarSenha(body);
     }
 
     @PostMapping

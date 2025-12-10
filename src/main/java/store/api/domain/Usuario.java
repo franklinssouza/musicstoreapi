@@ -24,6 +24,7 @@ public class Usuario {
     private String telefone;
     private String estado;
     private String pais;
+    private String cidade;
 
     public String getNomeSimples(){
         return this.nome.split(" ")[0];
@@ -34,8 +35,13 @@ public class Usuario {
                 .cep(this.cep)
                 .nome(this.nome)
                 .endereco(this.endereco)
-                .telefone(this.telefone)
+                .telefone(
+                        (this.telefone != null && this.telefone.startsWith("55"))
+                                ? this.telefone.substring(2)
+                                : this.telefone
+                )
                 .email(this.email)
+                .cidade(this.cidade)
                 .senha(this.senha)
                 .estado(this.estado)
                 .pais(this.pais)

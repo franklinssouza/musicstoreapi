@@ -7,6 +7,8 @@ import store.api.EmailSender;
 import store.api.config.exceptions.StoreException;
 import store.api.domain.Usuario;
 import store.api.domain.UsuarioDto;
+import store.api.integracao.ZapMessageUtil;
+import store.api.integracao.ZapUtil;
 import store.api.repository.UsuarioRepository;
 import store.api.util.TelefoneUtil;
 import store.api.util.Validationtil;
@@ -19,19 +21,25 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final EmailSender emailSender;
+    private final ZapUtil zapUtil;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, EmailSender emailSender) {
+    public UsuarioService(UsuarioRepository usuarioRepository, EmailSender emailSender, ZapUtil zapUtil) {
         this.usuarioRepository = usuarioRepository;
         this.emailSender = emailSender;
+        this.zapUtil = zapUtil;
     }
 
-    public void reenviarSenha(UsuarioDto dto) throws StoreException {
+    public boolean reenviarSenha(UsuarioDto dto) throws StoreException {
         Usuario user = usuarioRepository.findByEmail(dto.getEmail());
         if(user== null){
             throw new StoreException("Não foi encontrado nenhum usuário com esse email.");
         }else{
+            zapUtil.enviarTexto(ZapMessageUtil.reenvioSenha.replace("XXX",user.getNomeSimples())
+                                                           .replace("YYY",user.getSenha()),
+                                                            user.getTelefone());
             emailSender.reenviarSenha(user.getNomeSimples(), dto.getEmail(), user.getSenha());
         }
+        return true;
     }
 
     @Transactional
@@ -40,6 +48,7 @@ public class UsuarioService {
         this.validarCadastro(dto);
         dto = usuarioRepository.save(dto.toEntity()).toDto();
         if(isNovo) {
+            zapUtil.enviarTexto(ZapMessageUtil.bemvindo.replace("XXX",dto.getNomeSimples()), dto.getTelefone());
             emailSender.enviarEmailBemVindo(dto.getEmail(), dto.getNome().split(" ") [0]);
         }
         return dto;
@@ -53,6 +62,14 @@ public class UsuarioService {
 
         if(StringUtils.isEmpty(usuario.getEmail()) || !Validationtil.validarEmail(usuario.getEmail())){
             throw new StoreException("Informe um email válido.");
+        }
+
+        if(StringUtils.isEmpty(usuario.getConfirmacaoEmail())){
+            throw new StoreException("Informe a confirmação do e-mail.");
+        }
+
+        if(!usuario.getEmail().equalsIgnoreCase(usuario.getConfirmacaoEmail())  ){
+            throw new StoreException("A confirmação de email não confere com o email informado.");
         }
 
         if(StringUtils.isEmpty(usuario.getEndereco()) || usuario.getEndereco().length() < 5){
@@ -71,15 +88,29 @@ public class UsuarioService {
             throw new StoreException("Informe um telefone válido.");
         }
 
-        if(StringUtils.isEmpty(usuario.getSenha())){
-            throw new StoreException("Informe uma senha válida.");
-        }
+        if(usuario.getId() == null) {
+            if (StringUtils.isEmpty(usuario.getSenha())) {
+                throw new StoreException("Informe uma senha válida.");
+            }
 
-        if(StringUtils.isEmpty(usuario.getConfSenha())){
-            throw new StoreException("Informe a confirmação de senha.");
-        }
-        if(!usuario.getSenha().equalsIgnoreCase(usuario.getConfSenha())  ){
-            throw new StoreException("A confirmação de senha não confere com a senha informada.");
+            if (StringUtils.isEmpty(usuario.getConfirmacaoSenha())) {
+                throw new StoreException("Informe a confirmação de senha.");
+            }
+            if (!usuario.getSenha().equalsIgnoreCase(usuario.getConfirmacaoSenha())) {
+                throw new StoreException("A confirmação de senha não confere com a senha informada.");
+            }
+        }else{
+            Optional<Usuario> procurado = this.usuarioRepository.findById(usuario.getId());
+            if(!StringUtils.isEmpty(usuario.getSenha())){
+                if (StringUtils.isEmpty(usuario.getConfirmacaoSenha())) {
+                    throw new StoreException("Informe a confirmação de senha.");
+                }
+                if (!usuario.getSenha().equalsIgnoreCase(usuario.getConfirmacaoSenha())) {
+                    throw new StoreException("A confirmação de senha não confere com a senha informada.");
+                }
+            }else{
+                usuario.setSenha(procurado.get().getSenha());
+            }
         }
 
         if(usuario.getId() == null) {
@@ -109,5 +140,13 @@ public class UsuarioService {
     @Transactional
     public void delete(long id) {
         this.usuarioRepository.deleteById(id);
+    }
+
+    public UsuarioDto login(UsuarioDto body) throws StoreException {
+        Usuario byEmailAndSenha = usuarioRepository.findByEmailAndSenha(body.getEmail(), body.getSenha());
+        if(byEmailAndSenha == null){
+            throw new StoreException("Usuário inválido.");
+        }
+        return byEmailAndSenha.toDto();
     }
 }

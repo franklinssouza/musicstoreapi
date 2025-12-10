@@ -18,13 +18,17 @@ public class UsuarioDto {
     private String endereco;
     private String email;
     private String senha;
-    private String confSenha;
+    private String confirmacaoSenha;
+    private String confirmacaoEmail;
     private String cep;
     private String telefone;
     private String estado;
     private String pais;
+    private String cidade;
 
-
+    public String getNomeSimples(){
+        return this.nome.split(" ")[0];
+    }
     public Usuario toEntity() {
         return Usuario.builder()
                 .id(this.id)
@@ -34,6 +38,7 @@ public class UsuarioDto {
                 .telefone(TelefoneUtil.toNumber(this.telefone))
                 .senha(this.senha)
                 .estado(this.estado)
+                .cidade(this.cidade)
                 .pais("Brasil")
                 .email(this.email).build();
     }

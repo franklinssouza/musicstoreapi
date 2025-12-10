@@ -5,5 +5,6 @@ logging:
         SQL: INFO
 
 zapi:
-  token: aaaaaa
-  instancia: bbbbb
+  token: D1D7360B9607E86B68ECE6E9
+  instancia: 3EB79DA439A391B9DB9C46E3E05298C7
+  security: F39ca77b1df3f4f64a1548fa74e811c60S

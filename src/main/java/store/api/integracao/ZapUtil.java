@@ -10,24 +10,27 @@ import java.io.IOException;
 public class ZapUtil {
 
     @Value("${zapi.instancia}")
-    public String instancia;
+    private String instancia;
 
     @Value("${zapi.token}")
-    public String token;
+    private String token;
+
+    @Value("${zapi.security}")
+    private String security;
 
     public void enviarTexto(String mensagem, String para) {
         OkHttpClient client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json");
 
-        String jsonBody = String.format("{\"phone\": \"%s\", \"message\": \"%s\"}", para, mensagem);
+        String jsonBody = String.format("{\"phone\": \"%s\",  \"message\": \"%s\",  \"caption\": \"%s\" , \"image\": \"%s\"}", "55" + para, mensagem, mensagem, "https://www.portaismusic.com.br/assets/img/logo-loja1.png");
         RequestBody body = RequestBody.create(mediaType, jsonBody);
 
         Request request = new Request.Builder()
-                .url("https://api.z-api.io/instances/SUA_INSTANCIA/token/SEU_TOKEN/send-text")
+                .url("https://api.z-api.io/instances/"+ this.instancia+"/token/"+ this.token+"/send-text")
                 .post(body)
-                .addHeader("client-token", "{{security-token}}") // Substitua pelo seu token de segurança
+                .addHeader("Content-Type", "application/json")
+                .addHeader("client-Token",  security )
                 .build();
-
         try {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
