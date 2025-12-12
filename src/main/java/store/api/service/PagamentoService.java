@@ -7,8 +7,8 @@ import store.api.EmailSender;
 import store.api.config.exceptions.StoreException;
 import store.api.domain.ItemCarrinhoRequestDto;
 import store.api.domain.ListaCarrinhoDto;
-import store.api.integracao.QrCodePixRequest;
 import store.api.integracao.assas.AssasApi;
+import store.api.integracao.assas.QrCodePixRequest;
 import store.api.integracao.assas.QrCodePixResponse;
 import store.api.integracao.zapi.ZapApi;
 import tools.jackson.databind.ObjectMapper;
@@ -33,22 +33,23 @@ public class PagamentoService {
     @Transactional
     public QrCodePixResponse prepararPagamentoPix(ListaCarrinhoDto dadosCompra) throws StoreException {
         StringBuilder buffer = new StringBuilder();
-
+        double valor = 0;
         for (ItemCarrinhoRequestDto compra : dadosCompra.getCompras()) {
             buffer.append(compra.getId()).append(":")
                     .append(compra.getQuantidade()).append(":")
                     .append(compra.getTamanho()).append("-");
+            valor+=compra.getValor();
         }
 
         QrCodePixRequest pixRequest = new QrCodePixRequest();
         pixRequest.setAddressKey(chavePixAssas);
-        pixRequest.setDescription(buffer.toString());
-        pixRequest.setValue(1.0);
+        pixRequest.setDescription("PMS");
+        pixRequest.setValue(valor);
         pixRequest.setFormat("ALL");
         pixRequest.setExpirationDate("2045-05-05 14:20:50");
         pixRequest.setExpirationSeconds(null);
         pixRequest.setAllowsMultiplePayments(false);
-        pixRequest.setExternalReference(buffer.toString());
+        pixRequest.setExternalReference(buffer.toString().substring(0, buffer.length()-1));
 
         return assasApi.gerarQrCodePix(pixRequest);
     }
@@ -65,7 +66,7 @@ public class PagamentoService {
 
         QrCodePixRequest pixRequest = new QrCodePixRequest();
         pixRequest.setAddressKey(chavePixAssas);
-        pixRequest.setDescription(buffer.toString());
+        pixRequest.setDescription("PMS");
         pixRequest.setValue(1.0);
         pixRequest.setFormat("ALL");
         pixRequest.setExpirationDate("2045-05-05 14:20:50");
@@ -75,5 +76,4 @@ public class PagamentoService {
 
         return assasApi.gerarQrCodePix(pixRequest);
     }
-
 }

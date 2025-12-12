@@ -17,6 +17,6 @@ public class ScheduleConfirmacaoPagamento {
 
     @Scheduled(cron = "0 */2 * * * *")
     public void executarTarefa() {
-//        this.assasApi.buscarPagamentosPix();
+        // this.assasApi.buscarPagamentosPix();
     }
 }

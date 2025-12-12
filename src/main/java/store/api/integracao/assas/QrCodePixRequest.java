@@ -1,4 +1,4 @@
-package store.api.integracao;
+package store.api.integracao.assas;
 
 import lombok.Data;
 

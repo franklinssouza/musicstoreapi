@@ -3,7 +3,6 @@ package store.api.integracao.assas;
 import com.squareup.okhttp.*;
 import org.springframework.stereotype.Component;
 import store.api.config.exceptions.StoreException;
-import store.api.integracao.QrCodePixRequest;
 import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
