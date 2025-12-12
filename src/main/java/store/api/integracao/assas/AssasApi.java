@@ -150,4 +150,29 @@ public class AssasApi {
             throw new StoreException("Não foi possível gerar seu QrCode. Tente novamente em alguns instantes.",e);
         }
     }
+
+    public ConsultaPixResponse processarPagamentoPix(Integer offset, Integer limit) {
+        try {
+
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(BASE_URL + "/v3/pix/transactions?status=DONE&limit="+ limit+"&offset="+offset)
+                    .get()
+                    .addHeader("accept", "application/json")
+                    .addHeader("access_token", API_KEY)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+
+            if (!response.isSuccessful()) {
+                throw new StoreException("Não foi possível gerar seu QrCode. Tente novamente em alguns instantes.");
+            }
+            String jsonResponse = response.body().string();
+            return new ObjectMapper().readValue(jsonResponse, ConsultaPixResponse.class);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

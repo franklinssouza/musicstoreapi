@@ -13,4 +13,5 @@ public interface VendasRepository extends CrudRepository<Vendas, Long> {
     @Query(value="SELECT m FROM Vendas m ")
     List<Vendas> buscarTodos();
 
+    Vendas findByHash(String hashAssas);
 }

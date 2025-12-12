@@ -49,7 +49,7 @@ public class PagamentoService {
         pixRequest.setExpirationDate("2045-05-05 14:20:50");
         pixRequest.setExpirationSeconds(null);
         pixRequest.setAllowsMultiplePayments(false);
-        pixRequest.setExternalReference(buffer.toString().substring(0, buffer.length()-1));
+        pixRequest.setExternalReference(dadosCompra.getIdUsuario() + "@PMS|"+buffer.toString().substring(0, buffer.length()-1));
 
         return assasApi.gerarQrCodePix(pixRequest);
     }

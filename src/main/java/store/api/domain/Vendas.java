@@ -37,6 +37,9 @@ public class Vendas {
     @Column(name = "AVISO_ENVIADO")
     private Boolean avisoEnviado;
 
+    private String hash;
+    private String tamanho;
+
     public VendasDto toDto(){
         return VendasDto.builder()
                 .id(this.id)
