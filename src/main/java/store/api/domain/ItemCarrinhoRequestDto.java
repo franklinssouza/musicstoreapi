@@ -12,12 +12,8 @@ import lombok.NoArgsConstructor;
 public class ItemCarrinhoRequestDto {
 
     private Integer id;
-    private String nome;
-    private String descricao;
-    private String posicao;
     private Double valor;
-    private String categoria;
     private String tamanho;
+    private String nome;
     private Integer quantidade;
-    private Double precoTotal;
 }

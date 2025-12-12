@@ -16,5 +16,4 @@ public class ListaCarrinhoDto {
 
     private Long idUsuario;
     private List<ItemCarrinhoRequestDto> compras = new ArrayList<>();
-    private Boolean cartaoCredito=true;
 }
