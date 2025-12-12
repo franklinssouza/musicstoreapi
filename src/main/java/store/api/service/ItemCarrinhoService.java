@@ -40,7 +40,6 @@ public class ItemCarrinhoService {
                 itemCarrinho.setData(new Date());
                 itemCarrinho.setMercadoria(mercadoria);
                 itemCarrinho.setUsuario(user);
-                itemCarrinho.setTotal(compra.getPrecoTotal());
                 itemCarrinho.setQuantidade(compra.getQuantidade());
 
                 dados.add(itemCarrinhoRepository.save(itemCarrinho));

@@ -10,7 +10,6 @@ public class ScheduleConfirmacaoPagamento {
     private final AssasApi assasApi;
     private final VendasService vendasService;
 
-
     public ScheduleConfirmacaoPagamento(AssasApi assasApi, VendasService vendasService) {
         this.assasApi = assasApi;
         this.vendasService = vendasService;
@@ -18,6 +17,6 @@ public class ScheduleConfirmacaoPagamento {
 
     @Scheduled(cron = "0 */2 * * * *")
     public void executarTarefa() {
-        System.out.println("Tarefa executada a cada 5 minutos!");
+//        this.assasApi.buscarPagamentosPix();
     }
 }
