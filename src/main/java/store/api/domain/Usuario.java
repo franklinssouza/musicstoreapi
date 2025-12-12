@@ -25,6 +25,9 @@ public class Usuario {
     private String estado;
     private String pais;
     private String cidade;
+    @Column(name="ID_USER_ASSAS")
+    private String idUserAssas;
+    private String cpf;
 
     public String getNomeSimples(){
         return this.nome.split(" ")[0];
@@ -42,7 +45,9 @@ public class Usuario {
                 )
                 .email(this.email)
                 .cidade(this.cidade)
+                .idUserAssas(this.idUserAssas)
                 .senha(this.senha)
+                .cpf(this.cpf)
                 .estado(this.estado)
                 .pais(this.pais)
                 .build();

@@ -1,4 +1,4 @@
-package store.api.integracao;
+package store.api.integracao.zapi;
 
 import com.squareup.okhttp.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class ZapUtil {
+public class ZapApi {
 
     @Value("${zapi.instancia}")
     private String instancia;

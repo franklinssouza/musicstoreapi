@@ -7,8 +7,10 @@ import store.api.EmailSender;
 import store.api.config.exceptions.StoreException;
 import store.api.domain.Usuario;
 import store.api.domain.UsuarioDto;
-import store.api.integracao.ZapMessageUtil;
-import store.api.integracao.ZapUtil;
+import store.api.integracao.assas.AssasApi;
+import store.api.integracao.assas.RegistroClienteAssasResponse;
+import store.api.integracao.zapi.ZapMessageUtil;
+import store.api.integracao.zapi.ZapApi;
 import store.api.repository.UsuarioRepository;
 import store.api.util.TelefoneUtil;
 import store.api.util.Validationtil;
@@ -21,12 +23,14 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final EmailSender emailSender;
-    private final ZapUtil zapUtil;
+    private final ZapApi zapUtil;
+    private final AssasApi assasApi;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, EmailSender emailSender, ZapUtil zapUtil) {
+    public UsuarioService(UsuarioRepository usuarioRepository, EmailSender emailSender, ZapApi zapUtil, AssasApi assasApi) {
         this.usuarioRepository = usuarioRepository;
         this.emailSender = emailSender;
         this.zapUtil = zapUtil;
+        this.assasApi = assasApi;
     }
 
     public boolean reenviarSenha(UsuarioDto dto) throws StoreException {
@@ -46,6 +50,12 @@ public class UsuarioService {
     public UsuarioDto create(UsuarioDto dto) throws StoreException {
         boolean isNovo = dto.getId() == null;
         this.validarCadastro(dto);
+
+        if(dto.getId() == null) {
+            RegistroClienteAssasResponse response = assasApi.criarCliente(dto.toUserAssas());
+            dto.setIdUserAssas(response.getId());
+        }
+
         dto = usuarioRepository.save(dto.toEntity()).toDto();
         if(isNovo) {
             zapUtil.enviarTexto(ZapMessageUtil.bemvindo.replace("XXX",dto.getNomeSimples()), dto.getTelefone());
@@ -58,6 +68,9 @@ public class UsuarioService {
         if(StringUtils.isEmpty(usuario.getNome()) ||
                 usuario.getNome().split(" ").length < 2){
             throw new StoreException("Informe o seu nome completo.");
+        }
+        if(StringUtils.isEmpty(usuario.getCpf()) || !Validationtil.isValidCPF(usuario.getCpf())){
+            throw new StoreException("Informe cpf válido.");
         }
 
         if(StringUtils.isEmpty(usuario.getEmail()) || !Validationtil.validarEmail(usuario.getEmail())){

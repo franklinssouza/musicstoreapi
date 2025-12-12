@@ -7,6 +7,47 @@ public class Validationtil {
 
     private static String regex = "[0-9]{8}";
 
+    public static boolean isValidCPF(String cpf) {
+        if (cpf == null) return false;
+
+        // Remove caracteres não numéricos
+        cpf = cpf.replaceAll("\\D", "");
+
+        // CPF precisa ter 11 dígitos
+        if (cpf.length() != 11) return false;
+
+        // Rejeita CPFs com todos dígitos iguais (ex: 00000000000)
+        if (cpf.matches("(\\d)\\1{10}")) return false;
+
+        try {
+            int sum = 0;
+
+            // Cálculo do primeiro dígito verificador
+            for (int i = 0; i < 9; i++) {
+                sum += Character.getNumericValue(cpf.charAt(i)) * (10 - i);
+            }
+
+            int firstDigit = 11 - (sum % 11);
+            firstDigit = (firstDigit > 9) ? 0 : firstDigit;
+
+            // Cálculo do segundo dígito verificador
+            sum = 0;
+            for (int i = 0; i < 10; i++) {
+                sum += Character.getNumericValue(cpf.charAt(i)) * (11 - i);
+            }
+
+            int secondDigit = 11 - (sum % 11);
+            secondDigit = (secondDigit > 9) ? 0 : secondDigit;
+
+            // Valida com os dígitos informados
+            return cpf.charAt(9) == Character.forDigit(firstDigit, 10)
+                    && cpf.charAt(10) == Character.forDigit(secondDigit, 10);
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";

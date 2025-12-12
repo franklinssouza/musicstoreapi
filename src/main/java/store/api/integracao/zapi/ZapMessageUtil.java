@@ -1,6 +1,4 @@
-package store.api.integracao;
-
-import org.springframework.stereotype.Component;
+package store.api.integracao.zapi;
 
 public class ZapMessageUtil {
 
