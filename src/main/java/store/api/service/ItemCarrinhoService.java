@@ -41,7 +41,6 @@ public class ItemCarrinhoService {
                 itemCarrinho.setMercadoria(mercadoria);
                 itemCarrinho.setUsuario(user);
                 itemCarrinho.setTotal(compra.getPrecoTotal());
-                itemCarrinho.setStatus(0);
                 itemCarrinho.setQuantidade(compra.getQuantidade());
 
                 dados.add(itemCarrinhoRepository.save(itemCarrinho));
