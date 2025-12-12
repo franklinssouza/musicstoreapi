@@ -2,6 +2,7 @@ package store.api.integracao.assas;
 
 import com.squareup.okhttp.*;
 import org.springframework.stereotype.Component;
+import store.api.config.exceptions.StoreException;
 import store.api.integracao.QrCodePixRequest;
 import tools.jackson.databind.ObjectMapper;
 
@@ -15,68 +16,82 @@ public class AssasApi {
 //    private static final String BASE_URL = "https://api-sandbox.asaas.com";
 
     public static void main(String[] args) {
+        try {
 
-//        RegistroClienteAssasRequest registro = new RegistroClienteAssasRequest();
-//        registro.setName("FRANKLIN SOUZA");
-//        registro.setCpfCnpj("05953667671");
-//        registro.setEmail("john.doe2@asaas.com.br");
-//        registro.setPhone("4738010919");
-//        registro.setMobilePhone("4799376637");
-//        registro.setAddress("Av. Paulista");
-//        registro.setAddressNumber("150");
-//        registro.setComplement("Sala 201");
-//        registro.setProvince("Centro");
-//        registro.setPostalCode("01310-000");
-//        registro.setExternalReference("12987382");
-//        registro.setNotificationDisabled(false);
-//        registro.setAdditionalEmails("john.doe@asaas.com,john.doe.silva@asaas.com.br");
-//        registro.setMunicipalInscription("46683695908");
-//        registro.setStateInscription("646681195275");
-//        registro.setObservations("ótimo pagador, nenhum problema até o momento");
-//        registro.setGroupName(null);
-//        registro.setCompany(null);
-//        registro.setForeignCustomer(false);
-//
-//        RegistroClienteAssasResponse registroResponse = new AssasApi().criarCliente(registro);
-//        System.out.println(registroResponse);
+    //        RegistroClienteAssasRequest registro = new RegistroClienteAssasRequest();
+    //        registro.setName("FRANKLIN SOUZA");
+    //        registro.setCpfCnpj("05953667671");
+    //        registro.setEmail("john.doe2@asaas.com.br");
+    //        registro.setPhone("4738010919");
+    //        registro.setMobilePhone("4799376637");
+    //        registro.setAddress("Av. Paulista");
+    //        registro.setAddressNumber("150");
+    //        registro.setComplement("Sala 201");
+    //        registro.setProvince("Centro");
+    //        registro.setPostalCode("01310-000");
+    //        registro.setExternalReference("12987382");
+    //        registro.setNotificationDisabled(false);
+    //        registro.setAdditionalEmails("john.doe@asaas.com,john.doe.silva@asaas.com.br");
+    //        registro.setMunicipalInscription("46683695908");
+    //        registro.setStateInscription("646681195275");
+    //        registro.setObservations("ótimo pagador, nenhum problema até o momento");
+    //        registro.setGroupName(null);
+    //        registro.setCompany(null);
+    //        registro.setForeignCustomer(false);
+    //
+    //        RegistroClienteAssasResponse registroResponse = new AssasApi().criarCliente(registro);
+    //        System.out.println(registroResponse);
 
-        QrCodePixRequest pixRequest = new QrCodePixRequest();
-        pixRequest.setAddressKey("louvorportaiseternos@gmail.com");
-        pixRequest.setDescription("teste");
-        pixRequest.setValue(1.0);
-        pixRequest.setFormat("ALL");
-        pixRequest.setExpirationDate("2026-05-05 14:20:50");
-        pixRequest.setExpirationSeconds(null);
-        pixRequest.setAllowsMultiplePayments(true);
-        pixRequest.setExternalReference("TESTE 123");
+            QrCodePixRequest pixRequest = new QrCodePixRequest();
+            pixRequest.setAddressKey("louvorportaiseternos@gmail.com");
+            pixRequest.setDescription("teste");
+            pixRequest.setValue(1.0);
+            pixRequest.setFormat("ALL");
+            pixRequest.setExpirationDate("2026-05-05 14:20:50");
+            pixRequest.setExpirationSeconds(null);
+            pixRequest.setAllowsMultiplePayments(true);
+            pixRequest.setExternalReference("TESTE 123");
 
-        QrCodePixResponse qrCode = new AssasApi().gerarQrCodePix(pixRequest);
-        System.out.println(qrCode);
+            QrCodePixResponse qrCode = new AssasApi().gerarQrCodePix(pixRequest);
+            System.out.println(qrCode);
+
+        } catch (StoreException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
-    public QrCodePixResponse gerarQrCodePix(QrCodePixRequest pixRequest) {
+    public QrCodePixResponse gerarQrCodePix(QrCodePixRequest pixRequest) throws StoreException {
+        OkHttpClient client = new OkHttpClient();
+        ObjectMapper mapper = new ObjectMapper();
+        Response response = null;
         try {
-            OkHttpClient client = new OkHttpClient();
-
             MediaType mediaType = MediaType.parse("application/json");
-            String jsonRequest = new ObjectMapper().writeValueAsString(pixRequest);
+            String jsonRequest = mapper.writeValueAsString(pixRequest);
 
-            RequestBody body = RequestBody.create(mediaType,jsonRequest);Request request = new Request.Builder()
-                    .url(BASE_URL+"/v3/pix/qrCodes/static")
+            RequestBody body = RequestBody.create(mediaType, jsonRequest);
+
+            Request request = new Request.Builder()
+                    .url(BASE_URL + "/v3/pix/qrCodes/static")
                     .post(body)
                     .addHeader("accept", "application/json")
                     .addHeader("content-type", "application/json")
                     .addHeader("access_token", API_KEY)
                     .build();
 
-            Response response = client.newCall(request).execute();
-            String json = response.body().string();
-            return new ObjectMapper().readValue(json, QrCodePixResponse.class);
+            response = client.newCall(request).execute();
 
+            if (!response.isSuccessful()) {
+                throw new StoreException("Não foi possível gerar seu QrCode. Tente novamente em alguns instantes.");
+            }
+            String json = response.body().string();
+            return mapper.readValue(json, QrCodePixResponse.class);
+
+        } catch (StoreException e) {
+            throw e;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new StoreException("Não foi possível gerar seu QrCode. Tente novamente em alguns instantes.");
         }
-        return null;
     }
 
     public RegistroClienteAssasResponse isClienteExistente(String idCliente) {
@@ -106,7 +121,7 @@ public class AssasApi {
         return null;
     }
 
-    public RegistroClienteAssasResponse criarCliente(RegistroClienteAssasRequest registro) {
+    public RegistroClienteAssasResponse criarCliente(RegistroClienteAssasRequest registro) throws StoreException {
         try {
             OkHttpClient client = new OkHttpClient();
 
@@ -125,15 +140,15 @@ public class AssasApi {
             Response response = client.newCall(request).execute();
 
             if (!response.isSuccessful()) {
-                throw new RuntimeException("Erro ao criar cliente: " + response.code());
+                throw new StoreException("Não foi possível gerar seu QrCode. Tente novamente em alguns instantes.");
             }
-
             String jsonResponse = response.body().string();
             return new ObjectMapper().readValue(jsonResponse, RegistroClienteAssasResponse.class);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (StoreException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new StoreException("Não foi possível gerar seu QrCode. Tente novamente em alguns instantes.",e);
         }
-        return null;
     }
 }

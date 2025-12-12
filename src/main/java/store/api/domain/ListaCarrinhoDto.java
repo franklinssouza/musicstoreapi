@@ -12,9 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ListaComprasDto {
+public class ListaCarrinhoDto {
 
-    private Long idCLiente;
-    private List<ComprasRequestDto> compras = new ArrayList<>();
+    private Long idUsuario;
+    private List<ItemCarrinhoRequestDto> compras = new ArrayList<>();
     private Boolean cartaoCredito=true;
 }

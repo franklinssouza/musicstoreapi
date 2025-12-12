@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ComprasRequestDto {
+public class ItemCarrinhoRequestDto {
 
     private Integer id;
     private String nome;
