@@ -31,9 +31,6 @@ public class CadastroEndpoint {
         return service.create(body);
     }
 
-    @GetMapping
-    public List<UsuarioDto> listar() { return service.findAll(); }
-
     @GetMapping("/{id}")
     public UsuarioDto buscar(@PathVariable Integer id) { return service.findById(id); }
 

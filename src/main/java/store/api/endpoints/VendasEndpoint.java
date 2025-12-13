@@ -20,7 +20,5 @@ public class VendasEndpoint {
         this.service = service;
     }
 
-    @GetMapping
-    public List<VendasDto> listar() { return service.findAll(); }
 
 }

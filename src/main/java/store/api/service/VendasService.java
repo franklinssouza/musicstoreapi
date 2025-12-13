@@ -3,23 +3,21 @@ package store.api.service;
 import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import store.api.domain.Mercadoria;
-import store.api.domain.Usuario;
-import store.api.domain.Vendas;
-import store.api.domain.VendasDto;
+import store.api.domain.*;
 import store.api.integracao.zapi.ZapApi;
 import store.api.integracao.zapi.ZapiMessageUtil;
 import store.api.repository.MercadoriaRepository;
 import store.api.repository.UsuarioRepository;
 import store.api.repository.VendasRepository;
+import store.api.util.DateUtil;
 import store.api.util.TextoUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class VendasService {
@@ -36,9 +34,56 @@ public class VendasService {
         this.zapApi = zapApi;
     }
 
-    public List<VendasDto> findAll() {
-        return vendasRepository.buscarTodos().stream()
-                .map(Vendas::toDto).toList();
+    public PanoramaVendasDto buscarPanorama() {
+        List<Vendas> totalVendas = this.vendasRepository.findAll();
+        PanoramaVendasDto vendasDto = new PanoramaVendasDto();
+        vendasDto.setQuantidadeVendas(totalVendas.size());
+        double totalValorVendas = totalVendas.stream()
+                .mapToDouble(Vendas::getTotal)
+                .sum();
+        vendasDto.setValorTotalVendas(totalValorVendas);
+        String produtoMaisVendido = totalVendas.stream()
+                .collect(Collectors.groupingBy(
+                        v -> v.getMercadoria().getNome(),
+                        Collectors.summingInt(Vendas::getQuantidade)
+                ))
+                .entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(null);
+
+        vendasDto.setProdutoMaisVendido(produtoMaisVendido);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        double totalVendasHoje = totalVendas.stream()
+                .filter(v -> v.getDataPagamento() != null)
+                .filter(v -> v.getDataPagamento()
+                        .toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate()
+                        .isEqual(LocalDate.now()))
+                .mapToDouble(Vendas::getTotal)
+                .sum();
+
+        vendasDto.setTotalVendasDiarias(totalVendasHoje);
+
+        return vendasDto;
+    }
+
+    public List<ItemVendasDto> pesquisarVendas(PesquisaVendasDto dto) {
+        if(dto.getInicio() == null){
+
+            dto.setInicio(DateUtil.dateToString(DateUtil.primeiroDiaDoMes(), "yyyy-MM-dd"));
+        }
+        if(dto.getTermino() == null){
+            dto.setTermino(DateUtil.dateToString(DateUtil.ultimoDiaDoMes(), "yyyy-MM-dd"));
+        }
+        return this.vendasRepository.pesquisarVendas(DateUtil.stringToDate(dto.getInicio(), "yyyy-MM-dd"),
+                                                     DateUtil.stringToDate(dto.getTermino(), "yyyy-MM-dd"))
+                                    .stream()
+                                    .map(Vendas::toDto).toList();
     }
 
     @Transactional
@@ -115,4 +160,7 @@ public class VendasService {
             e.printStackTrace();
         }
     }
+
+
+
 }

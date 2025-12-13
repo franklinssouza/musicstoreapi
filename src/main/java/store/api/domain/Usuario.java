@@ -22,6 +22,7 @@ public class Usuario {
     private String cep;
     private String senha;
     private String telefone;
+    private String bairro;
     private String estado;
     private String pais;
     private String cidade;
@@ -50,6 +51,7 @@ public class Usuario {
                 .cpf(this.cpf)
                 .estado(this.estado)
                 .pais(this.pais)
+                .bairro(this.bairro)
                 .build();
     }
 

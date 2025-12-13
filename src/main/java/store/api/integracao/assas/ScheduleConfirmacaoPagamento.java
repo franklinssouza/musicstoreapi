@@ -23,7 +23,6 @@ public class ScheduleConfirmacaoPagamento {
     @Scheduled(fixedDelay = 120000)
     public void executarTarefa() {
 
-        System.out.println("RODANDO SCHEDULE- FLUSH");
         int offset = 0;
         int limit  = 100;
 

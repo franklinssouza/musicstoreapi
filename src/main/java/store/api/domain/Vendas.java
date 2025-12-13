@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import store.api.util.DateUtil;
 
 import java.util.Date;
 
@@ -46,9 +47,17 @@ public class Vendas {
     private String hash;
     private String tamanho;
 
-    public VendasDto toDto(){
-        return VendasDto.builder()
+    public ItemVendasDto toDto(){
+        return ItemVendasDto.builder()
                 .id(this.id)
+                .data(DateUtil.dateTimeToString(this.dataPagamento))
+                .mercadoria(this.mercadoria.toDto())
+                .total(this.total)
+                .quantidade(this.quantidade)
+                .usuario(this.usuario.toDto())
+                .imagem(this.mercadoria.getImagem1())
+                .tamanho(this.tamanho)
+                .tipoPagamento(this.tipoPagamento.equals(0) ? "PIX": "CARTÃO DE C´R")
                 .build();
     }
 }

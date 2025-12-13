@@ -25,6 +25,7 @@ public class UsuarioDto {
     private String cep;
     private String telefone;
     private String estado;
+    private String bairro;
     private String pais;
     private String idUserAssas;
     private String cidade;
@@ -55,6 +56,7 @@ public class UsuarioDto {
                 .telefone(TelefoneUtil.toNumber(this.telefone))
                 .senha(this.senha)
                 .estado(this.estado)
+                .bairro(this.bairro)
                 .cidade(this.cidade)
                 .cpf(this.cpf)
                 .pais("Brasil")

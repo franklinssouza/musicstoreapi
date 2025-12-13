@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import store.api.EmailSender;
 import store.api.config.exceptions.StoreException;
+import store.api.domain.PanoramaVendasDto;
 import store.api.domain.Usuario;
 import store.api.domain.UsuarioDto;
 import store.api.integracao.assas.AssasApi;
@@ -89,6 +90,10 @@ public class UsuarioService {
             throw new StoreException("Informe o seu endereço completo.");
         }
 
+        if(StringUtils.isEmpty(usuario.getBairro()) || usuario.getBairro().length() < 5){
+            throw new StoreException("Informe o nome do seu bairro.");
+        }
+
         if(StringUtils.isEmpty(usuario.getCep()) || !Validationtil.isCepValido(usuario.getCep())){
             throw new StoreException("Informe o seu CEP completo.");
         }
@@ -140,8 +145,9 @@ public class UsuarioService {
         }
     }
 
-    public List<UsuarioDto> findAll() {
-        return null;
+    public List<UsuarioDto> buscarUsuarios() {
+        return usuarioRepository.buscarTodos().stream()
+                .map(Usuario::toDto).toList();
     }
 
     public UsuarioDto findById(long id) {
@@ -162,4 +168,6 @@ public class UsuarioService {
         }
         return byEmailAndSenha.toDto();
     }
+
+
 }
