@@ -3019,3 +3019,167 @@ java.lang.NullPointerException: Cannot invoke "String.length()" because "text" i
 2025-12-13 14:41:18 - Started StoreApplication in 3.844 seconds (process running for 4.356)
 2025-12-13 14:41:19 - Commencing graceful shutdown. Waiting for active requests to complete
 2025-12-13 14:41:19 - Graceful shutdown complete
+2025-12-13 15:44:10 - Starting StoreApplication using Java 17.0.10 with PID 19196 (E:\louvor\loja\musicstoreapi\target\classes started by frank in E:\louvor\loja\musicstoreapi)
+2025-12-13 15:44:10 - The following 1 profile is active: "test"
+2025-12-13 15:44:11 - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-13 15:44:11 - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-13 15:44:11 - Finished Spring Data repository scanning in 56 ms. Found 4 JPA repository interfaces.
+2025-12-13 15:44:11 - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-13 15:44:11 - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025-12-13 15:44:11 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.ItemCarrinhoRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-13 15:44:11 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.MercadoriaRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-13 15:44:11 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.UsuarioRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-13 15:44:11 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.VendasRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-13 15:44:11 - Finished Spring Data repository scanning in 11 ms. Found 0 JDBC repository interfaces.
+2025-12-13 15:44:11 - Tomcat initialized with port 4343 (http)
+2025-12-13 15:44:11 - Initializing ProtocolHandler ["http-nio-4343"]
+2025-12-13 15:44:11 - Starting service [Tomcat]
+2025-12-13 15:44:11 - Starting Servlet engine: [Apache Tomcat/11.0.14]
+2025-12-13 15:44:11 - Root WebApplicationContext: initialization completed in 1850 ms
+2025-12-13 15:44:12 - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-13 15:44:12 - HHH000412: Hibernate ORM core version 7.1.8.Final
+2025-12-13 15:44:12 - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-13 15:44:12 - store-pull - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+2025-12-13 15:44:12 - store-pull - Starting...
+2025-12-13 15:44:12 - store-pull - Added connection com.mysql.cj.jdbc.ConnectionImpl@39ac8c0c
+2025-12-13 15:44:12 - store-pull - Start completed.
+2025-12-13 15:44:12 - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-13 15:44:12 - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/myappsservices_store?useTimezone=false&serverTimezone=GMT-3&useSSL=false]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.43
+	Default catalog/schema: myappsservices_store/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-13 15:44:16 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-13 15:44:16 - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-13 15:44:17 - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-13 15:44:21 - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-13 15:44:21 - Starting ProtocolHandler ["http-nio-4343"]
+2025-12-13 15:44:22 - Tomcat started on port 4343 (http) with context path '/store'
+2025-12-13 15:44:22 - Started StoreApplication in 12.567 seconds (process running for 13.176)
+2025-12-13 15:44:22 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-13 15:44:22 - Initializing Servlet 'dispatcherServlet'
+2025-12-13 15:44:22 - Completed initialization in 1 ms
+2025-12-13 15:57:27 - Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-13 15:57:27 - Graceful shutdown complete
+2025-12-13 15:57:27 - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-13 15:57:27 - store-pull - Shutdown initiated...
+2025-12-13 15:57:27 - store-pull - Shutdown completed.
+2025-12-13 16:03:11 - Starting StoreApplication using Java 17.0.10 with PID 27344 (E:\louvor\loja\musicstoreapi\target\classes started by frank in E:\louvor\loja\musicstoreapi)
+2025-12-13 16:03:11 - The following 1 profile is active: "test"
+2025-12-13 16:03:12 - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-13 16:03:12 - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-13 16:03:12 - Starting StoreApplication using Java 17.0.10 with PID 28048 (E:\louvor\loja\musicstoreapi\target\classes started by frank in E:\louvor\loja\musicstoreapi)
+2025-12-13 16:03:12 - The following 1 profile is active: "test"
+2025-12-13 16:03:12 - Finished Spring Data repository scanning in 68 ms. Found 4 JPA repository interfaces.
+2025-12-13 16:03:12 - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-13 16:03:12 - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025-12-13 16:03:12 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.ItemCarrinhoRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-13 16:03:12 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.MercadoriaRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-13 16:03:12 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.UsuarioRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-13 16:03:12 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.VendasRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-13 16:03:12 - Finished Spring Data repository scanning in 23 ms. Found 0 JDBC repository interfaces.
+2025-12-13 16:03:12 - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-13 16:03:12 - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-13 16:03:12 - Finished Spring Data repository scanning in 47 ms. Found 4 JPA repository interfaces.
+2025-12-13 16:03:12 - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-13 16:03:12 - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025-12-13 16:03:12 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.ItemCarrinhoRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-13 16:03:12 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.MercadoriaRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-13 16:03:12 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.UsuarioRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-13 16:03:12 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.VendasRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-13 16:03:12 - Finished Spring Data repository scanning in 12 ms. Found 0 JDBC repository interfaces.
+2025-12-13 16:03:13 - Tomcat initialized with port 4343 (http)
+2025-12-13 16:03:13 - Initializing ProtocolHandler ["http-nio-4343"]
+2025-12-13 16:03:13 - Starting service [Tomcat]
+2025-12-13 16:03:13 - Starting Servlet engine: [Apache Tomcat/11.0.14]
+2025-12-13 16:03:13 - Root WebApplicationContext: initialization completed in 1485 ms
+2025-12-13 16:03:13 - Tomcat initialized with port 4343 (http)
+2025-12-13 16:03:13 - Initializing ProtocolHandler ["http-nio-4343"]
+2025-12-13 16:03:13 - Starting service [Tomcat]
+2025-12-13 16:03:13 - Starting Servlet engine: [Apache Tomcat/11.0.14]
+2025-12-13 16:03:13 - Root WebApplicationContext: initialization completed in 2321 ms
+2025-12-13 16:03:13 - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-13 16:03:13 - HHH000412: Hibernate ORM core version 7.1.8.Final
+2025-12-13 16:03:14 - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-13 16:03:14 - HHH000412: Hibernate ORM core version 7.1.8.Final
+2025-12-13 16:03:14 - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-13 16:03:14 - store-pull - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+2025-12-13 16:03:14 - store-pull - Starting...
+2025-12-13 16:03:14 - store-pull - Added connection com.mysql.cj.jdbc.ConnectionImpl@36eb8e07
+2025-12-13 16:03:14 - store-pull - Start completed.
+2025-12-13 16:03:14 - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-13 16:03:14 - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/myappsservices_store?useTimezone=false&serverTimezone=GMT-3&useSSL=false]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.43
+	Default catalog/schema: myappsservices_store/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-13 16:03:15 - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-13 16:03:15 - store-pull - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+2025-12-13 16:03:15 - store-pull - Starting...
+2025-12-13 16:03:15 - store-pull - Added connection com.mysql.cj.jdbc.ConnectionImpl@4c110f23
+2025-12-13 16:03:15 - store-pull - Start completed.
+2025-12-13 16:03:15 - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-13 16:03:15 - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/myappsservices_store?useTimezone=false&serverTimezone=GMT-3&useSSL=false]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.43
+	Default catalog/schema: myappsservices_store/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-13 16:03:15 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-13 16:03:15 - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-13 16:03:16 - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-13 16:03:17 - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-13 16:03:17 - Starting ProtocolHandler ["http-nio-4343"]
+2025-12-13 16:03:17 - Tomcat started on port 4343 (http) with context path '/store'
+2025-12-13 16:03:17 - Started StoreApplication in 6.237 seconds (process running for 6.822)
+2025-12-13 16:03:17 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-13 16:03:17 - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-13 16:03:18 - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-13 16:03:19 - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-13 16:03:20 - Starting ProtocolHandler ["http-nio-4343"]
+2025-12-13 16:03:20 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-12-13 16:03:20 - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-13 16:03:20 - store-pull - Shutdown initiated...
+2025-12-13 16:03:20 - store-pull - Shutdown completed.
+2025-12-13 16:03:20 - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-13 16:03:20 - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 4343 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 4343 or configure this application to listen on another port.
+
+2025-12-13 16:07:31 - Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-13 16:07:31 - Graceful shutdown complete
+2025-12-13 16:07:31 - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-13 16:07:31 - store-pull - Shutdown initiated...
+2025-12-13 16:07:31 - store-pull - Shutdown completed.

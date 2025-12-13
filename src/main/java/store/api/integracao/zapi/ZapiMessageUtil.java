@@ -14,7 +14,7 @@ public class ZapiMessageUtil {
             "Acesse o *link* abaixo e confira nossas novidades! \n " +
             "https://www.portaismusic.com.br/loja \n ";
 
-    public static String bemvindo = "Oi *XXX*, tudo bem?\n \nSeja muito bem-vindo(o) a *Portais Music Store* ! \n \n" +
+    public static String bemvindo = "Oi *XXX*, tudo bem?\n \nSeja muito bem-vindo(a) a *Portais Music Store* ! \n \n" +
             "Seu cadastro foi *confirmado* com sucesso e " +
             "você já pode realizar seus *pedidos*! \n \n " +
             "Acesse o *link* abaixo e confira nossas novidades! \n " +

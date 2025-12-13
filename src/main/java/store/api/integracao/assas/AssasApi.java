@@ -25,15 +25,14 @@ public class AssasApi {
                       "customer": "cus_000152546645",
                       "billingType": "CREDIT_CARD",
                       "value": 5.00,
-                      "externalReference": "37@PMS|5:1:P",
                       "dueDate": "2026-05-10",
                       "description": "Teste 123",
                       "creditCard": {
                         "holderName": "Miriam Parreiras de souz",
-                        "number": "5485140879060520",
-                        "expiryMonth": "11",
-                        "expiryYear": "2033",
-                        "ccv": "963"
+                        "number": "5485140861811435",
+                        "expiryMonth": "04",
+                        "expiryYear": "33",
+                        "ccv": "554"
                       },
                       "creditCardHolderInfo": {
                         "name": "Miriam Parreiras de souz",

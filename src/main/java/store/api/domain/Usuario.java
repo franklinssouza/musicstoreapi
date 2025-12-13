@@ -50,6 +50,7 @@ public class Usuario {
                 .senha(this.senha)
                 .cpf(this.cpf)
                 .estado(this.estado)
+                .bairro(this.bairro)
                 .pais(this.pais)
                 .bairro(this.bairro)
                 .build();
