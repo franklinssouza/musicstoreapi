@@ -22,25 +22,26 @@ public class AssasApi {
 
             String json = """
                     {
-                      "customer": "cus_000005123456",
+                      "customer": "cus_000152546645",
                       "billingType": "CREDIT_CARD",
-                      "value": 0.10,
+                      "value": 5.00,
+                      "externalReference": "37@PMS|5:1:P",
                       "dueDate": "2026-05-10",
-                      "description": "Mentoria Execução Trabalhista",
+                      "description": "Teste 123",
                       "creditCard": {
-                        "holderName": "JOÃO DA SILVA",
-                        "number": "4111111111111111",
-                        "expiryMonth": "05",
-                        "expiryYear": "2026",
-                        "ccv": "123"
+                        "holderName": "Miriam Parreiras de souz",
+                        "number": "5485140879060520",
+                        "expiryMonth": "11",
+                        "expiryYear": "33",
+                        "ccv": "963"
                       },
                       "creditCardHolderInfo": {
-                        "name": "João da Silva",
+                        "name": "Miriam Parreiras de souz",
                         "email": "joao@email.com",
-                        "cpfCnpj": "12345678900",
-                        "postalCode": "30140071",
+                        "cpfCnpj": "05953667671",
+                        "postalCode": "32260100",
                         "addressNumber": "100",
-                        "phone": "31999999999"
+                        "phone": "31991021028"
                       }
                     }
                     """;
@@ -48,11 +49,11 @@ public class AssasApi {
             RequestBody body = RequestBody.create(mediaType, json);
 
             Request request = new Request.Builder()
-                    .url("https://sandbox.asaas.com/api/v3/payments")
+                    .url(BASE_URL + "/v3/payments")
                     .post(body)
                     .addHeader("accept", "application/json")
                     .addHeader("content-type", "application/json")
-                    .addHeader("access_token", "SUA_API_KEY")
+                    .addHeader("access_token", API_KEY)
                     .build();
 
             Response response = client.newCall(request).execute();

@@ -7,11 +7,11 @@ import store.api.EmailSender;
 import store.api.config.exceptions.StoreException;
 import store.api.domain.ItemCarrinhoRequestDto;
 import store.api.domain.ListaCarrinhoDto;
-import store.api.integracao.assas.AssasApi;
-import store.api.integracao.assas.QrCodePixRequest;
-import store.api.integracao.assas.QrCodePixResponse;
+import store.api.integracao.assas.*;
 import store.api.integracao.zapi.ZapApi;
 import tools.jackson.databind.ObjectMapper;
+
+import java.math.BigDecimal;
 
 @Service
 public class PagamentoService {
@@ -56,6 +56,37 @@ public class PagamentoService {
 
     @Transactional
     public QrCodePixResponse prepararPagamentoCartao(ListaCarrinhoDto dadosCompra) throws StoreException {
+
+
+        PagamentoCartaoRequest pagamento = new PagamentoCartaoRequest();
+
+        pagamento.setCustomer("cus_000152537198");
+        pagamento.setBillingType("CREDIT_CARD");
+        pagamento.setInstallmentCount(1);
+        pagamento.setInstallmentValue(new BigDecimal("5.00"));
+        pagamento.setDueDate("2026-05-10");
+        pagamento.setDescription("Mentoria Execução Trabalhista");
+        pagamento.setExternalReference("37@PMS|5:1:P");
+
+        CreditCard creditCard = new CreditCard();
+        creditCard.setHolderName("Miriam Parreiras de souz");
+        creditCard.setNumber("5485140879060520");
+        creditCard.setExpiryMonth("11");
+        creditCard.setExpiryYear("33");
+        creditCard.setCcv("963");
+
+        pagamento.setCreditCard(creditCard);
+
+        CreditCardHolderInfo holderInfo = new CreditCardHolderInfo();
+        holderInfo.setName("Miriam Parreiras de souz");
+        holderInfo.setEmail("joao@email.com");
+        holderInfo.setCpfCnpj("05953667671");
+        holderInfo.setPostalCode("32260100");
+        holderInfo.setAddressNumber("100");
+        holderInfo.setPhone("31991021028");
+
+        pagamento.setCreditCardHolderInfo(holderInfo);
+
         StringBuilder buffer = new StringBuilder();
 
         for (ItemCarrinhoRequestDto compra : dadosCompra.getCompras()) {
