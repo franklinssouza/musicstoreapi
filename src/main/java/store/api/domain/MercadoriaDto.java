@@ -28,6 +28,7 @@ public class MercadoriaDto {
     private Boolean tamanhog;
     private Boolean tamanhogg;
     private Integer estoque;
+    private Boolean tamanhoexg;
 
     public Mercadoria toEntity(){
         return Mercadoria.builder()
@@ -47,6 +48,7 @@ public class MercadoriaDto {
                 .tamanhom(this.tamanhom)
                 .tamanhog(this.tamanhog)
                 .tamanhogg(this.tamanhogg)
+                .tamanhoexg(this.tamanhoexg)
                 .estoque(this.estoque)
                 .build();
     }

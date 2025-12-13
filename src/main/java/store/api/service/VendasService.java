@@ -54,10 +54,10 @@ public class VendasService {
 
                 if(byId.isPresent()) {
                     Usuario usuario = byId.get();
-                    Vendas byHash = this.vendasRepository.findByHash(hashAssas);
+                    boolean byHash = this.vendasRepository.existePorHash(hashAssas)>0?true:false;
                     List<Vendas> listaVendas = new ArrayList<>();
 
-                    if (byHash == null) {
+                    if (!byHash) {
                         String loja = dadosUsuario[1];
 
                         String[] listaPedidos = dadosToken[1].split("-");
@@ -102,7 +102,7 @@ public class VendasService {
                         }
 
                         if(!listaVendas.isEmpty()) {
-                            this.vendasRepository.saveAll(listaVendas);
+                            this.vendasRepository.saveAllAndFlush(listaVendas);
                             String compraRealizada = ZapiMessageUtil.compraRealizadaLoja;
                             compraRealizada = compraRealizada.replace("XXX",usuario.getNomeSimples())
                                                              .replace("YYY",buffer.toString());

@@ -7,7 +7,7 @@ ENV LANGUAGE pt_BR.UTF-8
 ENV LC_ALL pt_BR.UTF-8
 RUN mkdir -p /opt/app
 RUN mkdir -p /opt/app/logs
-RUN mkdir -p /opt/app/htmls
+RUN mkdir -p /home/portaismusiccom/resources/emails
 
 ENV PROJECT_HOME /opt/app
 

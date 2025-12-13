@@ -31,6 +31,7 @@ public class Mercadoria {
     private Boolean tamanhom;
     private Boolean tamanhog;
     private Boolean tamanhogg;
+    private Boolean tamanhoexg;
     private Integer estoque;
 
     public MercadoriaDto toDto(){
@@ -51,6 +52,7 @@ public class Mercadoria {
                 .tamanhom(this.tamanhom)
                 .tamanhog(this.tamanhog)
                 .tamanhogg(this.tamanhogg)
+                .tamanhoexg(this.tamanhoexg)
                 .estoque(this.estoque)
                 .build();
     }

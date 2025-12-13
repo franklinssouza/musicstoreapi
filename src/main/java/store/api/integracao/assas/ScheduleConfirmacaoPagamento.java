@@ -19,13 +19,11 @@ public class ScheduleConfirmacaoPagamento {
         this.assasApi = assasApi;
         this.vendasService = vendasService;
     }
-    @PostConstruct
-    public void init(){
-        executarTarefa();
-    }
-    @Scheduled(cron = "0 */1 * * * *") // a cada 1 minuto
+
+    @Scheduled(fixedDelay = 120000)
     public void executarTarefa() {
 
+        System.out.println("RODANDO SCHEDULE- FLUSH");
         int offset = 0;
         int limit  = 100;
 

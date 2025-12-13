@@ -15,7 +15,7 @@
             <!-- Tamanho máximo do arquivo de log antes de ser rotacionado -->
             <fileNamePattern>./logs/app-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- Tamanho máximo de um arquivo antes de ser rotacionado -->
-            <maxFileSize>10MB</maxFileSize>
+            <maxFileSize>5MB</maxFileSize>
             <!-- Número máximo de arquivos históricos a serem mantidos -->
             <maxHistory>30</maxHistory>
         </rollingPolicy>

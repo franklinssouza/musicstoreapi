@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-  espinosa:
+  store:
     build:
       context: .
       dockerfile: Dockerfile
@@ -12,9 +12,9 @@ services:
     container_name: cn_store
     volumes:
       - ./logs:/opt/app/logs
-      - ./htmls:/opt/app/htmls
+      - ./htmls:/home/portaismusiccom/resources/emails
     logging:
       driver: "json-file"
       options:
-        max-size: "200k"
+        max-size: "400k"
         max-file: "10"

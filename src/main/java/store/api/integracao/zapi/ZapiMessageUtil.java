@@ -8,13 +8,13 @@ public class ZapiMessageUtil {
             "Esperamos que seja muito feliz com suas compras! \n" +
             "Um *abraço* da Portais Music Store!";
 
-    public static String reenvioSenha = "Olá *XXX*! \n " +
+    public static String reenvioSenha = "Olá *XXX*, tudo bem? \n " +
             "\nEssa é sua senha de acesso ao *Portais Music Store* \n \n" +
             "*YYY* \n \n " +
             "Acesse o *link* abaixo e confira nossas novidades! \n " +
             "https://www.portaismusic.com.br/loja \n ";
 
-    public static String bemvindo = "Oi *XXX*! \n \nSeja muito bem-vindo(o) a *Portais Music Store* ! \n \n" +
+    public static String bemvindo = "Oi *XXX*, tudo bem?\n \nSeja muito bem-vindo(o) a *Portais Music Store* ! \n \n" +
             "Seu cadastro foi *confirmado* com sucesso e " +
             "você já pode realizar seus *pedidos*! \n \n " +
             "Acesse o *link* abaixo e confira nossas novidades! \n " +
