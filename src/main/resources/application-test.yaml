@@ -6,9 +6,6 @@ resources:
     bemvindo: C:/desenv/projetos/loja/emails/confirmar-email.html
     recuperarsenha: C:/desenv/projetos/loja/emails/reenviar-senha.html
 
-emails:
-  welcome: C:/desenv/projetos/loja/bemvindo.html
-
 server:
   port: 4343
   servlet:
@@ -22,7 +19,7 @@ spring:
     idle-timeout: 15000
     maximum-pool-size: 30
     minimum-pool-size: 10
-    pool-name: espinosa
+    pool-name: store-pull
   hikari:
     connection-timeout: 50000
     idle-timeout: 300000

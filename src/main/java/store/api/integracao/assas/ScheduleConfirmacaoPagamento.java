@@ -1,5 +1,6 @@
 package store.api.integracao.assas;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import store.api.service.VendasService;
@@ -18,7 +19,10 @@ public class ScheduleConfirmacaoPagamento {
         this.assasApi = assasApi;
         this.vendasService = vendasService;
     }
-
+    @PostConstruct
+    public void init(){
+        executarTarefa();
+    }
     @Scheduled(cron = "0 */1 * * * *") // a cada 1 minuto
     public void executarTarefa() {
 
@@ -41,7 +45,8 @@ public class ScheduleConfirmacaoPagamento {
                 boolean isToday = dateCreated.toLocalDate().isEqual(LocalDate.now());
 
                 if (isToday) {
-                    this.vendasService.registrarVendaPorToken(data.getId(), data.getExternalReference());
+                    this.vendasService.registrarVendaPorToken(data.getId(),
+                                                              data.getExternalReference(), data.getEffectiveDate());
                 }
             }
 

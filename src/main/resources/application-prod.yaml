@@ -7,12 +7,9 @@ resources:
     recuperarsenha: /home/portaismusiccom/resources/emails/reenviar-senha.html
 
 server:
-  port: 9090
+  port: 8383
   servlet:
     context-path: /store
-
-emails:
-    welcome: C:/desenv/projetos/loja/bemvindo.html
 
 spring:
   datasource:
@@ -23,7 +20,7 @@ spring:
     idle-timeout: 15000
     maximum-pool-size: 30
     minimum-pool-size: 10
-    pool-name: espinosa
+    pool-name: store-pull
   hikari:
     connection-timeout: 50000
     idle-timeout: 300000

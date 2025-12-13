@@ -20,4 +20,8 @@ public class TextoUtil {
 
         return sb.toString();
     }
+    public static String formatarComZero(int numero) {
+        return numero < 10 ? "0" + numero : String.valueOf(numero);
+    }
+
 }

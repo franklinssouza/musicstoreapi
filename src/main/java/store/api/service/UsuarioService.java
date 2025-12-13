@@ -9,7 +9,7 @@ import store.api.domain.Usuario;
 import store.api.domain.UsuarioDto;
 import store.api.integracao.assas.AssasApi;
 import store.api.integracao.assas.RegistroClienteAssasResponse;
-import store.api.integracao.zapi.ZapMessageUtil;
+import store.api.integracao.zapi.ZapiMessageUtil;
 import store.api.integracao.zapi.ZapApi;
 import store.api.repository.UsuarioRepository;
 import store.api.util.TelefoneUtil;
@@ -38,7 +38,7 @@ public class UsuarioService {
         if(user== null){
             throw new StoreException("Não foi encontrado nenhum usuário com esse email.");
         }else{
-            zapUtil.enviarTexto(ZapMessageUtil.reenvioSenha.replace("XXX",user.getNomeSimples())
+            zapUtil.enviarTexto(ZapiMessageUtil.reenvioSenha.replace("XXX",user.getNomeSimples())
                                                            .replace("YYY",user.getSenha()),
                                                             user.getTelefone());
             emailSender.reenviarSenha(user.getNomeSimples(), dto.getEmail(), user.getSenha());
@@ -58,7 +58,7 @@ public class UsuarioService {
 
         dto = usuarioRepository.save(dto.toEntity()).toDto();
         if(isNovo) {
-            zapUtil.enviarTexto(ZapMessageUtil.bemvindo.replace("XXX",dto.getNomeSimples()), dto.getTelefone());
+            zapUtil.enviarTexto(ZapiMessageUtil.bemvindo.replace("XXX",dto.getNomeSimples()), dto.getTelefone());
             emailSender.enviarEmailBemVindo(dto.getEmail(), dto.getNome().split(" ") [0]);
         }
         return dto;

@@ -28,7 +28,13 @@ public class Vendas {
     private Mercadoria mercadoria;
 
     private Integer quantidade;
-    private Date data;
+
+    @Column(name = "DATA_CADASTRO")
+    private Date dataCadastro;
+
+    @Column(name = "DATA_PAGAMENTO")
+    private Date dataPagamento;
+
     private Double total;
 
     @Column(name = "TIPO_PAGAMENTO")

@@ -1,0 +1,20 @@
+version: '3.3'
+services:
+  espinosa:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9035:8383"
+    environment:
+      - TZ=America/Bahia
+    restart: always
+    container_name: cn_store
+    volumes:
+      - ./logs:/opt/app/logs
+      - ./htmls:/opt/app/htmls
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
