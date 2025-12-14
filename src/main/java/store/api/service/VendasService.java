@@ -212,16 +212,14 @@ public class VendasService {
 
     public List<ListagemVendasDto> pesquisarVendas(PesquisaVendasDto dto) {
         if (dto.getInicio() == null) {
-
             dto.setInicio(DateUtil.dateToString(DateUtil.primeiroDiaDoMes(), "yyyy-MM-dd"));
         }
         if (dto.getTermino() == null) {
             dto.setTermino(DateUtil.dateToString(DateUtil.ultimoDiaDoMes(), "yyyy-MM-dd"));
         }
-        return this.vendasRepository.pesquisarVendas(DateUtil.stringToDate(dto.getInicio(), "yyyy-MM-dd"),
-                        DateUtil.stringToDate(dto.getTermino(), "yyyy-MM-dd"))
+        return this.vendasRepository.pesquisarVendas(DateUtil.getDataZerada(DateUtil.stringToDate(dto.getInicio(), "yyyy-MM-dd")).getTime(),
+                        DateUtil.colocarEmMeiaNoite(DateUtil.stringToDate(dto.getTermino(), "yyyy-MM-dd")))
                 .stream()
                 .map(Venda::toListaVendaDto).toList();
     }
-
 }

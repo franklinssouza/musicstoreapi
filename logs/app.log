@@ -2730,3 +2730,267 @@ Caused by: java.sql.SQLSyntaxErrorException: Unknown column 'DATA_CADASTRO' in '
 2025-12-14 12:23:00 - Closing JPA EntityManagerFactory for persistence unit 'default'
 2025-12-14 12:23:00 - store-pull - Shutdown initiated...
 2025-12-14 12:23:00 - store-pull - Shutdown completed.
+2025-12-14 12:23:11 - Starting StoreApplication using Java 17.0.10 with PID 19040 (E:\louvor\loja\musicstoreapi\target\classes started by frank in E:\louvor\loja\musicstoreapi)
+2025-12-14 12:23:11 - The following 1 profile is active: "test"
+2025-12-14 12:23:12 - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-14 12:23:12 - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-14 12:23:12 - Finished Spring Data repository scanning in 36 ms. Found 5 JPA repository interfaces.
+2025-12-14 12:23:12 - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-14 12:23:12 - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025-12-14 12:23:12 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.DadosCompraRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-14 12:23:12 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.ItemCarrinhoRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-14 12:23:12 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.MercadoriaRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-14 12:23:12 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.UsuarioRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-14 12:23:12 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.VendasRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-14 12:23:12 - Finished Spring Data repository scanning in 9 ms. Found 0 JDBC repository interfaces.
+2025-12-14 12:23:12 - Tomcat initialized with port 4343 (http)
+2025-12-14 12:23:12 - Initializing ProtocolHandler ["http-nio-4343"]
+2025-12-14 12:23:12 - Starting service [Tomcat]
+2025-12-14 12:23:12 - Starting Servlet engine: [Apache Tomcat/11.0.14]
+2025-12-14 12:23:12 - Root WebApplicationContext: initialization completed in 1560 ms
+2025-12-14 12:23:12 - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-14 12:23:12 - HHH000412: Hibernate ORM core version 7.1.8.Final
+2025-12-14 12:23:13 - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-14 12:23:13 - store-pull - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+2025-12-14 12:23:13 - store-pull - Starting...
+2025-12-14 12:23:13 - store-pull - Added connection com.mysql.cj.jdbc.ConnectionImpl@6949cead
+2025-12-14 12:23:13 - store-pull - Start completed.
+2025-12-14 12:23:13 - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-14 12:23:13 - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/myappsservices_store?useTimezone=false&serverTimezone=GMT-3&useSSL=false]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.43
+	Default catalog/schema: myappsservices_store/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-14 12:23:14 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-14 12:23:14 - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-14 12:23:14 - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-14 12:23:15 - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-14 12:23:15 - Starting ProtocolHandler ["http-nio-4343"]
+2025-12-14 12:23:15 - Tomcat started on port 4343 (http) with context path '/store'
+2025-12-14 12:23:15 - Started StoreApplication in 4.798 seconds (process running for 5.395)
+2025-12-14 12:23:28 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-14 12:23:28 - Initializing Servlet 'dispatcherServlet'
+2025-12-14 12:23:28 - Completed initialization in 1 ms
+2025-12-14 12:34:40 - Erro de sistema
+tools.jackson.core.exc.UnexpectedEndOfInputException: Unexpected end-of-input: expected close marker for Object (start marker at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); byte offset: #UNKNOWN])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); byte offset: #UNKNOWN]
+	at tools.jackson.core.base.ParserMinimalBase._reportInvalidEOF(ParserMinimalBase.java:1023)
+	at tools.jackson.core.base.ParserBase._handleEOF(ParserBase.java:349)
+	at tools.jackson.core.base.ParserBase._eofAsNextChar(ParserBase.java:364)
+	at tools.jackson.core.json.ReaderBasedJsonParser._skipWSOrEnd(ReaderBasedJsonParser.java:2496)
+	at tools.jackson.core.json.ReaderBasedJsonParser.nextToken(ReaderBasedJsonParser.java:684)
+	at tools.jackson.databind.deser.bean.BeanDeserializer.deserialize(BeanDeserializer.java:196)
+	at tools.jackson.databind.deser.DeserializationContextExt.readRootValue(DeserializationContextExt.java:265)
+	at tools.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:2610)
+	at tools.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:1522)
+	at store.api.service.VendasService.buscarPanorama(VendasService.java:188)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715)
+	at store.api.service.VendasService$$SpringCGLIB$$0.buscarPanorama(<generated>)
+	at store.api.endpoints.AdminEndpoint.buscarPanorama(AdminEndpoint.java:26)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:190)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1003)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at store.api.config.app.WebConfig.doFilter(WebConfig.java:26)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at store.api.config.app.NoCacheFilter.doFilterInternal(NoCacheFilter.java:25)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1778)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+2025-12-14 12:34:40 - Erro de sistema
+tools.jackson.core.exc.UnexpectedEndOfInputException: Unexpected end-of-input: expected close marker for Object (start marker at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); byte offset: #UNKNOWN])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); byte offset: #UNKNOWN]
+	at tools.jackson.core.base.ParserMinimalBase._reportInvalidEOF(ParserMinimalBase.java:1023)
+	at tools.jackson.core.base.ParserBase._handleEOF(ParserBase.java:349)
+	at tools.jackson.core.base.ParserBase._eofAsNextChar(ParserBase.java:364)
+	at tools.jackson.core.json.ReaderBasedJsonParser._skipWSOrEnd(ReaderBasedJsonParser.java:2496)
+	at tools.jackson.core.json.ReaderBasedJsonParser.nextToken(ReaderBasedJsonParser.java:684)
+	at tools.jackson.databind.deser.bean.BeanDeserializer.deserialize(BeanDeserializer.java:196)
+	at tools.jackson.databind.deser.DeserializationContextExt.readRootValue(DeserializationContextExt.java:265)
+	at tools.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:2610)
+	at tools.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:1522)
+	at store.api.domain.Venda.toListaVendaDto(Venda.java:73)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:575)
+	at java.base/java.util.stream.AbstractPipeline.evaluateToArrayNode(AbstractPipeline.java:260)
+	at java.base/java.util.stream.ReferencePipeline.toArray(ReferencePipeline.java:616)
+	at java.base/java.util.stream.ReferencePipeline.toArray(ReferencePipeline.java:622)
+	at java.base/java.util.stream.ReferencePipeline.toList(ReferencePipeline.java:627)
+	at store.api.service.VendasService.pesquisarVendas(VendasService.java:224)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715)
+	at store.api.service.VendasService$$SpringCGLIB$$0.pesquisarVendas(<generated>)
+	at store.api.endpoints.AdminEndpoint.pesquisarVendas(AdminEndpoint.java:31)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:190)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1003)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at store.api.config.app.WebConfig.doFilter(WebConfig.java:26)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at store.api.config.app.NoCacheFilter.doFilterInternal(NoCacheFilter.java:25)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1778)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+2025-12-14 12:55:52 - Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-14 12:55:52 - Graceful shutdown complete
+2025-12-14 12:55:52 - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-14 12:55:52 - store-pull - Shutdown initiated...
+2025-12-14 12:55:52 - store-pull - Shutdown completed.
+2025-12-14 12:55:57 - Starting StoreApplication using Java 17.0.10 with PID 23720 (E:\louvor\loja\musicstoreapi\target\classes started by frank in E:\louvor\loja\musicstoreapi)
+2025-12-14 12:55:57 - The following 1 profile is active: "test"
+2025-12-14 12:55:58 - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-14 12:55:58 - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-14 12:55:58 - Finished Spring Data repository scanning in 51 ms. Found 5 JPA repository interfaces.
+2025-12-14 12:55:58 - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-14 12:55:58 - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025-12-14 12:55:58 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.DadosCompraRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-14 12:55:58 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.ItemCarrinhoRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-14 12:55:58 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.MercadoriaRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-14 12:55:58 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.UsuarioRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-14 12:55:58 - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface store.api.repository.VendasRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-12-14 12:55:58 - Finished Spring Data repository scanning in 14 ms. Found 0 JDBC repository interfaces.
+2025-12-14 12:55:59 - Tomcat initialized with port 4343 (http)
+2025-12-14 12:55:59 - Initializing ProtocolHandler ["http-nio-4343"]
+2025-12-14 12:55:59 - Starting service [Tomcat]
+2025-12-14 12:55:59 - Starting Servlet engine: [Apache Tomcat/11.0.14]
+2025-12-14 12:55:59 - Root WebApplicationContext: initialization completed in 1713 ms
+2025-12-14 12:55:59 - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-14 12:55:59 - HHH000412: Hibernate ORM core version 7.1.8.Final
+2025-12-14 12:56:00 - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-14 12:56:00 - store-pull - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+2025-12-14 12:56:00 - store-pull - Starting...
+2025-12-14 12:56:00 - store-pull - Added connection com.mysql.cj.jdbc.ConnectionImpl@36eb8e07
+2025-12-14 12:56:00 - store-pull - Start completed.
+2025-12-14 12:56:00 - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-14 12:56:00 - HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/myappsservices_store?useTimezone=false&serverTimezone=GMT-3&useSSL=false]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.43
+	Default catalog/schema: myappsservices_store/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-14 12:56:01 - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-14 12:56:01 - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-14 12:56:01 - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-14 12:56:02 - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-14 12:56:03 - Starting ProtocolHandler ["http-nio-4343"]
+2025-12-14 12:56:03 - Tomcat started on port 4343 (http) with context path '/store'
+2025-12-14 12:56:03 - Started StoreApplication in 6.071 seconds (process running for 6.767)
+2025-12-14 12:56:07 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-14 12:56:07 - Initializing Servlet 'dispatcherServlet'
+2025-12-14 12:56:07 - Completed initialization in 2 ms
+2025-12-14 12:57:18 - Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-14 12:57:18 - Graceful shutdown complete
+2025-12-14 12:57:18 - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-14 12:57:18 - store-pull - Shutdown initiated...
+2025-12-14 12:57:18 - store-pull - Shutdown completed.
