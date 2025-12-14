@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class ListagemVendasDto {
-    private Long id;
+    private Long idVenda;
     private EnderecoDto endereco;
     private List<ItemCarrinhoRequestDto> produtos;
     private UsuarioDto usuario;

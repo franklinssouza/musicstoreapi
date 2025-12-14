@@ -77,6 +77,7 @@ public class Venda {
         }
 
         return ListagemVendasDto.builder()
+                .idVenda(this.id)
                 .endereco(endereco)
                 .produtos(compras)
                 .usuario(this.usuiario.toDto())
