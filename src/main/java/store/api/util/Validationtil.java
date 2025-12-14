@@ -1,5 +1,9 @@
 package store.api.util;
 
+import org.apache.commons.lang3.StringUtils;
+import store.api.config.exceptions.StoreException;
+import store.api.domain.EnderecoDto;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,6 +11,35 @@ public class Validationtil {
 
     private static String regex = "[0-9]{8}";
 
+    public static void validarEndereco(EnderecoDto dto) throws StoreException {
+        if(dto == null){
+            throw new StoreException("Informe endereço informado está inválido.");
+        }
+
+        if(StringUtils.isEmpty(dto.getEndereco()) || dto.getEndereco().length() < 5){
+            throw new StoreException("Informe o seu endereço completo.");
+        }
+
+        if(StringUtils.isEmpty(dto.getNumero())){
+            throw new StoreException("Informe o número do seu endereço.");
+        }
+
+        if(StringUtils.isEmpty(dto.getBairro()) || dto.getBairro().length() < 5){
+            throw new StoreException("Informe o nome do seu bairro.");
+        }
+
+        if(StringUtils.isEmpty(dto.getCidade()) ){
+            throw new StoreException("Informe o nome da cidade.");
+        }
+
+        if(StringUtils.isEmpty(dto.getCep()) || !Validationtil.isCepValido(dto.getCep())){
+            throw new StoreException("Informe o seu CEP completo.");
+        }
+
+        if(StringUtils.isEmpty(dto.getEstado()) ){
+            throw new StoreException("Informe o seu estado.");
+        }
+    }
     public static boolean isValidCPF(String cpf) {
         if (cpf == null) return false;
 

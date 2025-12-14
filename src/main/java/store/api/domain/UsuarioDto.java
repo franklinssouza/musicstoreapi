@@ -17,13 +17,7 @@ import store.api.util.TextoUtil;
 public class UsuarioDto {
     private Long id;
     private String nome;
-    private String endereco;
-    private String numero;
-    private String bairro;
-    private String cidade;
-    private String estado;
-    private String cep;
-    private String pais;
+    private EnderecoDto endereco;
     private String email;
     private String senha;
     private String confirmacaoSenha;
@@ -39,10 +33,10 @@ public class UsuarioDto {
     public RegistroClienteAssasRequest toUserAssas() {
         return RegistroClienteAssasRequest.builder()
                 .name(TextoUtil.capitalizar(this.nome).trim())
-                .address(TextoUtil.capitalizar(this.endereco).trim())
+                .address(TextoUtil.capitalizar(this.endereco.getEndereco()).trim())
                 .phone(TelefoneUtil.toNumber(this.telefone))
-                .stateInscription(this.estado)
-                .postalCode(this.cep)
+                .stateInscription(this.endereco.getEstado())
+                .postalCode(this.endereco.getCep())
                 .cpfCnpj(this.cpf)
                 .email(this.email).build();
     }
@@ -52,16 +46,16 @@ public class UsuarioDto {
                 .id(this.id)
                 .idUserAssas(this.idUserAssas)
                 .nome(TextoUtil.capitalizar(this.nome).trim())
-                .cep(this.cep)
-                .endereco(TextoUtil.capitalizar(this.endereco).trim())
-                .telefone(TelefoneUtil.toNumber(this.telefone))
-                .senha(this.senha)
-                .estado(this.estado)
-                .numero(this.numero)
-                .bairro(this.bairro)
-                .cidade(this.cidade)
-                .cpf(this.cpf)
+                .endereco(TextoUtil.capitalizar(this.endereco.getEndereco()).trim())
+                .numero(this.endereco.getNumero())
+                .cep(this.endereco.getCep())
+                .bairro(this.endereco.getBairro())
+                .cidade(this.endereco.getCidade())
+                .estado(this.endereco.getEstado())
                 .pais("Brasil")
+                .telefone(TelefoneUtil.toNumber(telefone))
+                .senha(this.senha)
+                .cpf(this.cpf)
                 .email(this.email).build();
     }
 }

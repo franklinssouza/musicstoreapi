@@ -12,9 +12,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ListaCarrinhoDto {
+public class EnderecoDto {
 
-    private Long idUsuario;
-    private List<ItemCarrinhoRequestDto> compras = new ArrayList<>();
-    private EnderecoDto endereco;
+    private String endereco;
+    private String numero;
+    private String bairro;
+    private String cidade;
+    private String estado;
+    private String cep;
+    private String pais;
 }

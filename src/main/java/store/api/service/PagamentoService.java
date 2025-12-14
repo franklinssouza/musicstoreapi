@@ -1,6 +1,7 @@
 package store.api.service;
 
 import jakarta.transaction.Transactional;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import store.api.EmailSender;
@@ -11,6 +12,7 @@ import store.api.domain.ListaCarrinhoDto;
 import store.api.integracao.assas.*;
 import store.api.integracao.zapi.ZapApi;
 import store.api.repository.DadosCompraRepository;
+import store.api.util.Validationtil;
 import tools.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
@@ -34,18 +36,20 @@ public class PagamentoService {
     @Transactional
     public QrCodePixResponse prepararPagamentoPix(ListaCarrinhoDto dadosPedido) throws StoreException {
 
+        Validationtil.validarEndereco(dadosPedido.getEndereco());
+
         double valor = dadosPedido.getCompras().stream()
                 .mapToDouble(ItemCarrinhoRequestDto::getValor)
                 .sum();
 
         DadosCompra dadosCompra = DadosCompra.builder()
                 .pedido(new ObjectMapper().writeValueAsString(dadosPedido))
-                .endereco(dadosPedido.getEndereco())
-                .numero(dadosPedido.getNumero())
-                .bairro(dadosPedido.getBairro())
-                .cidade(dadosPedido.getCidade())
-                .estado(dadosPedido.getEstado())
-                .cep(dadosPedido.getCep())
+                .endereco(dadosPedido.getEndereco().getEndereco())
+                .numero(dadosPedido.getEndereco().getNumero())
+                .bairro(dadosPedido.getEndereco().getBairro())
+                .cidade(dadosPedido.getEndereco().getCidade())
+                .estado(dadosPedido.getEndereco().getEstado())
+                .cep(dadosPedido.getEndereco().getCep())
                 .build();
         dadosCompra = this.dadosCompraRepository.save(dadosCompra);
         return assasApi.gerarQrCodePix(valor, dadosCompra.getId().toString());
@@ -93,7 +97,7 @@ public class PagamentoService {
         }
 
         QrCodePixRequest pixRequest = new QrCodePixRequest();
-        pixRequest.setAddressKey(chavePixAssas);
+        pixRequest.setAddressKey("louvorportaiseternos@gmail.com");
         pixRequest.setDescription("PMS");
         pixRequest.setValue(1.0);
         pixRequest.setFormat("ALL");

@@ -35,25 +35,28 @@ public class Usuario {
         return this.nome.split(" ")[0];
     }
     public UsuarioDto toDto(){
+        EnderecoDto endereco = EnderecoDto.builder()
+                .endereco(this.endereco)
+                .numero(this.numero)
+                .cep(this.cep)
+                .bairro(this.bairro)
+                .cidade(this.cidade)
+                .estado(this.estado)
+                .pais(this.pais)
+                .build();
         return UsuarioDto.builder()
                 .id(this.id)
-                .cep(this.cep)
+                .endereco(endereco)
                 .nome(this.nome)
-                .endereco(this.endereco)
                 .telefone(
                         (this.telefone != null && this.telefone.startsWith("55"))
                                 ? this.telefone.substring(2)
                                 : this.telefone
                 )
                 .email(this.email)
-                .cidade(this.cidade)
                 .idUserAssas(this.idUserAssas)
                 .senha(this.senha)
                 .cpf(this.cpf)
-                .estado(this.estado)
-                .bairro(this.bairro)
-                .pais(this.pais)
-                .bairro(this.bairro)
                 .build();
     }
 

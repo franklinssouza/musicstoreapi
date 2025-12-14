@@ -86,21 +86,7 @@ public class UsuarioService {
             throw new StoreException("A confirmação de email não confere com o email informado.");
         }
 
-        if(StringUtils.isEmpty(usuario.getEndereco()) || usuario.getEndereco().length() < 5){
-            throw new StoreException("Informe o seu endereço completo.");
-        }
-
-        if(StringUtils.isEmpty(usuario.getBairro()) || usuario.getBairro().length() < 5){
-            throw new StoreException("Informe o nome do seu bairro.");
-        }
-
-        if(StringUtils.isEmpty(usuario.getCep()) || !Validationtil.isCepValido(usuario.getCep())){
-            throw new StoreException("Informe o seu CEP completo.");
-        }
-
-        if(StringUtils.isEmpty(usuario.getEstado()) ){
-            throw new StoreException("Informe o seu estado.");
-        }
+        Validationtil.validarEndereco(usuario.getEndereco());
 
         if(StringUtils.isEmpty(usuario.getTelefone()) || !TelefoneUtil.isTelefoneCelularValido(usuario.getTelefone())){
             throw new StoreException("Informe um telefone válido.");

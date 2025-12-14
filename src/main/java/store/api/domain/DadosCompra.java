@@ -17,7 +17,6 @@ public class DadosCompra {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "DADOS_COMPRA")
     private String pedido;
     private String endereco;
     private String numero;
