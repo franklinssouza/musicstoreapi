@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.List;
 
 @Builder
@@ -14,13 +13,10 @@ import java.util.List;
 @Data
 public class ItemVendasDto {
     private Long id;
-    private String imagem;
-    private String tamanho;
-    private List<ItemCarrinhoRequestDto> dadosCompra;
-    private MercadoriaDto mercadoria;
+    private EnderecoDto endereco;
+    private List<ItemCarrinhoRequestDto> produtos;
     private UsuarioDto usuario;
-    private Integer quantidade;
     private String data;
-    private Double total;
+    private Double valorTotal;
     private String tipoPagamento;
 }
