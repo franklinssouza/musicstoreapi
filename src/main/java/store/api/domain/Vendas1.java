@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import store.api.util.DateUtil;
 import tools.jackson.databind.ObjectMapper;
 
@@ -17,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 @Table(name="vendas")
-public class Vendas {
+public class Vendas1 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,15 +31,10 @@ public class Vendas {
 
     @ManyToOne
     @JoinColumn(name = "ID_DADOS_COMPRA", nullable = false)
-    private DadosCompra dadosCompra;
+    private Venda dadosCompra;
 
     private Integer quantidade;
 
-    @Column(name = "DATA_CADASTRO")
-    private Date dataCadastro;
-
-    @Column(name = "DATA_PAGAMENTO")
-    private Date dataPagamento;
 
     private Double total;
 
@@ -50,7 +44,14 @@ public class Vendas {
     @Column(name = "AVISO_ENVIADO")
     private Boolean avisoEnviado;
 
+    @Column(name = "DATA_CADASTRO")
+    private Date dataCadastro;
+
+    @Column(name = "DATA_PAGAMENTO")
+    private Date dataPagamento;
+
     private String hash;
+
     private String tamanho;
 
     public ItemVendasDto toDto(){

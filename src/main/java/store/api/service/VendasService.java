@@ -6,13 +6,14 @@ import org.springframework.stereotype.Service;
 import store.api.domain.*;
 import store.api.integracao.zapi.ZapApi;
 import store.api.integracao.zapi.ZapiMessageUtil;
+import store.api.repository.DadosCompraRepository;
 import store.api.repository.MercadoriaRepository;
 import store.api.repository.UsuarioRepository;
 import store.api.repository.VendasRepository;
 import store.api.util.DateUtil;
 import store.api.util.TextoUtil;
+import tools.jackson.databind.ObjectMapper;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -25,142 +26,186 @@ public class VendasService {
     private final VendasRepository vendasRepository;
     private final MercadoriaRepository mercadoriaRepository;
     private final UsuarioRepository usuarioRepository;
-    private final ZapApi zapApi;;
+    private final ZapApi zapApi;
+    ;
 
-    public VendasService(VendasRepository vendasRepository, MercadoriaRepository mercadoriaRepository, UsuarioRepository usuarioRepository, ZapApi zapApi) {
+    private final DadosCompraRepository dadosCompraRepository;
+
+    public VendasService(VendasRepository vendasRepository, MercadoriaRepository mercadoriaRepository, UsuarioRepository usuarioRepository, ZapApi zapApi, DadosCompraRepository dadosCompraRepository) {
         this.vendasRepository = vendasRepository;
         this.mercadoriaRepository = mercadoriaRepository;
         this.usuarioRepository = usuarioRepository;
         this.zapApi = zapApi;
-    }
-
-    public PanoramaVendasDto buscarPanorama() {
-        List<Vendas> totalVendas = this.vendasRepository.findAll();
-        PanoramaVendasDto vendasDto = new PanoramaVendasDto();
-        vendasDto.setQuantidadeVendas(totalVendas.size());
-        double totalValorVendas = totalVendas.stream()
-                .mapToDouble(Vendas::getTotal)
-                .sum();
-        vendasDto.setValorTotalVendas(totalValorVendas);
-        String produtoMaisVendido = totalVendas.stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getMercadoria().getNome(),
-                        Collectors.summingInt(Vendas::getQuantidade)
-                ))
-                .entrySet()
-                .stream()
-                .max(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey)
-                .orElse(null);
-
-        vendasDto.setProdutoMaisVendido(produtoMaisVendido);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-        double totalVendasHoje = totalVendas.stream()
-                .filter(v -> v.getDataPagamento() != null)
-                .filter(v -> v.getDataPagamento()
-                        .toInstant()
-                        .atZone(ZoneId.systemDefault())
-                        .toLocalDate()
-                        .isEqual(LocalDate.now()))
-                .mapToDouble(Vendas::getTotal)
-                .sum();
-
-        vendasDto.setTotalVendasDiarias(totalVendasHoje);
-
-        return vendasDto;
-    }
-
-    public List<ItemVendasDto> pesquisarVendas(PesquisaVendasDto dto) {
-        if(dto.getInicio() == null){
-
-            dto.setInicio(DateUtil.dateToString(DateUtil.primeiroDiaDoMes(), "yyyy-MM-dd"));
-        }
-        if(dto.getTermino() == null){
-            dto.setTermino(DateUtil.dateToString(DateUtil.ultimoDiaDoMes(), "yyyy-MM-dd"));
-        }
-        return this.vendasRepository.pesquisarVendas(DateUtil.stringToDate(dto.getInicio(), "yyyy-MM-dd"),
-                                                     DateUtil.stringToDate(dto.getTermino(), "yyyy-MM-dd"))
-                                    .stream()
-                                    .map(Vendas::toDto).toList();
+        this.dadosCompraRepository = dadosCompraRepository;
     }
 
     @Transactional
     public void registrarVendaPorToken(String hashAssas, String token, String dataPagamento) {
         try {
-            if(token != null && token.contains("|") && token.contains("@")) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date dataEfetivaPagamento = sdf.parse(dataPagamento);
+            Long idDadosCompra = Long.parseLong(token);
+            Optional<Venda> dadosCompra = this.dadosCompraRepository.findById(idDadosCompra);
+            if (dadosCompra.isPresent()) {
 
-                String[] dadosToken = token.split("\\|");
-                String[] dadosUsuario = dadosToken[0].split("@");
-                Long idUsuario = Long.parseLong(dadosUsuario[0]);
+                Venda venda = dadosCompra.get();
+                venda.setPago(true);
+                venda.setDataPagamento(dataEfetivaPagamento);
+                venda.setHash(hashAssas);
+                this.vendasRepository.save(venda);
 
-                Optional<Usuario> byId = this.usuarioRepository.findById(idUsuario);
+                ListaCarrinhoDto pedido = new ObjectMapper().readValue(venda.getPedido(), ListaCarrinhoDto.class);
+                Optional<Usuario> optUser = this.usuarioRepository.findById(pedido.getIdUsuario());
 
-                if(byId.isPresent()) {
-                    Usuario usuario = byId.get();
-                    boolean byHash = this.vendasRepository.existePorHash(hashAssas)>0?true:false;
-                    List<Vendas> listaVendas = new ArrayList<>();
+                if(optUser.isPresent()) {
+                    Usuario usuario = optUser.get();
 
-                    if (!byHash) {
-                        String loja = dadosUsuario[1];
+                    StringBuilder buffer = new StringBuilder();
+                    for (ItemCarrinhoRequestDto compra : pedido.getCompras()) {
 
-                        String[] listaPedidos = dadosToken[1].split("-");
+                        buffer.append(" *").append(TextoUtil.formatarComZero(compra.getQuantidade())).append("* ")
+                                .append(TextoUtil.capitalizar(compra.getNome())).append(" ");
 
-                        StringBuffer buffer = new StringBuffer();
-
-                        for (String pedido : listaPedidos) {
-                            String[] dadosPedido = pedido.split(":");
-                            Long idProduto = Long.parseLong(dadosPedido[0]);
-                            Integer quantidade = Integer.parseInt(dadosPedido[1]);
-                            String tamanho = dadosPedido[2].toString();
-
-                            Mercadoria mercadoria = this.mercadoriaRepository.findById(idProduto).get();
-
-                            Vendas vendas = new Vendas();
-                            vendas.setHash(hashAssas);
-                            vendas.setQuantidade(quantidade);
-                            vendas.setAvisoEnviado(false);
-                            vendas.setMercadoria(mercadoria);
-                            vendas.setUsuario(usuario);
-                            vendas.setTipoPagamento(0);
-                            vendas.setTotal(mercadoria.getValor() * quantidade);
-                            vendas.setTamanho(tamanho);
-                            vendas.setDataCadastro(new Date());
-
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            Date data = sdf.parse(dataPagamento);
-                            vendas.setDataPagamento(data);
-
-                            buffer.append(" *").append(TextoUtil.formatarComZero(quantidade)).append("* ")
-                                    .append(TextoUtil.capitalizar(mercadoria.getNome())).append(" ");
-
-                            if (!StringUtils.isEmpty(tamanho)) {
-                                buffer.append("- Tam ");
-                                buffer.append(tamanho).append(" ");;
-                            }
-                            buffer.append("- ").append("R$")
-                                  .append(quantidade * mercadoria.getValor())
-                                  .append("\n");
-
-                            listaVendas.add(vendas);
+                        if (!StringUtils.isEmpty(compra.getTamanho())) {
+                            buffer.append("- Tam ");
+                            buffer.append(compra.getTamanho()).append(" ");
+                            ;
                         }
-
-                        if(!listaVendas.isEmpty()) {
-                            this.vendasRepository.saveAllAndFlush(listaVendas);
-                            String compraRealizada = ZapiMessageUtil.compraRealizadaLoja;
-                            compraRealizada = compraRealizada.replace("XXX",usuario.getNomeSimples())
-                                                             .replace("YYY",buffer.toString());
-                            this.zapApi.enviarTexto(compraRealizada, usuario.getTelefone());
-                        }
+                        buffer.append("- ").append("R$")
+                                .append(compra.getQuantidade() * compra.getValor())
+                                .append("\n");
                     }
+                    String compraRealizada = ZapiMessageUtil.compraRealizadaLoja;
+                    compraRealizada = compraRealizada.replace("XXX", usuario.getNomeSimples())
+                            .replace("YYY", buffer.toString());
+                    this.zapApi.enviarTexto(compraRealizada, usuario.getTelefone());
                 }
             }
-        } catch (ParseException e) {
+        } catch (NumberFormatException e) {
+            return;
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+//            if(token != null && token.contains("|") && token.contains("@")) {
+//
+//                String[] dadosToken = token.split("\\|");
+//                String[] dadosUsuario = dadosToken[0].split("@");
+//                Long idUsuario = Long.parseLong(dadosUsuario[0]);
+//
+//                Optional<Usuario> byId = this.usuarioRepository.findById(idUsuario);
+//
+//                if(byId.isPresent()) {
+//                    Usuario usuario = byId.get();
+//                    boolean byHash = this.vendasRepository.existePorHash(hashAssas)>0?true:false;
+//                    List<Vendas> listaVendas = new ArrayList<>();
+//
+//                    if (!byHash) {
+//                        String loja = dadosUsuario[1];
+//
+//                        String[] listaPedidos = dadosToken[1].split("-");
+//
+//                        StringBuffer buffer = new StringBuffer();
+//
+//                        for (String pedido : listaPedidos) {
+//                            String[] dadosPedido = pedido.split(":");
+//                            Long idProduto = Long.parseLong(dadosPedido[0]);
+//                            Integer quantidade = Integer.parseInt(dadosPedido[1]);
+//                            String tamanho = dadosPedido[2].toString();
+//
+//                            Mercadoria mercadoria = this.mercadoriaRepository.findById(idProduto).get();
+//
+//                            Vendas vendas = new Vendas();
+//                            vendas.setHash(hashAssas);
+//                            vendas.setQuantidade(quantidade);
+//                            vendas.setAvisoEnviado(false);
+//                            vendas.setMercadoria(mercadoria);
+//                            vendas.setUsuario(usuario);
+//                            vendas.setTipoPagamento(0);
+//                            vendas.setTotal(mercadoria.getValor() * quantidade);
+//                            vendas.setTamanho(tamanho);
+//                            vendas.setDataCadastro(new Date());
+//
+//                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                            Date data = sdf.parse(dataPagamento);
+//                            vendas.setDataPagamento(data);
+//
+//                            buffer.append(" *").append(TextoUtil.formatarComZero(quantidade)).append("* ")
+//                                    .append(TextoUtil.capitalizar(mercadoria.getNome())).append(" ");
+//
+//                            if (!StringUtils.isEmpty(tamanho)) {
+//                                buffer.append("- Tam ");
+//                                buffer.append(tamanho).append(" ");;
+//                            }
+//                            buffer.append("- ").append("R$")
+//                                    .append(quantidade * mercadoria.getValor())
+//                                    .append("\n");
+//
+//                            listaVendas.add(vendas);
+//                        }
+//
+//                        if(!listaVendas.isEmpty()) {
+//                            this.vendasRepository.saveAllAndFlush(listaVendas);
+//                            String compraRealizada = ZapiMessageUtil.compraRealizadaLoja;
+//                            compraRealizada = compraRealizada.replace("XXX",usuario.getNomeSimples())
+//                                    .replace("YYY",buffer.toString());
+//                            this.zapApi.enviarTexto(compraRealizada, usuario.getTelefone());
+//                        }
+//                    }
+//                }
+//            }
     }
 
+    public PanoramaVendasDto buscarPanorama() {
+        List<Venda> totalVendas = this.vendasRepository.findAll();
+        PanoramaVendasDto vendasDto = new PanoramaVendasDto();
+//        vendasDto.setQuantidadeVendas(totalVendas.size());
+//        double totalValorVendas = totalVendas.stream()
+//                .mapToDouble(Venda::getValorTotal)
+//                .sum();
+//        vendasDto.setValorTotalVendas(totalValorVendas);
+//        String produtoMaisVendido = totalVendas.stream()
+//                .collect(Collectors.groupingBy(
+//                        v -> v.getMercadoria().getNome(),
+//                        Collectors.summingInt(Venda::getTotalItens)
+//                ))
+//                .entrySet()
+//                .stream()
+//                .max(Map.Entry.comparingByValue())
+//                .map(Map.Entry::getKey)
+//                .orElse(null);
+//
+//        vendasDto.setProdutoMaisVendido(produtoMaisVendido);
+//
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//
+//        double totalVendasHoje = totalVendas.stream()
+//                .filter(v -> v.getDataPagamento() != null)
+//                .filter(v -> v.getDataPagamento()
+//                        .toInstant()
+//                        .atZone(ZoneId.systemDefault())
+//                        .toLocalDate()
+//                        .isEqual(LocalDate.now()))
+//                .mapToDouble(Vendas1::getTotal)
+//                .sum();
+//
+//        vendasDto.setTotalVendasDiarias(totalVendasHoje);
 
+        return vendasDto;
+    }
+
+    public List<ItemVendasDto> pesquisarVendas(PesquisaVendasDto dto) {
+        if (dto.getInicio() == null) {
+
+            dto.setInicio(DateUtil.dateToString(DateUtil.primeiroDiaDoMes(), "yyyy-MM-dd"));
+        }
+        if (dto.getTermino() == null) {
+            dto.setTermino(DateUtil.dateToString(DateUtil.ultimoDiaDoMes(), "yyyy-MM-dd"));
+        }
+        return this.vendasRepository.pesquisarVendas(DateUtil.stringToDate(dto.getInicio(), "yyyy-MM-dd"),
+                        DateUtil.stringToDate(dto.getTermino(), "yyyy-MM-dd"))
+                .stream()
+                .map(Vendas1::toDto).toList();
+    }
 
 }

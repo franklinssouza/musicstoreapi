@@ -1,6 +1,5 @@
 package store.api.domain;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class VendasDto {
+public class VendasDto1 {
     private Long id;
     private MercadoriaDto mercadoria;
     private Integer quantidade;

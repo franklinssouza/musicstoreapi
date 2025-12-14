@@ -17,4 +17,5 @@ public class ListaCarrinhoDto {
     private Long idUsuario;
     private List<ItemCarrinhoRequestDto> compras = new ArrayList<>();
     private EnderecoDto endereco;
+    private String observacao;
 }

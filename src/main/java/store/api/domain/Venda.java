@@ -6,13 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name="dados_compra")
-public class DadosCompra {
+@Table(name="vendas")
+public class Venda {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,10 +26,31 @@ public class DadosCompra {
     private String cidade;
     private String estado;
     private String cep;
+    private String observacao;
+    private Integer status; // 0 - ag pagamento 1 - pago 2 - enviado
+    private Boolean pago;
+    @Column(name = "CODIGO_RASTREIO")
+    private String codigoRastreio;
+
+    @Column(name="VALOR_FRETE")
     private Double valorFrente;
 
-    public DadosCompraDto toDto(){
-        return DadosCompraDto.builder()
+    @Column(name="VALOR_TOTAL")
+    private Double valorTotal;
+
+    @Column(name="TOTAL_ITENS")
+    private Integer totalItens;
+
+    @Column(name = "DATA_CADASTRO")
+    private Date dataCadastro;
+
+    @Column(name = "DATA_PAGAMENTO")
+    private Date dataPagamento;
+
+    private String hash;
+
+    public VendaDto toDto(){
+        return VendaDto.builder()
                 .pedido(this.pedido)
                 .id(this.id)
                 .endereco(this.endereco)
@@ -36,6 +59,7 @@ public class DadosCompra {
                 .cidade(this.cidade)
                 .estado(this.estado)
                 .cep(this.cep)
+                .observacao(this.observacao)
                 .build();
     }
 

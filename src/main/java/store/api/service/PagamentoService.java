@@ -1,12 +1,10 @@
 package store.api.service;
 
 import jakarta.transaction.Transactional;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import store.api.EmailSender;
 import store.api.config.exceptions.StoreException;
-import store.api.domain.DadosCompra;
+import store.api.domain.Venda;
 import store.api.domain.ItemCarrinhoRequestDto;
 import store.api.domain.ListaCarrinhoDto;
 import store.api.integracao.assas.*;
@@ -16,6 +14,7 @@ import store.api.util.Validationtil;
 import tools.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Service
 public class PagamentoService {
@@ -38,11 +37,11 @@ public class PagamentoService {
 
         Validationtil.validarEndereco(dadosPedido.getEndereco());
 
-        double valor = dadosPedido.getCompras().stream()
-                .mapToDouble(ItemCarrinhoRequestDto::getValor)
+        double valorTotalCompra = dadosPedido.getCompras().stream()
+                .mapToDouble(item -> item.getValor() * item.getQuantidade())
                 .sum();
 
-        DadosCompra dadosCompra = DadosCompra.builder()
+        Venda dadosCompra = Venda.builder()
                 .pedido(new ObjectMapper().writeValueAsString(dadosPedido))
                 .endereco(dadosPedido.getEndereco().getEndereco())
                 .numero(dadosPedido.getEndereco().getNumero())
@@ -50,9 +49,17 @@ public class PagamentoService {
                 .cidade(dadosPedido.getEndereco().getCidade())
                 .estado(dadosPedido.getEndereco().getEstado())
                 .cep(dadosPedido.getEndereco().getCep())
+                .observacao(dadosPedido.getObservacao())
+                .dataCadastro(new Date())
+                .valorFrente(10.0)
+                .pago(false)
+                .status(0)
+                .valorTotal(valorTotalCompra)
+                .totalItens(dadosPedido.getCompras().size())
                 .build();
+
         dadosCompra = this.dadosCompraRepository.save(dadosCompra);
-        return assasApi.gerarQrCodePix(valor, dadosCompra.getId().toString());
+        return assasApi.gerarQrCodePix(valorTotalCompra, dadosCompra.getId().toString());
     }
 
     @Transactional

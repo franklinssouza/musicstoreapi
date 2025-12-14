@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class DadosCompraDto {
+public class VendaDto {
     private Long id;
     private String pedido;
     private String endereco;
@@ -19,9 +19,10 @@ public class DadosCompraDto {
     private String estado;
     private String cep;
     private Double valorFrente;
+    private String observacao;
 
-    public DadosCompra toEntity(){
-        return DadosCompra.builder()
+    public Venda toEntity(){
+        return Venda.builder()
                 .pedido(this.pedido)
                 .id(this.id)
                 .endereco(this.endereco)
@@ -29,6 +30,7 @@ public class DadosCompraDto {
                 .bairro(this.bairro)
                 .cidade(this.cidade)
                 .estado(this.estado)
+                .observacao(this.observacao)
                 .cep(this.cep)
                 .build();
     }
