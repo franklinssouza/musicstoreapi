@@ -29,6 +29,7 @@ public class Usuario {
     @Column(name="ID_USER_ASSAS")
     private String idUserAssas;
     private String cpf;
+    private String numero;
 
     public String getNomeSimples(){
         return this.nome.split(" ")[0];

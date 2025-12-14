@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -15,6 +16,7 @@ public class ItemVendasDto {
     private Long id;
     private String imagem;
     private String tamanho;
+    private List<ItemCarrinhoRequestDto> dadosCompra;
     private MercadoriaDto mercadoria;
     private UsuarioDto usuario;
     private Integer quantidade;

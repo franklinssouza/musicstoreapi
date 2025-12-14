@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import store.api.util.DateUtil;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.Date;
 
@@ -28,6 +30,10 @@ public class Vendas {
     @JoinColumn(name = "id_mercadoria", nullable = false)
     private Mercadoria mercadoria;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_DADOS_COMPRA", nullable = false)
+    private DadosCompra dadosCompra;
+
     private Integer quantidade;
 
     @Column(name = "DATA_CADASTRO")
@@ -48,10 +54,17 @@ public class Vendas {
     private String tamanho;
 
     public ItemVendasDto toDto(){
+        ListaCarrinhoDto readValue = new ListaCarrinhoDto();
+
+        if(dadosCompra != null) {
+            readValue = new ObjectMapper().readValue(this.dadosCompra.getPedido(), ListaCarrinhoDto.class);
+        }
+
         return ItemVendasDto.builder()
                 .id(this.id)
                 .data(DateUtil.dateTimeToString(this.dataPagamento))
                 .mercadoria(this.mercadoria.toDto())
+                .dadosCompra(readValue.getCompras())
                 .total(this.total)
                 .quantidade(this.quantidade)
                 .usuario(this.usuario.toDto())

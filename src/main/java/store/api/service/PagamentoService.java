@@ -5,10 +5,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import store.api.EmailSender;
 import store.api.config.exceptions.StoreException;
+import store.api.domain.DadosCompra;
 import store.api.domain.ItemCarrinhoRequestDto;
 import store.api.domain.ListaCarrinhoDto;
 import store.api.integracao.assas.*;
 import store.api.integracao.zapi.ZapApi;
+import store.api.repository.DadosCompraRepository;
 import tools.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
@@ -16,42 +18,37 @@ import java.math.BigDecimal;
 @Service
 public class PagamentoService {
 
-
     private final EmailSender emailSender;
     private final ZapApi zapUtil;
     private final AssasApi assasApi;
 
-    @Value("${assas.chavepix}")
-    private String chavePixAssas;
+    private final DadosCompraRepository dadosCompraRepository;
 
-    public PagamentoService(EmailSender emailSender, ZapApi zapUtil, AssasApi assasApi ) {
+    public PagamentoService(EmailSender emailSender, ZapApi zapUtil, AssasApi assasApi, DadosCompraRepository dadosCompraRepository) {
         this.emailSender = emailSender;
         this.zapUtil = zapUtil;
         this.assasApi = assasApi;
+        this.dadosCompraRepository = dadosCompraRepository;
     }
 
     @Transactional
-    public QrCodePixResponse prepararPagamentoPix(ListaCarrinhoDto dadosCompra) throws StoreException {
-        StringBuilder buffer = new StringBuilder();
-        double valor = 0;
-        for (ItemCarrinhoRequestDto compra : dadosCompra.getCompras()) {
-            buffer.append(compra.getId()).append(":")
-                    .append(compra.getQuantidade()).append(":")
-                    .append(compra.getTamanho()).append("-");
-            valor+=compra.getValor();
-        }
+    public QrCodePixResponse prepararPagamentoPix(ListaCarrinhoDto dadosPedido) throws StoreException {
 
-        QrCodePixRequest pixRequest = new QrCodePixRequest();
-        pixRequest.setAddressKey(chavePixAssas);
-        pixRequest.setDescription("PMS");
-        pixRequest.setValue(valor);
-        pixRequest.setFormat("ALL");
-        pixRequest.setExpirationDate("2045-05-05 14:20:50");
-        pixRequest.setExpirationSeconds(null);
-        pixRequest.setAllowsMultiplePayments(false);
-        pixRequest.setExternalReference(dadosCompra.getIdUsuario() + "@PMS|"+buffer.toString().substring(0, buffer.length()-1));
+        double valor = dadosPedido.getCompras().stream()
+                .mapToDouble(ItemCarrinhoRequestDto::getValor)
+                .sum();
 
-        return assasApi.gerarQrCodePix(pixRequest);
+        DadosCompra dadosCompra = DadosCompra.builder()
+                .pedido(new ObjectMapper().writeValueAsString(dadosPedido))
+                .endereco(dadosPedido.getEndereco())
+                .numero(dadosPedido.getNumero())
+                .bairro(dadosPedido.getBairro())
+                .cidade(dadosPedido.getCidade())
+                .estado(dadosPedido.getEstado())
+                .cep(dadosPedido.getCep())
+                .build();
+        dadosCompra = this.dadosCompraRepository.save(dadosCompra);
+        return assasApi.gerarQrCodePix(valor, dadosCompra.getId().toString());
     }
 
     @Transactional

@@ -16,4 +16,11 @@ public class ListaCarrinhoDto {
 
     private Long idUsuario;
     private List<ItemCarrinhoRequestDto> compras = new ArrayList<>();
+    private String endereco;
+    private String numero;
+    private String bairro;
+    private String cidade;
+    private String estado;
+    private String cep;
+    private String pais;
 }

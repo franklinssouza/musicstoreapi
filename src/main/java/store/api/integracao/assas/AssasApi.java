@@ -1,6 +1,7 @@
 package store.api.integracao.assas;
 
 import com.squareup.okhttp.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import store.api.config.exceptions.StoreException;
 import tools.jackson.databind.ObjectMapper;
@@ -13,6 +14,9 @@ public class AssasApi {
     private static final String API_KEY = "$aact_prod_000MzkwODA2MWY2OGM3MWRlMDU2NWM3MzJlNzZmNGZhZGY6OjBkYjMxOThiLWYyNjYtNGMxZi05OTdjLTY5YTY1NmVjOTI2Nzo6JGFhY2hfNmE5NDE1MzAtNzI5ZS00MWRkLWJiNzYtYzc0NmQ2ZGEzYzEz";
     private static final String BASE_URL = "https://www.asaas.com/api/";
 //    private static final String BASE_URL = "https://api-sandbox.asaas.com";
+
+    @Value("${assas.chavepix}")
+    private String chavePixAssas;
 
     public static void main(String[] args) {
         try {
@@ -62,6 +66,21 @@ public class AssasApi {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    public QrCodePixResponse gerarQrCodePix(Double valor, String externalId) throws StoreException {
+
+        QrCodePixRequest pixRequest = new QrCodePixRequest();
+        pixRequest.setAddressKey(chavePixAssas);
+        pixRequest.setDescription("PMS");
+        pixRequest.setValue(valor);
+        pixRequest.setFormat("ALL");
+        pixRequest.setExpirationDate("2045-05-05 14:20:50");
+        pixRequest.setExpirationSeconds(null);
+        pixRequest.setAllowsMultiplePayments(false);
+        pixRequest.setExternalReference(externalId);
+        return this.gerarQrCodePix(pixRequest);
 
     }
 

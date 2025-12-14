@@ -18,17 +18,18 @@ public class UsuarioDto {
     private Long id;
     private String nome;
     private String endereco;
+    private String numero;
+    private String bairro;
+    private String cidade;
+    private String estado;
+    private String cep;
+    private String pais;
     private String email;
     private String senha;
     private String confirmacaoSenha;
     private String confirmacaoEmail;
-    private String cep;
     private String telefone;
-    private String estado;
-    private String bairro;
-    private String pais;
     private String idUserAssas;
-    private String cidade;
     private String cpf;
 
     public String getNomeSimples(){
@@ -56,6 +57,7 @@ public class UsuarioDto {
                 .telefone(TelefoneUtil.toNumber(this.telefone))
                 .senha(this.senha)
                 .estado(this.estado)
+                .numero(this.numero)
                 .bairro(this.bairro)
                 .cidade(this.cidade)
                 .cpf(this.cpf)
