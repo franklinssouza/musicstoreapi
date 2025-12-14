@@ -38,6 +38,7 @@ public class ZapApi {
             } else {
                 System.out.println("Erro ao enviar a mensagem: " + response.message());
             }
+            response.body().close();
         } catch (IOException e) {
             e.printStackTrace();
         }

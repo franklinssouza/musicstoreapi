@@ -3,7 +3,7 @@ package store.api.integracao.zapi;
 public class ZapiMessageUtil {
 
     public static String compraRealizadaLoja = "Olá *XXX*, tudo bem? \n " +
-            "\n*Confirmamos* nesse momento a compra dos seguintes produtos na *Portais Music Store*:  \n \n" +
+            "\n*Confirmamos* nesse momento sua compra dos seguintes produtos na *Portais Music Store*:  \n \n" +
             "YYY\n" +
             "Esperamos que seja muito feliz com suas compras! \n" +
             "Um *abraço* da Portais Music Store!";

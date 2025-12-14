@@ -49,17 +49,8 @@ public class Venda {
 
     private String hash;
 
-    public VendaDto toDto(){
-        return VendaDto.builder()
-                .pedido(this.pedido)
-                .id(this.id)
-                .endereco(this.endereco)
-                .numero(this.numero)
-                .bairro(this.bairro)
-                .cidade(this.cidade)
-                .estado(this.estado)
-                .cep(this.cep)
-                .observacao(this.observacao)
+    public ItemVendasDto toDto(){
+        return ItemVendasDto.builder()
                 .build();
     }
 

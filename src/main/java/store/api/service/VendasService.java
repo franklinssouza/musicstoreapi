@@ -11,14 +11,11 @@ import store.api.repository.MercadoriaRepository;
 import store.api.repository.UsuarioRepository;
 import store.api.repository.VendasRepository;
 import store.api.util.DateUtil;
-import store.api.util.TextoUtil;
+import store.api.util.FormatUtil;
 import tools.jackson.databind.ObjectMapper;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class VendasService {
@@ -47,8 +44,11 @@ public class VendasService {
             Long idDadosCompra = Long.parseLong(token);
             Optional<Venda> dadosCompra = this.dadosCompraRepository.findById(idDadosCompra);
             if (dadosCompra.isPresent()) {
-
                 Venda venda = dadosCompra.get();
+
+                if(venda.getPago()){
+                   return;
+                }
                 venda.setPago(true);
                 venda.setDataPagamento(dataEfetivaPagamento);
                 venda.setHash(hashAssas);
@@ -63,18 +63,22 @@ public class VendasService {
                     StringBuilder buffer = new StringBuilder();
                     for (ItemCarrinhoRequestDto compra : pedido.getCompras()) {
 
-                        buffer.append(" *").append(TextoUtil.formatarComZero(compra.getQuantidade())).append("* ")
-                                .append(TextoUtil.capitalizar(compra.getNome())).append(" ");
+                        buffer.append(" *").append(FormatUtil.formatarComZero(compra.getQuantidade())).append("* ")
+                                .append(FormatUtil.capitalizar(compra.getNome())).append(" ");
 
                         if (!StringUtils.isEmpty(compra.getTamanho())) {
                             buffer.append("- Tam ");
                             buffer.append(compra.getTamanho()).append(" ");
-                            ;
                         }
-                        buffer.append("- ").append("R$")
-                                .append(compra.getQuantidade() * compra.getValor())
+                        buffer.append("- ").append("R$ ")
+                                .append(FormatUtil.format(compra.getQuantidade() * compra.getValor()))
                                 .append("\n");
                     }
+
+                    buffer.append("\n").append(" O total da sua compra foi: ").append("R$ ")
+                            .append(FormatUtil.format(venda.getValorTotal()))
+                            .append("\n");
+
                     String compraRealizada = ZapiMessageUtil.compraRealizadaLoja;
                     compraRealizada = compraRealizada.replace("XXX", usuario.getNomeSimples())
                             .replace("YYY", buffer.toString());
@@ -205,7 +209,7 @@ public class VendasService {
         return this.vendasRepository.pesquisarVendas(DateUtil.stringToDate(dto.getInicio(), "yyyy-MM-dd"),
                         DateUtil.stringToDate(dto.getTermino(), "yyyy-MM-dd"))
                 .stream()
-                .map(Vendas1::toDto).toList();
+                .map(Venda::toDto).toList();
     }
 
 }

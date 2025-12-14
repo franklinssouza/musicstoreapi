@@ -6,9 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import store.api.integracao.assas.RegistroClienteAssasRequest;
-import store.api.integracao.assas.RegistroClienteAssasResponse;
 import store.api.util.TelefoneUtil;
-import store.api.util.TextoUtil;
+import store.api.util.FormatUtil;
 
 @Builder
 @Data
@@ -32,8 +31,8 @@ public class UsuarioDto {
 
     public RegistroClienteAssasRequest toUserAssas() {
         return RegistroClienteAssasRequest.builder()
-                .name(TextoUtil.capitalizar(this.nome).trim())
-                .address(TextoUtil.capitalizar(this.endereco.getEndereco()).trim())
+                .name(FormatUtil.capitalizar(this.nome).trim())
+                .address(FormatUtil.capitalizar(this.endereco.getEndereco()).trim())
                 .phone(TelefoneUtil.toNumber(this.telefone))
                 .stateInscription(this.endereco.getEstado())
                 .postalCode(this.endereco.getCep())
@@ -45,8 +44,8 @@ public class UsuarioDto {
         return Usuario.builder()
                 .id(this.id)
                 .idUserAssas(this.idUserAssas)
-                .nome(TextoUtil.capitalizar(this.nome).trim())
-                .endereco(TextoUtil.capitalizar(this.endereco.getEndereco()).trim())
+                .nome(FormatUtil.capitalizar(this.nome).trim())
+                .endereco(FormatUtil.capitalizar(this.endereco.getEndereco()).trim())
                 .numero(this.endereco.getNumero())
                 .cep(this.endereco.getCep())
                 .bairro(this.endereco.getBairro())

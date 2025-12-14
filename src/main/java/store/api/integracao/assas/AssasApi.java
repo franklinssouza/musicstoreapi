@@ -61,7 +61,7 @@ public class AssasApi {
 
             Response response = client.newCall(request).execute();
             System.out.println(response.body().string());
-
+            response.body().close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,6 +108,7 @@ public class AssasApi {
                 throw new StoreException("Não foi possível gerar seu QrCode. Tente novamente em alguns instantes.");
             }
             String json = response.body().string();
+            response.body().close();
             return mapper.readValue(json, QrCodePixResponse.class);
 
         } catch (StoreException e) {
@@ -136,6 +137,7 @@ public class AssasApi {
             }
 
             String json = response.body().string();
+            response.body().close();
             return new ObjectMapper().readValue(json, RegistroClienteAssasResponse.class);
 
         } catch (IOException e) {
@@ -166,6 +168,7 @@ public class AssasApi {
                 throw new StoreException("Não foi possível gerar seu QrCode. Tente novamente em alguns instantes.");
             }
             String jsonResponse = response.body().string();
+            response.body().close();
             return new ObjectMapper().readValue(jsonResponse, RegistroClienteAssasResponse.class);
 
         } catch (StoreException e) {
@@ -192,6 +195,7 @@ public class AssasApi {
                 throw new StoreException("Não foi possível gerar seu QrCode. Tente novamente em alguns instantes.");
             }
             String jsonResponse = response.body().string();
+            response.body().close();
             return new ObjectMapper().readValue(jsonResponse, ConsultaPixResponse.class);
 
         } catch (Exception e) {
