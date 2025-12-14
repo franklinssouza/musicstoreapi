@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ItemVendasDto {
+public class ListagemVendasDto {
     private Long id;
     private EnderecoDto endereco;
     private List<ItemCarrinhoRequestDto> produtos;

@@ -20,12 +20,14 @@ public class VendaDto {
     private String cep;
     private Double valorFrente;
     private String observacao;
+    private UsuarioDto usuiario;
 
     public Venda toEntity(){
         return Venda.builder()
                 .pedido(this.pedido)
                 .id(this.id)
                 .endereco(this.endereco)
+                .usuiario(this.usuiario.toEntity())
                 .numero(this.numero)
                 .bairro(this.bairro)
                 .cidade(this.cidade)

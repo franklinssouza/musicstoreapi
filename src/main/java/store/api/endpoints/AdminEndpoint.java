@@ -1,7 +1,7 @@
 package store.api.endpoints;
 
 import org.springframework.web.bind.annotation.*;
-import store.api.domain.ItemVendasDto;
+import store.api.domain.ListagemVendasDto;
 import store.api.domain.PanoramaVendasDto;
 import store.api.domain.PesquisaVendasDto;
 import store.api.domain.UsuarioDto;
@@ -27,7 +27,7 @@ public class AdminEndpoint {
     }
 
     @PostMapping("sales/search")
-    public List<ItemVendasDto> pesquisarVendas(@RequestBody PesquisaVendasDto body) {
+    public List<ListagemVendasDto> pesquisarVendas(@RequestBody PesquisaVendasDto body) {
         return vendasService.pesquisarVendas(body);
     }
 

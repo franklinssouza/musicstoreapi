@@ -5,8 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import store.api.util.DateUtil;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Builder
@@ -49,8 +52,36 @@ public class Venda {
 
     private String hash;
 
-    public ItemVendasDto toDto(){
-        return ItemVendasDto.builder()
+    @ManyToOne
+    @JoinColumn(name = "ID_USUARIO")
+    private Usuario usuiario;
+
+    public ListagemVendasDto toListaVendaDto(){
+
+        String data = DateUtil.dateToString(this.dataPagamento, "dd/MM/YYYY HH:mm:ss");
+
+        EnderecoDto endereco = EnderecoDto.builder()
+                .endereco(this.endereco)
+                .numero(this.numero)
+                .cep(this.cep)
+                .bairro(this.bairro)
+                .cidade(this.cidade)
+                .estado(this.estado)
+                .pais("Brasil")
+                .build();
+
+        List<ItemCarrinhoRequestDto> compras = new ObjectMapper().readValue(this.pedido, ListaCarrinhoDto.class).getCompras();
+
+        for (ItemCarrinhoRequestDto compra : compras) {
+            compra.setImagem("https://portaismusic.com.br/img/produtos/"+ compra.getId() +"/imagem1.jpg");
+        }
+
+        return ListagemVendasDto.builder()
+                .endereco(endereco)
+                .produtos(compras)
+                .usuario(this.usuiario.toDto())
+                .valorTotal(this.valorTotal)
+                .data(data)
                 .build();
     }
 

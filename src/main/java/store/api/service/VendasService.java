@@ -15,6 +15,8 @@ import store.api.util.FormatUtil;
 import tools.jackson.databind.ObjectMapper;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 @Service
@@ -161,44 +163,54 @@ public class VendasService {
     }
 
     public PanoramaVendasDto buscarPanorama() {
-        List<Venda> totalVendas = this.vendasRepository.findAll();
-        PanoramaVendasDto vendasDto = new PanoramaVendasDto();
-//        vendasDto.setQuantidadeVendas(totalVendas.size());
-//        double totalValorVendas = totalVendas.stream()
-//                .mapToDouble(Venda::getValorTotal)
-//                .sum();
-//        vendasDto.setValorTotalVendas(totalValorVendas);
-//        String produtoMaisVendido = totalVendas.stream()
-//                .collect(Collectors.groupingBy(
-//                        v -> v.getMercadoria().getNome(),
-//                        Collectors.summingInt(Venda::getTotalItens)
-//                ))
-//                .entrySet()
-//                .stream()
-//                .max(Map.Entry.comparingByValue())
-//                .map(Map.Entry::getKey)
-//                .orElse(null);
-//
-//        vendasDto.setProdutoMaisVendido(produtoMaisVendido);
-//
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-//
-//        double totalVendasHoje = totalVendas.stream()
-//                .filter(v -> v.getDataPagamento() != null)
-//                .filter(v -> v.getDataPagamento()
-//                        .toInstant()
-//                        .atZone(ZoneId.systemDefault())
-//                        .toLocalDate()
-//                        .isEqual(LocalDate.now()))
-//                .mapToDouble(Vendas1::getTotal)
-//                .sum();
-//
-//        vendasDto.setTotalVendasDiarias(totalVendasHoje);
+        List<Venda> vendas = this.vendasRepository.findAll();
 
-        return vendasDto;
+        double totalValorVendas = vendas.stream()
+                .filter(Venda::getPago)
+                .mapToDouble(Venda::getValorTotal)
+                .sum();
+        long quantidadeVendas = vendas.stream().filter(Venda::getPago).count();
+        double totalVendasHoje = vendas.stream()
+                .filter(Venda::getPago)
+                .filter(v -> v.getDataPagamento()
+                        .toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate()
+                        .isEqual(LocalDate.now()))
+                .mapToDouble(Venda::getValorTotal)
+                .sum();
+
+        String produtoMaisComprado = "";
+        Map<String, Integer> quantidadePorProduto = new HashMap<>();
+
+        for (Venda venda : vendas) {
+            ListaCarrinhoDto pedido = new ObjectMapper()
+                    .readValue(venda.getPedido(), ListaCarrinhoDto.class);
+
+            for (ItemCarrinhoRequestDto compra : pedido.getCompras()) {
+                String nomeProduto = compra.getNome();
+                Integer quantidade = compra.getQuantidade();
+                quantidadePorProduto.merge(nomeProduto, quantidade, Integer::sum);
+            }
+        }
+
+        int maiorQuantidade = 0;
+        for (Map.Entry<String, Integer> entry : quantidadePorProduto.entrySet()) {
+            if (entry.getValue() > maiorQuantidade) {
+                maiorQuantidade = entry.getValue();
+                produtoMaisComprado = entry.getKey();
+            }
+        }
+
+        return PanoramaVendasDto.builder()
+                .quantidadeVendas(quantidadeVendas)
+                .produtoMaisVendido(produtoMaisComprado)
+                .totalVendasDiarias(totalVendasHoje)
+                .valorTotalVendas(totalValorVendas)
+                .build();
     }
 
-    public List<ItemVendasDto> pesquisarVendas(PesquisaVendasDto dto) {
+    public List<ListagemVendasDto> pesquisarVendas(PesquisaVendasDto dto) {
         if (dto.getInicio() == null) {
 
             dto.setInicio(DateUtil.dateToString(DateUtil.primeiroDiaDoMes(), "yyyy-MM-dd"));
@@ -209,7 +221,7 @@ public class VendasService {
         return this.vendasRepository.pesquisarVendas(DateUtil.stringToDate(dto.getInicio(), "yyyy-MM-dd"),
                         DateUtil.stringToDate(dto.getTermino(), "yyyy-MM-dd"))
                 .stream()
-                .map(Venda::toDto).toList();
+                .map(Venda::toListaVendaDto).toList();
     }
 
 }

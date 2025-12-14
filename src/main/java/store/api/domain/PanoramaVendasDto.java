@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PanoramaVendasDto {
 
-    private Integer quantidadeVendas;
+    private long quantidadeVendas;
     private Double valorTotalVendas;
     private double totalVendasDiarias;
     private String produtoMaisVendido;

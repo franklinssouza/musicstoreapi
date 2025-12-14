@@ -15,5 +15,6 @@ public class ItemCarrinhoRequestDto {
     private Double valor;
     private String tamanho;
     private String nome;
+    private String imagem;
     private Integer quantidade;
 }
