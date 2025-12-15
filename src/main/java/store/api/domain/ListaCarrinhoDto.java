@@ -18,4 +18,5 @@ public class ListaCarrinhoDto {
     private List<ItemCarrinhoRequestDto> compras = new ArrayList<>();
     private EnderecoDto endereco;
     private String observacao;
+    private String valorFrete;
 }

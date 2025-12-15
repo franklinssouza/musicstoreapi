@@ -12,6 +12,7 @@ import store.api.integracao.assas.*;
 import store.api.integracao.zapi.ZapApi;
 import store.api.repository.DadosCompraRepository;
 import store.api.repository.UsuarioRepository;
+import store.api.util.FormatUtil;
 import store.api.util.Validationtil;
 import tools.jackson.databind.ObjectMapper;
 
@@ -39,13 +40,15 @@ public class PagamentoService {
     @Transactional
     public QrCodePixResponse prepararPagamentoPix(ListaCarrinhoDto dadosPedido) throws StoreException {
 
-        Validationtil.validarEndereco(dadosPedido.getEndereco());
+        Validationtil.validarPagamentoPix(dadosPedido);
+
         Optional<Usuario> usuario = this.usuarioRepository.findById(dadosPedido.getIdUsuario());
         if(usuario.isPresent()){
             double valorTotalCompra = dadosPedido.getCompras().stream()
                     .mapToDouble(item -> item.getValor() * item.getQuantidade())
                     .sum();
 
+            double valorFrente = dadosPedido.getValorFrete() == null ? 0.0 : FormatUtil.converttoDouble(dadosPedido.getValorFrete());
             Venda dadosCompra = Venda.builder()
                     .pedido(new ObjectMapper().writeValueAsString(dadosPedido))
                     .endereco(dadosPedido.getEndereco().getEndereco())
@@ -57,10 +60,10 @@ public class PagamentoService {
                     .observacao(dadosPedido.getObservacao())
                     .dataCadastro(new Date())
                     .usuiario(usuario.get())
-                    .valorFrente(10.0)
+                    .valorFrente(valorFrente)
                     .pago(false)
                     .status(0)
-                    .valorTotal(valorTotalCompra)
+                    .valorTotal(valorTotalCompra + valorFrente)
                     .totalItens(dadosPedido.getCompras().size())
                     .build();
 

@@ -3,6 +3,7 @@ package store.api.util;
 import org.apache.commons.lang3.StringUtils;
 import store.api.config.exceptions.StoreException;
 import store.api.domain.EnderecoDto;
+import store.api.domain.ListaCarrinhoDto;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,6 +11,13 @@ import java.util.regex.Pattern;
 public class Validationtil {
 
     private static String regex = "[0-9]{8}";
+
+    public static void validarPagamentoPix(ListaCarrinhoDto dadosPedido) throws StoreException {
+        validarEndereco(dadosPedido.getEndereco());
+        if(StringUtils.isEmpty(dadosPedido.getValorFrete())){
+            throw new StoreException("Calcule o frete para prosseguir com o pagamento.");
+        }
+    }
 
     public static void validarEndereco(EnderecoDto dto) throws StoreException {
         if(dto == null){
@@ -40,6 +48,7 @@ public class Validationtil {
             throw new StoreException("Informe o seu estado.");
         }
     }
+
     public static boolean isValidCPF(String cpf) {
         if (cpf == null) return false;
 
