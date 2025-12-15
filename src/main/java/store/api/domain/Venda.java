@@ -50,6 +50,9 @@ public class Venda {
     @Column(name = "DATA_PAGAMENTO")
     private Date dataPagamento;
 
+    @Column(name = "RETIRADA_LOCAL")
+    private Boolean retiradaLocal;
+
     private String hash;
 
     @ManyToOne
@@ -82,8 +85,8 @@ public class Venda {
                 .produtos(compras)
                 .usuario(this.usuiario.toDto())
                 .valorTotal(this.valorTotal)
+                .retiradaLocal(this.retiradaLocal != null && this.retiradaLocal)
                 .data(data)
                 .build();
     }
-
 }

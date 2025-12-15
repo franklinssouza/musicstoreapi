@@ -14,7 +14,7 @@ public class Validationtil {
 
     public static void validarPagamentoPix(ListaCarrinhoDto dadosPedido) throws StoreException {
         validarEndereco(dadosPedido.getEndereco());
-        if(StringUtils.isEmpty(dadosPedido.getValorFrete())){
+        if(!dadosPedido.getRetiradaLocal() && ( StringUtils.isEmpty(dadosPedido.getValorFrete()) || dadosPedido.getValorFrete().equals("0") ) ) {
             throw new StoreException("Calcule o frete para prosseguir com o pagamento.");
         }
     }

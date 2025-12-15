@@ -18,5 +18,6 @@ public class ListagemVendasDto {
     private UsuarioDto usuario;
     private String data;
     private Double valorTotal;
+    private Boolean retiradaLocal;
     private String tipoPagamento;
 }

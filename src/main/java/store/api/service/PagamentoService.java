@@ -61,6 +61,7 @@ public class PagamentoService {
                     .dataCadastro(new Date())
                     .usuiario(usuario.get())
                     .valorFrente(valorFrente)
+                    .retiradaLocal(dadosPedido.getRetiradaLocal())
                     .pago(false)
                     .status(0)
                     .valorTotal(valorTotalCompra + valorFrente)

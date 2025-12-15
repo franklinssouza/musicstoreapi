@@ -19,4 +19,5 @@ public class ListaCarrinhoDto {
     private EnderecoDto endereco;
     private String observacao;
     private String valorFrete;
+    private Boolean retiradaLocal;
 }
