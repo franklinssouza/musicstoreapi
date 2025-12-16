@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import store.api.util.DateUtil;
 import tools.jackson.databind.ObjectMapper;
 
@@ -30,7 +31,7 @@ public class Venda {
     private String estado;
     private String cep;
     private String observacao;
-    private Integer status; // 0 - ag pagamento 1 - pago 2 - enviado
+    private Integer status; // 0 - ag pagamento 1 - pago 2 - enviado 3 - recebido
     private Boolean pago;
     @Column(name = "CODIGO_RASTREIO")
     private String codigoRastreio;
@@ -78,6 +79,14 @@ public class Venda {
         for (ItemCarrinhoRequestDto compra : compras) {
             compra.setImagem("https://portaismusic.com.br/img/produtos/"+ compra.getId() +"/imagem1.jpg");
         }
+        String statusEnvio = "Pago";
+
+        if(this.status == 1){
+            statusEnvio = "Em trânsito";
+        }
+        if(this.status == 2){
+            statusEnvio = "Entregue";
+        }
 
         return ListagemVendasDto.builder()
                 .idVenda(this.id)
@@ -86,6 +95,8 @@ public class Venda {
                 .usuario(this.usuiario.toDto())
                 .valorTotal(this.valorTotal)
                 .retiradaLocal(this.retiradaLocal != null && this.retiradaLocal)
+                .statusEnvio(statusEnvio)
+                .codigoRastreio(StringUtils.isEmpty(this.codigoRastreio) ? "": this.codigoRastreio)
                 .data(data)
                 .build();
     }

@@ -3,6 +3,7 @@ package store.api.service;
 import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import store.api.config.exceptions.StoreException;
 import store.api.domain.*;
 import store.api.integracao.zapi.ZapApi;
 import store.api.integracao.zapi.ZapiMessageUtil;
@@ -221,5 +222,18 @@ public class VendasService {
                         DateUtil.colocarEmMeiaNoite(DateUtil.stringToDate(dto.getTermino(), "yyyy-MM-dd")))
                 .stream()
                 .map(Venda::toListaVendaDto).toList();
+    }
+
+    @Transactional
+    public void atualizarStatusVenda(AtualizarStatusEnvioDto body) throws StoreException {
+        Optional<Venda> byId = this.vendasRepository.findById(body.getIdVenda());
+        if(byId.isPresent()) {
+            Venda venda = byId.get();
+            venda.setStatus(body.getStatus());
+            venda.setCodigoRastreio(body.getCodigoRastreio());
+            this.vendasRepository.save(venda);
+        }else{
+            throw new StoreException("Não foi possível atualizar o status da compra. Tente novamente mais tarde.");
+        }
     }
 }

@@ -20,7 +20,7 @@ public class ScheduleConfirmacaoPagamento {
         this.vendasService = vendasService;
     }
 
-    @Scheduled(fixedDelay = 120000)
+//    @Scheduled(fixedDelay = 120000)
     public void executarTarefa() {
 
         int offset = 0;

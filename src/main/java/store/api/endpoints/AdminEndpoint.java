@@ -1,10 +1,8 @@
 package store.api.endpoints;
 
 import org.springframework.web.bind.annotation.*;
-import store.api.domain.ListagemVendasDto;
-import store.api.domain.PanoramaVendasDto;
-import store.api.domain.PesquisaVendasDto;
-import store.api.domain.UsuarioDto;
+import store.api.config.exceptions.StoreException;
+import store.api.domain.*;
 import store.api.service.UsuarioService;
 import store.api.service.VendasService;
 
@@ -36,6 +34,9 @@ public class AdminEndpoint {
         return usuarioService.buscarUsuarios();
     }
 
-
-
+    @PostMapping("status-venda")
+    public boolean atualizarStatusVenda(@RequestBody AtualizarStatusEnvioDto body) throws StoreException {
+        vendasService.atualizarStatusVenda(body);
+        return true;
+    }
 }

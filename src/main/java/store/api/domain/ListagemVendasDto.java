@@ -17,6 +17,8 @@ public class ListagemVendasDto {
     private List<ItemCarrinhoRequestDto> produtos;
     private UsuarioDto usuario;
     private String data;
+    private String statusEnvio;
+    private String codigoRastreio;
     private Double valorTotal;
     private Boolean retiradaLocal;
     private String tipoPagamento;

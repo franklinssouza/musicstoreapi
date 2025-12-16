@@ -192,7 +192,7 @@ public class AssasApi {
             Response response = client.newCall(request).execute();
 
             if (!response.isSuccessful()) {
-                throw new StoreException("Não foi possível gerar seu QrCode. Tente novamente em alguns instantes.");
+                throw new StoreException("Não foi possível processar o pagamento.");
             }
             String jsonResponse = response.body().string();
             response.body().close();
