@@ -59,7 +59,7 @@ public class PagamentoService {
                     .cep(dadosPedido.getEndereco().getCep())
                     .observacao(dadosPedido.getObservacao())
                     .dataCadastro(new Date())
-                    .usuiario(usuario.get())
+                    .usuario(usuario.get())
                     .valorFrente(valorFrente)
                     .retiradaLocal(dadosPedido.getRetiradaLocal())
                     .pago(false)

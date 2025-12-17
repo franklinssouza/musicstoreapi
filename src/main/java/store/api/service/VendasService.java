@@ -55,6 +55,7 @@ public class VendasService {
                 venda.setPago(true);
                 venda.setDataPagamento(dataEfetivaPagamento);
                 venda.setHash(hashAssas);
+                venda.setStatus(1);
                 this.vendasRepository.save(venda);
 
                 ListaCarrinhoDto pedido = new ObjectMapper().readValue(venda.getPedido(), ListaCarrinhoDto.class);
@@ -83,8 +84,7 @@ public class VendasService {
                             .append("\n");
 
                     String compraRealizada = ZapiMessageUtil.compraRealizadaLoja;
-                    compraRealizada = compraRealizada.replace("XXX", usuario.getNomeSimples())
-                            .replace("YYY", buffer.toString());
+                    compraRealizada = compraRealizada.replace("XXX", usuario.getNomeSimples()).replace("YYY", buffer.toString());
                     this.zapApi.enviarTexto(compraRealizada, usuario.getTelefone());
                 }
             }
@@ -209,6 +209,12 @@ public class VendasService {
                 .totalVendasDiarias(totalVendasHoje)
                 .valorTotalVendas(totalValorVendas)
                 .build();
+    }
+
+    public List<ListagemVendasDto> buscarVendasUsuario(Long idUsuario) {
+        return this.vendasRepository.buscarVendasUsuario(idUsuario)
+                .stream()
+                .map(Venda::toListaVendaDto).toList();
     }
 
     public List<ListagemVendasDto> pesquisarVendas(PesquisaVendasDto dto) {

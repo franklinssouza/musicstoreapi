@@ -27,7 +27,7 @@ public class VendaDto {
                 .pedido(this.pedido)
                 .id(this.id)
                 .endereco(this.endereco)
-                .usuiario(this.usuiario.toEntity())
+                .usuario(this.usuiario.toEntity())
                 .numero(this.numero)
                 .bairro(this.bairro)
                 .cidade(this.cidade)

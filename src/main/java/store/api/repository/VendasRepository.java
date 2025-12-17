@@ -20,4 +20,7 @@ public interface VendasRepository extends JpaRepository<Venda, Long> {
 
     @Query(value="select o from Venda o where o.dataPagamento between :inicio and :fim and o.pago = true")
     List<Venda> pesquisarVendas(Date inicio, Date fim);
+
+    @Query(value="select o from Venda o where o.usuario.id = :idUsuario and o.pago = true")
+    List<Venda> buscarVendasUsuario(Long idUsuario);
 }

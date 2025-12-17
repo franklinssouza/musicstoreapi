@@ -58,7 +58,7 @@ public class Venda {
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO")
-    private Usuario usuiario;
+    private Usuario usuario;
 
     public ListagemVendasDto toListaVendaDto(){
 
@@ -79,12 +79,16 @@ public class Venda {
         for (ItemCarrinhoRequestDto compra : compras) {
             compra.setImagem("https://portaismusic.com.br/img/produtos/"+ compra.getId() +"/imagem1.jpg");
         }
-        String statusEnvio = "Pago";
+        String statusEnvio = "Em pagamento";
+        this.status = this.status == null ? 1:this.status;
 
         if(this.status == 1){
-            statusEnvio = "Em trânsito";
+            statusEnvio = "Pago";
         }
         if(this.status == 2){
+            statusEnvio = "Em Trânsito";
+        }
+        if(this.status == 3){
             statusEnvio = "Entregue";
         }
 
@@ -92,7 +96,7 @@ public class Venda {
                 .idVenda(this.id)
                 .endereco(endereco)
                 .produtos(compras)
-                .usuario(this.usuiario.toDto())
+                .usuario(this.usuario.toDto())
                 .valorTotal(this.valorTotal)
                 .retiradaLocal(this.retiradaLocal != null && this.retiradaLocal)
                 .statusEnvio(statusEnvio)
