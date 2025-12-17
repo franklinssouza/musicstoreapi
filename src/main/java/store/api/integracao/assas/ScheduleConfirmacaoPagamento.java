@@ -20,7 +20,11 @@ public class ScheduleConfirmacaoPagamento {
         this.vendasService = vendasService;
     }
 
-//    @Scheduled(fixedDelay = 120000)
+    @PostConstruct
+    public void confirmaPagamento() {
+        executarTarefa();
+    }
+    @Scheduled(fixedDelay = 120000)
     public void executarTarefa() {
 
         int offset = 0;
@@ -41,10 +45,10 @@ public class ScheduleConfirmacaoPagamento {
                 LocalDateTime dateCreated = LocalDateTime.parse(data.getEffectiveDate(), formatter);
                 boolean isToday = dateCreated.toLocalDate().isEqual(LocalDate.now());
 
-                if (isToday) {
+//                if (isToday) {
                     this.vendasService.registrarVendaPorToken(data.getId(),
                                                               data.getExternalReference(), data.getEffectiveDate());
-                }
+//                }
             }
 
             int totalCount = consultaPixResponse.getTotalCount();

@@ -51,6 +51,26 @@ public class EmailSender {
     }
 
     @Async
+    public void enviarEmailCompra(String to, String usuario, String compras) throws StoreException {
+        try {
+
+            Path caminho = Paths.get(emailResources .compraRealizada);
+            String conteudo = Files.readString(caminho);
+            conteudo = conteudo.replace("{usuario}", usuario);
+
+            compras = compras.replaceAll("\n", "<br>");
+            compras = compras.replaceAll("\\*", "");
+
+            conteudo = conteudo.replace("{compras}", compras);
+
+            this.send(to,"Compra realizada!",conteudo, getMimeBodyParts());
+
+        } catch (Exception e) {
+            throw new StoreException("Erro ao enviar email", e);
+        }
+    }
+
+    @Async
     public  void enviarEmailBemVindo(String to, String usuario) throws StoreException {
         try {
 

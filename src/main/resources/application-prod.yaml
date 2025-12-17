@@ -5,7 +5,7 @@ resources:
   htmls:
     bemvindo: /home/portaismusiccom/resources/emails/confirmar-email.html
     recuperarsenha: /home/portaismusiccom/resources/emails/reenviar-senha.html
-
+    comprarealizada: /home/portaismusiccom/resources/emails/confirmar-compra.html
 server:
   port: 8383
   servlet:

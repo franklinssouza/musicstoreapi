@@ -11,7 +11,7 @@ import java.io.IOException;
 @Component
 public class AssasApi {
 
-    private static final String API_KEY = "$aact_prod_000MzkwODA2MWY2OGM3MWRlMDU2NWM3MzJlNzZmNGZhZGY6OjBkYjMxOThiLWYyNjYtNGMxZi05OTdjLTY5YTY1NmVjOTI2Nzo6JGFhY2hfNmE5NDE1MzAtNzI5ZS00MWRkLWJiNzYtYzc0NmQ2ZGEzYzEz";
+    private static final String API_KEY = "$aact_prod_000MzkwODA2MWY2OGM3MWRlMDU2NWM3MzJlNzZmNGZhZGY6OmYwN2Y1YTgzLTljYmYtNDMwNi1iYjI2LWI4YWJkNWM4NzE1Yzo6JGFhY2hfNTU3MDBjNmYtNjY5Yi00Yzc0LTg4NTctY2MxMjk5NzJhNzc4";
     private static final String BASE_URL = "https://www.asaas.com/api/";
 //    private static final String BASE_URL = "https://api-sandbox.asaas.com";
 

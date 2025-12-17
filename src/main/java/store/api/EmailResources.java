@@ -21,13 +21,18 @@ public class EmailResources {
 
     @Value("${resources.logo}")
     public String logo;
+
     @Value("${resources.youtube}")
     public  String iconYoutube;
+
     @Value("${resources.instagram}")
     public  String iconInstagram;
 
     @Value("${resources.htmls.bemvindo}")
     public  String htmlBemVindo;
+
+    @Value("${resources.htmls.comprarealizada}")
+    public  String compraRealizada;
 
     @Value("${resources.htmls.recuperarsenha}")
     public  String recuperacaoSenha;

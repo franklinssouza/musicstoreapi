@@ -3,6 +3,7 @@ package store.api.service;
 import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import store.api.EmailSender;
 import store.api.config.exceptions.StoreException;
 import store.api.domain.*;
 import store.api.integracao.zapi.ZapApi;
@@ -27,15 +28,16 @@ public class VendasService {
     private final MercadoriaRepository mercadoriaRepository;
     private final UsuarioRepository usuarioRepository;
     private final ZapApi zapApi;
-    ;
+    private final EmailSender emailSender;
 
     private final DadosCompraRepository dadosCompraRepository;
 
-    public VendasService(VendasRepository vendasRepository, MercadoriaRepository mercadoriaRepository, UsuarioRepository usuarioRepository, ZapApi zapApi, DadosCompraRepository dadosCompraRepository) {
+    public VendasService(VendasRepository vendasRepository, MercadoriaRepository mercadoriaRepository, UsuarioRepository usuarioRepository, ZapApi zapApi, EmailSender emailSender, DadosCompraRepository dadosCompraRepository) {
         this.vendasRepository = vendasRepository;
         this.mercadoriaRepository = mercadoriaRepository;
         this.usuarioRepository = usuarioRepository;
         this.zapApi = zapApi;
+        this.emailSender = emailSender;
         this.dadosCompraRepository = dadosCompraRepository;
     }
 
@@ -49,9 +51,9 @@ public class VendasService {
             if (dadosCompra.isPresent()) {
                 Venda venda = dadosCompra.get();
 
-                if(venda.getPago()){
-                   return;
-                }
+//                if(venda.getPago()){
+//                   return;
+//                }
                 venda.setPago(true);
                 venda.setDataPagamento(dataEfetivaPagamento);
                 venda.setHash(hashAssas);
@@ -86,6 +88,11 @@ public class VendasService {
                     String compraRealizada = ZapiMessageUtil.compraRealizadaLoja;
                     compraRealizada = compraRealizada.replace("XXX", usuario.getNomeSimples()).replace("YYY", buffer.toString());
                     this.zapApi.enviarTexto(compraRealizada, usuario.getTelefone());
+
+
+                    this.emailSender.enviarEmailCompra(usuario.getEmail(),
+                                                       usuario.getNomeSimples(),
+                                                       buffer.toString());
                 }
             }
         } catch (NumberFormatException e) {
