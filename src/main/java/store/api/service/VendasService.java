@@ -29,7 +29,6 @@ public class VendasService {
     private final UsuarioRepository usuarioRepository;
     private final ZapApi zapApi;
     private final EmailSender emailSender;
-
     private final DadosCompraRepository dadosCompraRepository;
 
     public VendasService(VendasRepository vendasRepository, MercadoriaRepository mercadoriaRepository, UsuarioRepository usuarioRepository, ZapApi zapApi, EmailSender emailSender, DadosCompraRepository dadosCompraRepository) {
@@ -51,13 +50,37 @@ public class VendasService {
             if (dadosCompra.isPresent()) {
                 Venda venda = dadosCompra.get();
 
-//                if(venda.getPago()){
-//                   return;
-//                }
+                if(venda.getPago()){
+                   return;
+                }
                 venda.setPago(true);
                 venda.setDataPagamento(dataEfetivaPagamento);
                 venda.setHash(hashAssas);
                 venda.setStatus(1);
+
+                ListaCarrinhoDto dadosVenda = new ObjectMapper().readValue(venda.getPedido(), ListaCarrinhoDto.class);
+
+                for (ItemCarrinhoRequestDto compra : dadosVenda.getCompras()) {
+                    Integer quantidade = compra.getQuantidade();
+                    Mercadoria mercadoria = mercadoriaRepository.findById(compra.getId().longValue()).get();
+                    if(compra.getTamanho().equalsIgnoreCase("p")) {
+                        mercadoria.setEstoquep(mercadoria.getEstoquep() - quantidade);
+                    }
+                    if(compra.getTamanho().equalsIgnoreCase("m")) {
+                        mercadoria.setEstoquem(mercadoria.getEstoquem() - quantidade);
+                    }
+                    if(compra.getTamanho().equalsIgnoreCase("g")) {
+                        mercadoria.setEstoqueg(mercadoria.getEstoqueg() - quantidade);
+                    }
+                    if(compra.getTamanho().equalsIgnoreCase("gg")) {
+                        mercadoria.setEstoquegg(mercadoria.getEstoquegg() - quantidade);
+                    }
+                    if(compra.getTamanho().equalsIgnoreCase("exg")) {
+                        mercadoria.setEstoqueexg(mercadoria.getEstoqueexg() - quantidade);
+                    }
+                    this.mercadoriaRepository.save(mercadoria);
+                }
+
                 this.vendasRepository.save(venda);
 
                 ListaCarrinhoDto pedido = new ObjectMapper().readValue(venda.getPedido(), ListaCarrinhoDto.class);
@@ -88,7 +111,6 @@ public class VendasService {
                     String compraRealizada = ZapiMessageUtil.compraRealizadaLoja;
                     compraRealizada = compraRealizada.replace("XXX", usuario.getNomeSimples()).replace("YYY", buffer.toString());
                     this.zapApi.enviarTexto(compraRealizada, usuario.getTelefone());
-
 
                     this.emailSender.enviarEmailCompra(usuario.getEmail(),
                                                        usuario.getNomeSimples(),
@@ -192,8 +214,7 @@ public class VendasService {
         Map<String, Integer> quantidadePorProduto = new HashMap<>();
 
         for (Venda venda : vendas) {
-            ListaCarrinhoDto pedido = new ObjectMapper()
-                    .readValue(venda.getPedido(), ListaCarrinhoDto.class);
+            ListaCarrinhoDto pedido = new ObjectMapper().readValue(venda.getPedido(), ListaCarrinhoDto.class);
 
             for (ItemCarrinhoRequestDto compra : pedido.getCompras()) {
                 String nomeProduto = compra.getNome();

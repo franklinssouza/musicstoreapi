@@ -21,6 +21,11 @@ public class MercadoriaEndpoint {
     }
 
     @GetMapping("/all")
+    public List<MercadoriaDto> buscarTodosSie() {
+        return service.buscarTodosSite();
+    }
+
+    @GetMapping()
     public List<MercadoriaDto> buscarTodos() {
         return service.buscarTodos();
     }
@@ -35,9 +40,6 @@ public class MercadoriaEndpoint {
     public MercadoriaDto criar(@RequestBody MercadoriaDto body) throws StoreException {
         return service.create(body);
     }
-
-    @GetMapping
-    public List<MercadoriaDto> listar() { return service.findAll(); }
 
     @GetMapping("/{id}")
     public MercadoriaDto buscar(@PathVariable Integer id) { return service.findById(id); }

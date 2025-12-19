@@ -19,6 +19,10 @@ public class MercadoriaService {
         this.mercadoriaRepository = mercadoriaRepository;
     }
 
+    public List<MercadoriaDto> buscarTodosSite() {
+        return mercadoriaRepository.buscarTodosSite().stream()
+                .map(Mercadoria::toDto).toList();
+    }
 
     public List<MercadoriaDto> buscarTodos() {
         return mercadoriaRepository.buscarTodos().stream()
