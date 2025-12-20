@@ -50,7 +50,7 @@ public class MercadoriaService {
         }
 
         if(StringUtils.isEmpty(dto.getDescricao()) || dto.getDescricao().length() < 5){
-            throw new StoreException("Informe uma descrição para o produto.");
+            throw new StoreException("Informe a descrição completa do produto.");
         }
 
         if(StringUtils.isEmpty(dto.getPosicao())){
