@@ -25,7 +25,7 @@ public class ItemCarrinho {
 
     @ManyToOne
     @JoinColumn(name = "id_mercadoria", nullable = false)
-    private Mercadoria mercadoria;
+    private Produto mercadoria;
 
     private Integer quantidade;
     private Date data;

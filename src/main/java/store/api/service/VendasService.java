@@ -9,7 +9,7 @@ import store.api.domain.*;
 import store.api.integracao.zapi.ZapApi;
 import store.api.integracao.zapi.ZapiMessageUtil;
 import store.api.repository.DadosCompraRepository;
-import store.api.repository.MercadoriaRepository;
+import store.api.repository.ProdutoRepository;
 import store.api.repository.UsuarioRepository;
 import store.api.repository.VendasRepository;
 import store.api.util.DateUtil;
@@ -25,15 +25,15 @@ import java.util.*;
 public class VendasService {
 
     private final VendasRepository vendasRepository;
-    private final MercadoriaRepository mercadoriaRepository;
+    private final ProdutoRepository produtoRepository;
     private final UsuarioRepository usuarioRepository;
     private final ZapApi zapApi;
     private final EmailSender emailSender;
     private final DadosCompraRepository dadosCompraRepository;
 
-    public VendasService(VendasRepository vendasRepository, MercadoriaRepository mercadoriaRepository, UsuarioRepository usuarioRepository, ZapApi zapApi, EmailSender emailSender, DadosCompraRepository dadosCompraRepository) {
+    public VendasService(VendasRepository vendasRepository, ProdutoRepository mercadoriaRepository, UsuarioRepository usuarioRepository, ZapApi zapApi, EmailSender emailSender, DadosCompraRepository dadosCompraRepository) {
         this.vendasRepository = vendasRepository;
-        this.mercadoriaRepository = mercadoriaRepository;
+        this.produtoRepository = mercadoriaRepository;
         this.usuarioRepository = usuarioRepository;
         this.zapApi = zapApi;
         this.emailSender = emailSender;
@@ -62,23 +62,24 @@ public class VendasService {
 
                 for (ItemCarrinhoRequestDto compra : dadosVenda.getCompras()) {
                     Integer quantidade = compra.getQuantidade();
-                    Mercadoria mercadoria = mercadoriaRepository.findById(compra.getId().longValue()).get();
+                    Produto produto = produtoRepository.findById(compra.getId().longValue()).get();
                     if(compra.getTamanho().equalsIgnoreCase("p")) {
-                        mercadoria.setEstoquep(mercadoria.getEstoquep() - quantidade);
+                        produto.setEstoquep(produto.getEstoquep() - quantidade);
                     }
                     if(compra.getTamanho().equalsIgnoreCase("m")) {
-                        mercadoria.setEstoquem(mercadoria.getEstoquem() - quantidade);
+                        produto.setEstoquem(produto.getEstoquem() - quantidade);
                     }
                     if(compra.getTamanho().equalsIgnoreCase("g")) {
-                        mercadoria.setEstoqueg(mercadoria.getEstoqueg() - quantidade);
+                        produto.setEstoqueg(produto.getEstoqueg() - quantidade);
                     }
                     if(compra.getTamanho().equalsIgnoreCase("gg")) {
-                        mercadoria.setEstoquegg(mercadoria.getEstoquegg() - quantidade);
+                        produto.setEstoquegg(produto.getEstoquegg() - quantidade);
                     }
                     if(compra.getTamanho().equalsIgnoreCase("exg")) {
-                        mercadoria.setEstoqueexg(mercadoria.getEstoqueexg() - quantidade);
+                        produto.setEstoqueexg(produto.getEstoqueexg() - quantidade);
                     }
-                    this.mercadoriaRepository.save(mercadoria);
+                    produto.incrementarVenda(quantidade);
+                    this.produtoRepository.save(produto);
                 }
 
                 this.vendasRepository.save(venda);

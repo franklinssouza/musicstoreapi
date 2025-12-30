@@ -4,10 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import store.api.config.exceptions.StoreException;
 import store.api.domain.ListagemVendasDto;
-import store.api.domain.MercadoriaDto;
-import store.api.domain.PesquisaVendasDto;
 import store.api.domain.UsuarioDto;
-import store.api.service.MercadoriaService;
 import store.api.service.UsuarioService;
 import store.api.service.VendasService;
 

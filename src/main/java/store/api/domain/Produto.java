@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name="mercadoria")
-public class Mercadoria {
+@Table(name="produto")
+public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,10 +38,11 @@ public class Mercadoria {
     private Integer estoqueg;
     private Integer estoquegg;
     private Integer estoqueexg;
+    private Integer vendas;
 
 
-    public MercadoriaDto toDto(){
-        return MercadoriaDto.builder()
+    public ProdutoDto toDto(){
+        return ProdutoDto.builder()
                 .id(this.id)
                 .nome(this.nome)
                 .descricao(this.descricao)
@@ -64,7 +65,15 @@ public class Mercadoria {
                 .estoqueg(this.estoqueg)
                 .estoquegg(this.estoquegg)
                 .estoqueexg(this.estoqueexg)
+                .vendas(this.vendas)
                 .build();
     }
 
+    public void incrementarVenda(Integer quantidade) {
+        if(this.getVendas() == null){
+            this.setVendas(quantidade);
+        }else{
+            this.setVendas(this.getVendas() + quantidade);
+        }
+    }
 }

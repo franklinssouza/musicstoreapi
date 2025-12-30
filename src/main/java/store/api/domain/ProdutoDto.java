@@ -1,6 +1,5 @@
 package store.api.domain;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class MercadoriaDto {
+public class ProdutoDto {
     private Long id;
     private String nome;
     private String descricao;
@@ -34,9 +33,11 @@ public class MercadoriaDto {
     private Integer estoqueg;
     private Integer estoquegg;
     private Integer estoqueexg;
+    private Integer vendas;
 
-    public Mercadoria toEntity(){
-        return Mercadoria.builder()
+    public Produto toEntity(){
+
+        return Produto.builder()
                 .id(this.id)
                 .nome(this.nome)
                 .descricao(this.descricao)
@@ -59,6 +60,7 @@ public class MercadoriaDto {
                 .estoqueg(this.estoqueg)
                 .estoquegg(this.estoquegg)
                 .estoqueexg(this.estoqueexg)
+                .vendas(this.getId() == null ? 0: (this.vendas == null ? 0 : this.vendas))
                 .build();
     }
 }

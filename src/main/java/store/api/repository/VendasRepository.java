@@ -10,13 +10,6 @@ import java.util.List;
 
 @Repository
 public interface VendasRepository extends JpaRepository<Venda, Long> {
-    @Query(value="SELECT m FROM Venda m where m.pago = true")
-    List<Venda> buscarTodos();
-
-    Venda findByHash(String hashAssas);
-
-    @Query(value = "select count(o.id) from Venda o where o.hash = :hashAssas")
-    Long existePorHash(String hashAssas);
 
     @Query(value="select o from Venda o where o.dataPagamento between :inicio and :fim and o.pago = true")
     List<Venda> pesquisarVendas(Date inicio, Date fim);

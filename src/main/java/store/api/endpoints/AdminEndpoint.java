@@ -3,8 +3,6 @@ package store.api.endpoints;
 import org.springframework.web.bind.annotation.*;
 import store.api.config.exceptions.StoreException;
 import store.api.domain.*;
-import store.api.repository.MercadoriaRepository;
-import store.api.service.MercadoriaService;
 import store.api.service.UsuarioService;
 import store.api.service.VendasService;
 

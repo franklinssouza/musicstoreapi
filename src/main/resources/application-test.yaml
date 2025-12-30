@@ -1,3 +1,11 @@
+img:
+  path:
+    produto: E:/loja/?/
+    vitrine: E:/loja/?/
+  url:
+    produto: https://portaismusic.com.br/img/produtos/?/
+    vitrine: https://portaismusic.com.br/img/vitrine/
+
 resources:
   youtube: C:/desenv/projetos/loja/emails/youtube_1.png
   instagram: C:/desenv/projetos/loja/emails/instagram_1.png
