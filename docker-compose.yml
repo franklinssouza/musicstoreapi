@@ -13,6 +13,8 @@ services:
     volumes:
       - ./logs:/opt/app/logs
       - ./htmls:/home/portaismusiccom/resources/emails
+      - /home/portaismusiccom/public_html/img/produtos:/home/portaismusiccom/public_html/img/produtos
+      - /home/portaismusiccom/public_html/img/vitrine:/home/portaismusiccom/public_html/img/vitrine
     logging:
       driver: "json-file"
       options:

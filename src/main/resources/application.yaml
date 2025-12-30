@@ -1,10 +1,10 @@
 img:
   path:
     produto: /home/portaismusiccom/public_html/img/produtos/?/
-    vitrine: /home/portaismusiccom/public_html/img/vitrine/
+    vitrine: /home/portaismusiccom/public_html/img/vitrine/?/
   url:
     produto: https://portaismusic.com.br/img/produtos/?/
-    vitrine: https://portaismusic.com.br/img/vitrine/
+    vitrine: https://portaismusic.com.br/img/vitrine/?/
 
 logging:
   level:

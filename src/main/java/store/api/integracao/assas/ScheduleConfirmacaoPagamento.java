@@ -22,9 +22,10 @@ public class ScheduleConfirmacaoPagamento {
 
     @PostConstruct
     public void confirmaPagamento() {
-//        executarTarefa();
+        executarTarefa();
     }
-//    @Scheduled(fixedDelay = 120000)
+
+    @Scheduled(fixedDelay = 120000)
     public void executarTarefa() {
 
         int offset = 0;
@@ -47,7 +48,8 @@ public class ScheduleConfirmacaoPagamento {
 
                 if (isToday) {
                     this.vendasService.registrarVendaPorToken(data.getId(),
-                                                              data.getExternalReference(), data.getEffectiveDate());
+                                                              data.getExternalReference(),
+                                                              data.getEffectiveDate());
                 }
             }
 

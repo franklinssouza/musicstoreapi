@@ -44,7 +44,7 @@ public class ProdutoEndpoint {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletar(@PathVariable Integer id) throws StoreException {
+    public void deletar(@PathVariable Long id) throws StoreException {
         service.delete(id);
     }
 }

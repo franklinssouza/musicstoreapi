@@ -17,10 +17,9 @@ public class AppExceptionHandler {
         this.logger = LoggerFactory.getLogger(AppExceptionHandler.class + " [EXCEPTION HANDLER]");
     }
 
-
     @ExceptionHandler(StoreException.class)
     public ResponseEntity<ExceptionDto> handleEspinosaException(StoreException exception) {
-    	
+        logger.error("Erro de sistema", exception);
         return new ResponseEntity<ExceptionDto>(
                 new ExceptionDto(exception.getMessage()),
                 exception.getStatusCode());

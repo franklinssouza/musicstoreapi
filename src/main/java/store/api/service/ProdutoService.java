@@ -75,22 +75,23 @@ public class ProdutoService {
             Produto produto = produtoRepository.findById(dto.getId()).get();
             if(dto.getPosicao().equalsIgnoreCase("1")){ // 1 - Vitrine 2 - Colecao
                 if(!StringUtils.isEmpty(dto.getImagem1())){
-                    String replace = this.pathVitrine.replace("?", dto.getId().toString()) + "imagem1.png";;
-                    this.salvarImagem(dto.getImagem1(), replace);
 
-                    produto.setImagem1(this.urlVitrine+ "imagem1.png");
-                    this.produtoRepository.save(produto);
+                    if(!dto.getImagem1().contains("portaismusic.com.br")) {
+                        String replace = this.pathVitrine.replace("?", dto.getId().toString()) + "imagem1.png";
+                        this.salvarImagem(dto.getImagem1(), replace);
+
+                        produto.setImagem1(this.urlVitrine + "imagem1.png");
+                        this.produtoRepository.save(produto);
+                    }else{
+                        produto.setImagem1(dto.getImagem1());
+                        this.produtoRepository.save(produto);
+                    }
                 }
             }else{
 
                 if(!StringUtils.isEmpty(dto.getImagem1())){
 
                     if(!dto.getImagem1().contains("portaismusic.com.br")) {
-                        String replace = this.pathProduto.replace("?", dto.getId().toString());
-                        if (new File(replace).exists()) {
-                            FileUtils.cleanDirectory(new File(replace));
-                        }
-
                         String idImg = UUID.randomUUID() + ".png";
                         String path = this.pathProduto.replace("?", dto.getId().toString()) + idImg;
                         this.salvarImagem(dto.getImagem1(), path);
@@ -98,16 +99,15 @@ public class ProdutoService {
                         String urlPath = this.urlProduto.replace("?", dto.getId().toString()) + idImg;
                         produto.setImagem1(urlPath);
                         this.produtoRepository.save(produto);
+                    }else{
+                        produto.setImagem1(dto.getImagem1());
+                        this.produtoRepository.save(produto);
                     }
                 }
 
                 if(!StringUtils.isEmpty(dto.getImagem2())){
 
-                    if(!dto.getImagem1().contains("portaismusic.com.br")) {
-                        String replace = this.pathProduto.replace("?", dto.getId().toString());
-                        if (new File(replace).exists()) {
-                            FileUtils.cleanDirectory(new File(replace));
-                        }
+                    if(!dto.getImagem2().contains("portaismusic.com.br")) {
 
                         String idImg = UUID.randomUUID() + ".png";
                         String path = this.pathProduto.replace("?", dto.getId().toString()) + idImg;
@@ -116,15 +116,14 @@ public class ProdutoService {
                         String urlPath = this.urlProduto.replace("?", dto.getId().toString()) + idImg;
                         produto.setImagem2(urlPath);
                         this.produtoRepository.save(produto);
+                    }else{
+                        produto.setImagem2(dto.getImagem2());
+                        this.produtoRepository.save(produto);
                     }
                 }
                 if(!StringUtils.isEmpty(dto.getImagem3())){
 
-                    if(!dto.getImagem1().contains("portaismusic.com.br")) {
-                        String replace = this.pathProduto.replace("?", dto.getId().toString());
-                        if (new File(replace).exists()) {
-                            FileUtils.cleanDirectory(new File(replace));
-                        }
+                    if(!dto.getImagem3().contains("portaismusic.com.br")) {
 
                         String idImg = UUID.randomUUID() + ".png";
                         String path = this.pathProduto.replace("?", dto.getId().toString()) + idImg;
@@ -133,15 +132,13 @@ public class ProdutoService {
                         String urlPath = this.urlProduto.replace("?", dto.getId().toString()) + idImg;
                         produto.setImagem3(urlPath);
                         this.produtoRepository.save(produto);
+                    }else{
+                        produto.setImagem3(dto.getImagem3());
+                        this.produtoRepository.save(produto);
                     }
                 }
                 if(!StringUtils.isEmpty(dto.getImagem4())){
-                    if(!dto.getImagem1().contains("portaismusic.com.br")) {
-                        String replace = this.pathProduto.replace("?", dto.getId().toString());
-                        if (new File(replace).exists()) {
-                            FileUtils.cleanDirectory(new File(replace));
-                        }
-
+                    if(!dto.getImagem4().contains("portaismusic.com.br")) {
                         String idImg = UUID.randomUUID() + ".png";
                         String path = this.pathProduto.replace("?", dto.getId().toString()) + idImg;
                         this.salvarImagem(dto.getImagem4(), path);
@@ -149,21 +146,22 @@ public class ProdutoService {
                         String urlPath = this.urlProduto.replace("?", dto.getId().toString()) + idImg;
                         produto.setImagem4(urlPath);
                         this.produtoRepository.save(produto);
+                    }else{
+                        produto.setImagem4(dto.getImagem4());
+                        this.produtoRepository.save(produto);
                     }
                 }
                 if(!StringUtils.isEmpty(dto.getImagem5())){
-                    if(!dto.getImagem1().contains("portaismusic.com.br")) {
-                        String replace = this.pathProduto.replace("?", dto.getId().toString());
-                        if (new File(replace).exists()) {
-                            FileUtils.cleanDirectory(new File(replace));
-                        }
-
+                    if(!dto.getImagem5().contains("portaismusic.com.br")) {
                         String idImg = UUID.randomUUID() + ".png";
                         String path = this.pathProduto.replace("?", dto.getId().toString()) + idImg;
                         this.salvarImagem(dto.getImagem5(), path);
 
                         String urlPath = this.urlProduto.replace("?", dto.getId().toString()) + idImg;
                         produto.setImagem5(urlPath);
+                        this.produtoRepository.save(produto);
+                    }else{
+                        produto.setImagem5(dto.getImagem5());
                         this.produtoRepository.save(produto);
                     }
                 }
@@ -177,6 +175,8 @@ public class ProdutoService {
         byte[] imagemBytes = Base64.getDecoder().decode(base64);
         File arquivo = new File(caminhoArquivo);
         File diretorio = arquivo.getParentFile();
+        System.out.println("diretorio " + diretorio);
+
         if (diretorio != null && !diretorio.exists()) {
             diretorio.mkdirs();
         }
@@ -259,12 +259,29 @@ public class ProdutoService {
                 .orElse(null);
     }
 
-    @Transactional
-    public void delete(long idProduto) throws StoreException {
-        Produto produto = this.produtoRepository.findById(idProduto).get();
-        if(produto.getVendas() != null && produto.getVendas() > 0) {
-            throw new StoreException("Esse produto não pode ser excluído pois existem vendas atreladas a ele.");
+    @Transactional(rollbackOn = StoreException.class)
+    public void delete(Long idProduto) throws StoreException {
+
+        try {
+            Produto produto = this.produtoRepository.findById(idProduto).get();
+            if (produto.getVendas() != null && produto.getVendas() > 0) {
+                throw new StoreException("Esse produto não pode ser excluído pois existem vendas atreladas a ele.");
+            }
+            this.produtoRepository.deleteById(idProduto);
+
+            String pathVitrine = this.pathVitrine.replace("?", idProduto.toString());
+            String pathProduto = this.pathProduto.replace("?", idProduto.toString());
+
+            System.out.println("DELETANDO VITRINE " + pathVitrine);
+            System.out.println("DELETANDO PRODUTO " + pathProduto);
+
+            FileUtils.deleteDirectory(new File(pathVitrine));
+            FileUtils.deleteDirectory(new File(pathProduto));
+
+        }catch (StoreException e){
+            throw e;
+        }catch (Exception e) {
+            throw new StoreException("Não foi possível remover o produto. Tente novamente mais tarde.", e);
         }
-        this.produtoRepository.deleteById(idProduto);
     }
 }
