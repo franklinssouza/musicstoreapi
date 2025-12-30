@@ -8,9 +8,12 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import store.api.config.exceptions.StoreException;
+import store.api.integracao.zapi.ZapApi;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -29,6 +32,9 @@ public class EmailSender {
     private static final String login = "loja@portaismusic.com.br";
     private static final String senha = "Yeshua29@123";
     private final EmailResources emailResources;
+
+    private final Logger logger = LoggerFactory.getLogger( EmailSender.class);
+
     public EmailSender(EmailResources emailResources) {
         this.emailResources = emailResources;
     }
@@ -44,6 +50,8 @@ public class EmailSender {
             conteudo = conteudo.replace("{senha}", senha);
 
             this.send(to,"Reenvio de senha",conteudo, getMimeBodyParts());
+
+            logger.info("Email de recuperacao de senha enviado com sucesso");
 
         } catch (Exception e) {
             throw new StoreException("Erro ao enviar recuperação de senha.", e);
@@ -65,6 +73,8 @@ public class EmailSender {
 
             this.send(to,"Compra realizada!",conteudo, getMimeBodyParts());
 
+            logger.info("Email de compra realizada enviado com sucesso");
+
         } catch (Exception e) {
             throw new StoreException("Erro ao enviar email", e);
         }
@@ -79,6 +89,8 @@ public class EmailSender {
             conteudo = conteudo.replace("{usuario}", usuario);
 
             this.send(to,"Cadastro realizado",conteudo, getMimeBodyParts());
+
+            logger.info("Email de bem-indo enviado com sucesso");
 
         } catch (Exception e) {
             throw new StoreException("Erro ao enviar email", e);

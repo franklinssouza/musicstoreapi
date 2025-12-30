@@ -1,6 +1,8 @@
 package store.api.integracao.zapi;
 
 import com.squareup.okhttp.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +10,8 @@ import java.io.IOException;
 
 @Component
 public class ZapApi {
+
+    private final Logger logger = LoggerFactory.getLogger( ZapApi.class);
 
     @Value("${zapi.instancia}")
     private String instancia;
@@ -34,13 +38,13 @@ public class ZapApi {
         try {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
-                System.out.println("Mensagem enviada com sucesso!");
+                logger.info("Mensagem WahtsApp enviada com sucesso!");
             } else {
-                System.out.println("Erro ao enviar a mensagem: " + response.message());
+                logger.info("Erro ao enviar a mensagem WahtsApp: " + response.message());
             }
             response.body().close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error("Erro ao enviar mensagem whatsapp", e);
         }
     }
 }

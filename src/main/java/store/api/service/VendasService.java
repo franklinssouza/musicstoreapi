@@ -118,8 +118,6 @@ public class VendasService {
                                                        buffer.toString());
                 }
             }
-        } catch (NumberFormatException e) {
-            return;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -173,9 +171,17 @@ public class VendasService {
     }
 
     public List<ListagemVendasDto> buscarVendasUsuario(Long idUsuario) {
-        return this.vendasRepository.buscarVendasUsuario(idUsuario)
+        List<ListagemVendasDto> list = this.vendasRepository.buscarVendasUsuario(idUsuario)
                 .stream()
                 .map(Venda::toListaVendaDto).toList();
+
+        for (ListagemVendasDto venda : list) {
+            for (ItemCarrinhoRequestDto produto : venda.getProdutos()) {
+                Produto produto1 = this.produtoRepository.findById(produto.getId().longValue()).get();
+                produto.setImagem(produto1.getImagem1());
+            }
+        }
+        return list;
     }
 
     public List<ListagemVendasDto> pesquisarVendas(PesquisaVendasDto dto) {
@@ -185,10 +191,19 @@ public class VendasService {
         if (dto.getTermino() == null) {
             dto.setTermino(DateUtil.dateToString(DateUtil.ultimoDiaDoMes(), "yyyy-MM-dd"));
         }
-        return this.vendasRepository.pesquisarVendas(DateUtil.getDataZerada(DateUtil.stringToDate(dto.getInicio(), "yyyy-MM-dd")).getTime(),
+        List<ListagemVendasDto> list = this.vendasRepository.pesquisarVendas(DateUtil.getDataZerada(DateUtil.stringToDate(dto.getInicio(), "yyyy-MM-dd")).getTime(),
                         DateUtil.colocarEmMeiaNoite(DateUtil.stringToDate(dto.getTermino(), "yyyy-MM-dd")))
                 .stream()
                 .map(Venda::toListaVendaDto).toList();
+
+        for (ListagemVendasDto venda : list) {
+            for (ItemCarrinhoRequestDto produto : venda.getProdutos()) {
+                Produto produto1 = this.produtoRepository.findById(produto.getId().longValue()).get();
+                produto.setImagem(produto1.getImagem1());
+            }
+        }
+
+        return list;
     }
 
     @Transactional
