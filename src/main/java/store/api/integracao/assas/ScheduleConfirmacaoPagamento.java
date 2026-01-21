@@ -1,6 +1,7 @@
 package store.api.integracao.assas;
 
 import jakarta.annotation.PostConstruct;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import store.api.service.VendasService;
@@ -46,10 +47,14 @@ public class ScheduleConfirmacaoPagamento {
                 LocalDateTime dateCreated = LocalDateTime.parse(data.getEffectiveDate(), formatter);
                 boolean isToday = dateCreated.toLocalDate().isEqual(LocalDate.now());
 
-                if (isToday) {
-                    this.vendasService.registrarVendaPorToken(data.getId(),
-                                                              data.getExternalReference(),
-                                                              data.getEffectiveDate());
+                if (isToday && !StringUtils.isEmpty(data.getPayment())) {
+                    PaymentResponse paymentData = this.assasApi.getPayment(data.getPayment());
+                    if(paymentData != null && !StringUtils.isEmpty(paymentData.getExternalReference())) {
+
+                        this.vendasService.registrarVendaPorToken(data.getId(),
+                                                                  paymentData.getExternalReference(),
+                                                                  data.getEffectiveDate());
+                    }
                 }
             }
 

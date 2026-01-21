@@ -6,7 +6,6 @@ import store.api.EmailSender;
 import store.api.config.exceptions.StoreException;
 import store.api.domain.Usuario;
 import store.api.domain.Venda;
-import store.api.domain.ItemCarrinhoRequestDto;
 import store.api.domain.ListaCarrinhoDto;
 import store.api.integracao.assas.*;
 import store.api.integracao.zapi.ZapApi;
@@ -16,7 +15,7 @@ import store.api.util.FormatUtil;
 import store.api.util.Validationtil;
 import tools.jackson.databind.ObjectMapper;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 
@@ -38,7 +37,7 @@ public class PagamentoService {
     }
 
     @Transactional
-    public QrCodePixResponse prepararPagamentoPix(ListaCarrinhoDto dadosPedido) throws StoreException {
+    public AsaasPaymentLinkResponse prepararPagamento(ListaCarrinhoDto dadosPedido) throws StoreException {
 
         Validationtil.validarPagamentoPix(dadosPedido);
 
@@ -69,64 +68,33 @@ public class PagamentoService {
                     .build();
 
             dadosCompra = this.dadosCompraRepository.save(dadosCompra);
-            return assasApi.gerarQrCodePix(valorTotalCompra, dadosCompra.getId().toString());
+
+            AssasPaymentLinkRequest request = AssasPaymentLinkRequest.builder()
+                    .billingType("UNDEFINED")
+                    .chargeType("DETACHED")
+                    .name("Produtos Portais Music")
+                    .description("Compra de produtos na loja portais music")
+                    .endDate(LocalDate.now().plusMonths(1))
+                    .value(valorTotalCompra)
+                    .dueDateLimitDays(10)
+                    .maxInstallmentCount(1)
+                    .externalReference(dadosCompra.getId().toString())
+                    .notificationEnabled(false)
+                    .isAddressRequired(false)
+                    .callback(
+                            AssasPaymentLinkRequest.Callback.builder()
+                                    .successUrl("https://portaismusic.com.br/loja")
+                                    .autoRedirect(true)
+                                    .build()
+                    )
+                    .build();
+
+            return assasApi.gerarLinkPagamento(request);
         }else{
             throw new StoreException("Seu usuário está inválido. Logue novamente na loja e tente rente realizar a sua compra novamente.");
         }
 
     }
 
-    @Transactional
-    public QrCodePixResponse prepararPagamentoCartao(ListaCarrinhoDto dadosCompra) throws StoreException {
 
-
-        PagamentoCartaoRequest pagamento = new PagamentoCartaoRequest();
-
-        pagamento.setCustomer("cus_000152537198");
-        pagamento.setBillingType("CREDIT_CARD");
-        pagamento.setInstallmentCount(1);
-        pagamento.setInstallmentValue(new BigDecimal("5.00"));
-        pagamento.setDueDate("2026-05-10");
-        pagamento.setDescription("Mentoria Execução Trabalhista");
-        pagamento.setExternalReference("37@PMS|5:1:P");
-
-        CreditCard creditCard = new CreditCard();
-        creditCard.setHolderName("Miriam Parreiras de souz");
-        creditCard.setNumber("5485140879060520");
-        creditCard.setExpiryMonth("11");
-        creditCard.setExpiryYear("33");
-        creditCard.setCcv("963");
-
-        pagamento.setCreditCard(creditCard);
-
-        CreditCardHolderInfo holderInfo = new CreditCardHolderInfo();
-        holderInfo.setName("Miriam Parreiras de souz");
-        holderInfo.setEmail("joao@email.com");
-        holderInfo.setCpfCnpj("05953667671");
-        holderInfo.setPostalCode("32260100");
-        holderInfo.setAddressNumber("100");
-        holderInfo.setPhone("31991021028");
-
-        pagamento.setCreditCardHolderInfo(holderInfo);
-
-        StringBuilder buffer = new StringBuilder();
-
-        for (ItemCarrinhoRequestDto compra : dadosCompra.getCompras()) {
-            buffer.append(compra.getId()).append(":")
-                    .append(compra.getQuantidade())
-                    .append(compra.getTamanho()).append("-");
-        }
-
-        QrCodePixRequest pixRequest = new QrCodePixRequest();
-        pixRequest.setAddressKey("louvorportaiseternos@gmail.com");
-        pixRequest.setDescription("PMS");
-        pixRequest.setValue(1.0);
-        pixRequest.setFormat("ALL");
-        pixRequest.setExpirationDate("2045-05-05 14:20:50");
-        pixRequest.setExpirationSeconds(null);
-        pixRequest.setAllowsMultiplePayments(false);
-        pixRequest.setExternalReference(new ObjectMapper().writeValueAsString(dadosCompra));
-
-        return assasApi.gerarQrCodePix(pixRequest);
-    }
 }

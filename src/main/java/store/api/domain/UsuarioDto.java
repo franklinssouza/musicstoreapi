@@ -55,6 +55,6 @@ public class UsuarioDto {
                 .telefone(TelefoneUtil.toNumber(telefone))
                 .senha(this.senha)
                 .cpf(this.cpf)
-                .email(this.email).build();
+                .email(this.email.toLowerCase()).build();
     }
 }

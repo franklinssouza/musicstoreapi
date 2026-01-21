@@ -51,6 +51,9 @@ public class Venda {
     @Column(name = "DATA_PAGAMENTO")
     private Date dataPagamento;
 
+    @Column(name = "DATA_ENTREGA")
+    private Date dataEntrega;
+
     @Column(name = "RETIRADA_LOCAL")
     private Boolean retiradaLocal;
 

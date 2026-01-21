@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import store.api.config.exceptions.StoreException;
 import store.api.domain.ListaCarrinhoDto;
-import store.api.integracao.assas.QrCodePixResponse;
+import store.api.integracao.assas.AsaasPaymentLinkResponse;
 import store.api.integracao.melhorenvio.ConsultaFreteRequest;
 import store.api.integracao.melhorenvio.FreteEntregaDto;
 import store.api.integracao.melhorenvio.MelhorEnvioApi;
@@ -24,14 +24,14 @@ public class PagamentoEndpoint {
 
     @PostMapping("/pix")
     @ResponseStatus(HttpStatus.CREATED)
-    public QrCodePixResponse prepararPagamentoPix(@RequestBody ListaCarrinhoDto body) throws StoreException {
-        return service.prepararPagamentoPix(body);
+    public AsaasPaymentLinkResponse prepararPagamentoPix(@RequestBody ListaCarrinhoDto body) throws StoreException {
+        return service.prepararPagamento(body);
     }
 
     @PostMapping("/credit")
     @ResponseStatus(HttpStatus.CREATED)
     public boolean prepararPagamentoCartao(@RequestBody ListaCarrinhoDto body) throws StoreException {
-        service.prepararPagamentoCartao(body);
+        service.prepararPagamento(body);
         return true;
     }
 

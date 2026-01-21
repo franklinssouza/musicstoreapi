@@ -212,6 +212,11 @@ public class VendasService {
         if(byId.isPresent()) {
             Venda venda = byId.get();
             venda.setStatus(body.getStatus());
+            if(body.getStatus().equals(3)){
+                venda.setDataEntrega(new Date());
+            }else{
+                venda.setDataEntrega(null);
+            }
             venda.setCodigoRastreio(body.getCodigoRastreio());
             this.vendasRepository.save(venda);
         }else{
