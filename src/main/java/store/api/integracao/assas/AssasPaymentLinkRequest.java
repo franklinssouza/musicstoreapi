@@ -48,7 +48,7 @@ public class AssasPaymentLinkRequest {
 
     @Builder.Default
     private Callback callback = Callback.builder()
-            .successUrl("https://portaismusic.com.br/loja")
+            .successUrl("https://portaismusic.com.br/loja/#/home?v=sell")
             .autoRedirect(true)
             .build();
 
@@ -59,7 +59,7 @@ public class AssasPaymentLinkRequest {
     public static class Callback {
 
         @Builder.Default
-        private String successUrl = "https://portaismusic.com.br/loja";
+        private String successUrl = "https://portaismusic.com.br/loja/#/home?v=sell";
 
         @Builder.Default
         private Boolean autoRedirect = true;

@@ -43,7 +43,7 @@ public class VendasService {
     @Transactional
     public void registrarVendaPorToken(String hashAssas, String token, String dataPagamento) {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date dataEfetivaPagamento = sdf.parse(dataPagamento);
             Long idDadosCompra = Long.parseLong(token);
             Optional<Venda> dadosCompra = this.dadosCompraRepository.findById(idDadosCompra);

@@ -21,48 +21,52 @@ public class ScheduleConfirmacaoPagamento {
         this.vendasService = vendasService;
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void confirmaPagamento() {
         executarTarefa();
     }
 
-    @Scheduled(fixedDelay = 120000)
+//    @Scheduled(fixedDelay = 120000)
     public void executarTarefa() {
 
         int offset = 0;
-        int limit  = 100;
+        int limit = 100;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         while (true) {
 
-            ConsultaPixResponse consultaPixResponse = this.assasApi.processarPagamentoPix(offset, limit);
+            PaymentsResponse consultaPixResponse = this.assasApi.processarPagamentoPix(offset, limit);
 
             if (consultaPixResponse == null || consultaPixResponse.getData() == null) {
                 break;
             }
 
-            for (PixData data : consultaPixResponse.getData()) {
+            for (PaymentsResponse.Payment data : consultaPixResponse.getData()) {
 
-                LocalDateTime dateCreated = LocalDateTime.parse(data.getEffectiveDate(), formatter);
-                boolean isToday = dateCreated.toLocalDate().isEqual(LocalDate.now());
+                if (data.getStatus().equalsIgnoreCase("RECEIVED") ||
+                    data.getStatus().equalsIgnoreCase("CONFIRMED")){
 
-                if (isToday && !StringUtils.isEmpty(data.getPayment())) {
-                    PaymentResponse paymentData = this.assasApi.getPayment(data.getPayment());
-                    if(paymentData != null && !StringUtils.isEmpty(paymentData.getExternalReference())) {
+                    LocalDate dateCreated = LocalDate.parse(data.getConfirmedDate(), formatter);
+                    boolean isToday = dateCreated.isEqual(LocalDate.now());
 
-                        this.vendasService.registrarVendaPorToken(data.getId(),
-                                                                  paymentData.getExternalReference(),
-                                                                  data.getEffectiveDate());
+                    if (isToday && !StringUtils.isEmpty(data.getId())) {
+                        PaymentResponse paymentData = this.assasApi.getPayment(data.getId());
+                        if (paymentData != null && !StringUtils.isEmpty(paymentData.getExternalReference())) {
+
+                            this.vendasService.registrarVendaPorToken(data.getId(),
+                                    paymentData.getExternalReference(),
+                                    data.getConfirmedDate());
+                        }
                     }
-                }
-            }
-
-            int totalCount = consultaPixResponse.getTotalCount();
-            offset += limit;
-            if (offset >= totalCount) {
-                break;
             }
         }
+
+        int totalCount = consultaPixResponse.getTotalCount();
+        offset += limit;
+        if (offset >= totalCount) {
+            break;
+        }
     }
+}
 }

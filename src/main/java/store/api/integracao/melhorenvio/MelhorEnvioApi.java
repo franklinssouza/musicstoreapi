@@ -1,19 +1,13 @@
 package store.api.integracao.melhorenvio;
 
 import com.google.gson.Gson;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
+
+import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
-import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import store.api.integracao.assas.RegistroClienteAssasResponse;
 import store.api.util.FormatUtil;
-import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -44,61 +38,62 @@ public class MelhorEnvioApi {
 
     public static void main(String[] args) {
 
-         new MelhorEnvioApi().calcularFrete(null);
+        new MelhorEnvioApi().calcularFrete(null);
     }
 
-    public FreteEntregaDto calcularFrete(ConsultaFreteRequest consultaFreteRequest){
+    public FreteEntregaDto calcularFrete(ConsultaFreteRequest consultaFreteRequest) {
         FreteEntregaDto retorno = FreteEntregaDto.builder()
                 .valor("15,00")
                 .nome("Padrão")
-                .dias(5).build();;
+                .dias(5).build();
+        ;
 
-        try {
 
-            OkHttpClient client = new OkHttpClient();
-            String json =
-                    "{"
-                            + "\"from\":{\"postal_code\":\"" + cepOrigem + "\"},"
-                            + "\"to\":{\"postal_code\":\"" + consultaFreteRequest.getCep() + "\"},"
-                            + "\"products\":[{"
-                            + "\"id\":\"1\","
-                            + "\"width\":1,"
-                            + "\"height\":1,"
-                            + "\"length\":1,"
-                            + "\"weight\":1,"
-                            + "\"quantity\":\"" + consultaFreteRequest.getQuantity() + "\","
-                            + "\"insurance_value\":1"
-                            + "}]"
-                            + "}";
+        OkHttpClient client = new OkHttpClient();
+        String json =
+                "{"
+                        + "\"from\":{\"postal_code\":\"" + cepOrigem + "\"},"
+                        + "\"to\":{\"postal_code\":\"" + consultaFreteRequest.getCep() + "\"},"
+                        + "\"products\":[{"
+                        + "\"id\":\"1\","
+                        + "\"width\":1,"
+                        + "\"height\":1,"
+                        + "\"length\":1,"
+                        + "\"weight\":1,"
+                        + "\"quantity\":\"" + consultaFreteRequest.getQuantity() + "\","
+                        + "\"insurance_value\":1"
+                        + "}]"
+                        + "}";
 
-            MediaType mediaType = MediaType.parse("application/json");
-            RequestBody body = RequestBody.create(mediaType, json);
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, json);
 
-            Request request = new Request.Builder()
-                    .url("https://melhorenvio.com.br/api/v2/me/shipment/calculate")
-                    .post(body)
-                    .addHeader("Accept", "application/json")
-                    .addHeader("Content-Type", "application/json")
-                    .addHeader("Authorization", "Bearer " + this.token)
-                    .addHeader("User-Agent", "Portais Music (franklins.mariami@gmail.com)")
-                    .build();
+        Request request = new Request.Builder()
+                .url("https://melhorenvio.com.br/api/v2/me/shipment/calculate")
+                .post(body)
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Bearer " + this.token)
+                .addHeader("User-Agent", "Portais Music (franklins.mariami@gmail.com)")
+                .build();
 
-            Response response = client.newCall(request).execute();
+        try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful() && response.body() != null) {
 
                 String jsonRetorno = response.body().string();
                 Gson gson = new Gson();
-                Type listType = new TypeToken<List<ConsultaFreteResponse>>() {}.getType();
+                Type listType = new TypeToken<List<ConsultaFreteResponse>>() {
+                }.getType();
                 List<ConsultaFreteResponse> opcoes = gson.fromJson(jsonRetorno, listType);
 
-                if(opcoes == null){
+                if (opcoes == null) {
                     retorno = FreteEntregaDto.builder()
                             .valor("15,00")
                             .nome("Padrão")
                             .dias(5).build();
-                }else{
+                } else {
                     for (ConsultaFreteResponse option : opcoes) {
-                        if (StringUtils.isEmpty(option.getError())){
+                        if (StringUtils.isEmpty(option.getError())) {
                             retorno = FreteEntregaDto.builder()
                                     .valor(FormatUtil.format(option.getPrice()))
                                     .nome(option.getName())
@@ -115,7 +110,7 @@ public class MelhorEnvioApi {
     }
 
 
-    public static void gerarToken(){
+    public static void gerarToken() {
 
         try {
             OkHttpClient client = new OkHttpClient();

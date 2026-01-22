@@ -1,6 +1,6 @@
 package store.api.integracao.zapi;
 
-import com.squareup.okhttp.*;
+import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,14 +35,12 @@ public class ZapApi {
                 .addHeader("Content-Type", "application/json")
                 .addHeader("client-Token",  security )
                 .build();
-        try {
-            Response response = client.newCall(request).execute();
+        try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 logger.info("Mensagem WahtsApp enviada com sucesso!");
             } else {
                 logger.info("Erro ao enviar a mensagem WahtsApp: " + response.message());
             }
-            response.body().close();
         } catch (Exception e) {
             logger.error("Erro ao enviar mensagem whatsapp", e);
         }

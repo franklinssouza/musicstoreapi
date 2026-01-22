@@ -1,6 +1,6 @@
 package store.api.integracao.assas;
 
-import com.squareup.okhttp.*;
+import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import store.api.config.exceptions.StoreException;
@@ -19,20 +19,18 @@ public class AssasApi {
     private String chavePixAssas;
 
 
-    public PaymentResponse getPayment(String key)  {
+    public PaymentResponse getPayment(String key) {
 
         OkHttpClient client = new OkHttpClient();
         ObjectMapper mapper = new ObjectMapper();
-        Response response = null;
-        try {
-            MediaType mediaType = MediaType.parse("application/json");
-            Request request = new Request.Builder()
-                    .url(BASE_URL + "/v3/payments/" + key)
-                    .get()
-                    .addHeader("accept", "application/json")
-                    .addHeader("access_token", API_KEY)
-                    .build();
-            response = client.newCall(request).execute();
+        MediaType mediaType = MediaType.parse("application/json");
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/v3/payments/" + key)
+                .get()
+                .addHeader("accept", "application/json")
+                .addHeader("access_token", API_KEY)
+                .build();
+        try (Response response = client.newCall(request).execute()) {
 
             if (!response.isSuccessful()) {
                 throw new StoreException("Não foi possível gerar seu pagamento. Tente novamente em alguns instantes.");
@@ -51,22 +49,20 @@ public class AssasApi {
 
         OkHttpClient client = new OkHttpClient();
         ObjectMapper mapper = new ObjectMapper();
-        Response response = null;
-        try {
-            MediaType mediaType = MediaType.parse("application/json");
-            String jsonRequest = mapper.writeValueAsString(req);
+        MediaType mediaType = MediaType.parse("application/json");
+        String jsonRequest = mapper.writeValueAsString(req);
 
-            RequestBody body = RequestBody.create(mediaType, jsonRequest);
+        RequestBody body = RequestBody.create(mediaType, jsonRequest);
 
-            Request request = new Request.Builder()
-                    .url(BASE_URL + "v3/paymentLinks")
-                    .post(body)
-                    .addHeader("accept", "application/json")
-                    .addHeader("content-type", "application/json")
-                    .addHeader("access_token", API_KEY)
-                    .build();
+        Request request = new Request.Builder()
+                .url(BASE_URL + "v3/paymentLinks")
+                .post(body)
+                .addHeader("accept", "application/json")
+                .addHeader("content-type", "application/json")
+                .addHeader("access_token", API_KEY)
+                .build();
 
-            response = client.newCall(request).execute();
+        try (Response response = client.newCall(request).execute()) {
 
             if (!response.isSuccessful()) {
                 throw new StoreException("Não foi possível gerar seu pagamento. Tente novamente em alguns instantes.");
@@ -100,22 +96,21 @@ public class AssasApi {
     public QrCodePixResponse gerarQrCodePix(QrCodePixRequest pixRequest) throws StoreException {
         OkHttpClient client = new OkHttpClient();
         ObjectMapper mapper = new ObjectMapper();
-        Response response = null;
-        try {
-            MediaType mediaType = MediaType.parse("application/json");
-            String jsonRequest = mapper.writeValueAsString(pixRequest);
 
-            RequestBody body = RequestBody.create(mediaType, jsonRequest);
+        MediaType mediaType = MediaType.parse("application/json");
+        String jsonRequest = mapper.writeValueAsString(pixRequest);
 
-            Request request = new Request.Builder()
-                    .url(BASE_URL + "/v3/pix/qrCodes/static")
-                    .post(body)
-                    .addHeader("accept", "application/json")
-                    .addHeader("content-type", "application/json")
-                    .addHeader("access_token", API_KEY)
-                    .build();
+        RequestBody body = RequestBody.create(mediaType, jsonRequest);
 
-            response = client.newCall(request).execute();
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/v3/pix/qrCodes/static")
+                .post(body)
+                .addHeader("accept", "application/json")
+                .addHeader("content-type", "application/json")
+                .addHeader("access_token", API_KEY)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
 
             if (!response.isSuccessful()) {
                 throw new StoreException("Não foi possível gerar seu QrCode. Tente novamente em alguns instantes.");
@@ -132,18 +127,17 @@ public class AssasApi {
     }
 
     public RegistroClienteAssasResponse isClienteExistente(String idCliente) {
-        try {
-            OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient();
 
-            Request request = new Request.Builder()
-                    .url(BASE_URL + "/v3/customers/cus_0000073052772")
-                    .get()
-                    .addHeader("accept", "application/json")
-                    .addHeader("access_token", API_KEY)
-                    .build();
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/v3/customers/cus_0000073052772")
+                .get()
+                .addHeader("accept", "application/json")
+                .addHeader("access_token", API_KEY)
+                .build();
 
 
-            Response response = client.newCall(request).execute();
+        try (Response response = client.newCall(request).execute()) {
 
             if (!response.isSuccessful()) {
                 throw new RuntimeException("Erro ao criar cliente: " + response.code());
@@ -160,22 +154,23 @@ public class AssasApi {
     }
 
     public RegistroClienteAssasResponse criarCliente(RegistroClienteAssasRequest registro) throws StoreException {
-        try {
-            OkHttpClient client = new OkHttpClient();
 
-            MediaType mediaType = MediaType.parse("application/json");
-            String jsonRequest = new ObjectMapper().writeValueAsString(registro);
-            RequestBody body = RequestBody.create(mediaType, jsonRequest);
+        OkHttpClient client = new OkHttpClient();
 
-            Request request = new Request.Builder()
-                    .url(BASE_URL + "/v3/customers")
-                    .post(body)
-                    .addHeader("accept", "application/json")
-                    .addHeader("content-type", "application/json")
-                    .addHeader("access_token", API_KEY)
-                    .build();
+        MediaType mediaType = MediaType.parse("application/json");
+        String jsonRequest = new ObjectMapper().writeValueAsString(registro);
+        RequestBody body = RequestBody.create(mediaType, jsonRequest);
 
-            Response response = client.newCall(request).execute();
+
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/v3/customers")
+                .post(body)
+                .addHeader("accept", "application/json")
+                .addHeader("content-type", "application/json")
+                .addHeader("access_token", API_KEY)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
 
             if (!response.isSuccessful()) {
                 throw new StoreException("Não foi possível gerar seu QrCode. Tente novamente em alguns instantes.");
@@ -191,29 +186,29 @@ public class AssasApi {
         }
     }
 
-    public ConsultaPixResponse processarPagamentoPix(Integer offset, Integer limit) {
-        try {
+    public PaymentsResponse processarPagamentoPix(Integer offset, Integer limit) {
 
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(BASE_URL + "/v3/pix/transactions?status=DONE&limit=" + limit + "&offset=" + offset)
-                    .get()
-                    .addHeader("accept", "application/json")
-                    .addHeader("access_token", API_KEY)
-                    .build();
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/v3/payments?limit=" + limit + "&offset=" + offset)
+                .get()
+                .addHeader("accept", "application/json")
+                .addHeader("access_token", API_KEY)
+                .build();
 
-            Response response = client.newCall(request).execute();
+        try (Response response = client.newCall(request).execute()) {
 
             if (!response.isSuccessful()) {
                 throw new StoreException("Não foi possível processar o pagamento.");
             }
             String jsonResponse = response.body().string();
             response.body().close();
-            return new ObjectMapper().readValue(jsonResponse, ConsultaPixResponse.class);
+            return new ObjectMapper().readValue(jsonResponse, PaymentsResponse.class);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return null;
     }
 }
