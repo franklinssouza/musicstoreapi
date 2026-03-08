@@ -1,9 +1,13 @@
 package store.api.integracao.assas;
 
+import jakarta.annotation.PostConstruct;
 import okhttp3.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import store.api.config.exceptions.StoreException;
+import store.api.domain.Config;
+import store.api.repository.ConfigRepository;
 import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -11,13 +15,21 @@ import java.io.IOException;
 @Component
 public class AssasApi {
 
-    private static final String API_KEY = "$aact_prod_000MzkwODA2MWY2OGM3MWRlMDU2NWM3MzJlNzZmNGZhZGY6OmYyN2ZkZjk5LWUxYmYtNGZjNy05YTFmLTI0ODhmYzQwODg2MTo6JGFhY2hfNDhlOGY3NmEtZDQ2ZC00YjAxLWE3ZjQtMTU3ZTc2ZTVjZTc5";
+    @Autowired
+    private ConfigRepository configRepository;
+
+    private String API_KEY ="";
     private static final String BASE_URL = "https://www.asaas.com/api/";
 //    private static final String BASE_URL = "https://api-sandbox.asaas.com";
 
     @Value("${assas.chavepix}")
     private String chavePixAssas;
 
+    @PostConstruct
+    public void getApiKey(){
+        Config config = this.configRepository.findAll().get(0);
+        this.API_KEY = config.getValue();
+    }
 
     public PaymentResponse getPayment(String key) {
 

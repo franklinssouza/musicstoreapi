@@ -21,12 +21,12 @@ public class ScheduleConfirmacaoPagamento {
         this.vendasService = vendasService;
     }
 
-//    @PostConstruct
+    @PostConstruct
     public void confirmaPagamento() {
         executarTarefa();
     }
 
-//    @Scheduled(fixedDelay = 120000)
+    @Scheduled(fixedDelay = 120000)
     public void executarTarefa() {
 
         int offset = 0;
